@@ -9,11 +9,27 @@
 /* Begin PBXBuildFile section */
 		AECF7E3F1A93DC3C0064A7F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */; };
 		AECF7E421A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E401A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld */; };
-		AECF7E441A93DC3C0064A7F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E431A93DC3C0064A7F4 /* ViewController.swift */; };
 		AECF7E471A93DC3D0064A7F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E451A93DC3D0064A7F4 /* Main.storyboard */; };
 		AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E481A93DC3D0064A7F4 /* Images.xcassets */; };
 		AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */; };
 		AECF7E581A93DC3D0064A7F4 /* ProjectTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E571A93DC3D0064A7F4 /* ProjectTimerTests.swift */; };
+		AECF7E621A93DC830064A7F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E611A93DC830064A7F4 /* ViewController.swift */; };
+		AECF7E661A93DCDA0064A7F4 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */; };
+		AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E681A93DD000064A7F4 /* PieChartAndLegend.swift */; };
+		AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E691A93DD000064A7F4 /* DataItem.swift */; };
+		AECF7E6E1A93DD100064A7F4 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E6C1A93DD100064A7F4 /* PieChart.swift */; };
+		AECF7E6F1A93DD100064A7F4 /* PieSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E6D1A93DD100064A7F4 /* PieSlice.swift */; };
+		AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E821A93DD800064A7F4 /* clearImage.png */; };
+		AECF7E861A93DE9F0064A7F4 /* MCTableWithMutliSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E851A93DE9F0064A7F4 /* MCTableWithMutliSelection.m */; };
+		AECF7E8F1A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E881A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m */; };
+		AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E8A1A93DEAB0064A7F4 /* MCTableWithGestures.m */; };
+		AECF7E911A93DEAB0064A7F4 /* MCBlockTouchesView.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E8C1A93DEAB0064A7F4 /* MCBlockTouchesView.m */; };
+		AECF7E921A93DEAB0064A7F4 /* MCTableDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E8E1A93DEAB0064A7F4 /* MCTableDataObject.m */; };
+		AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */; };
+		AECF7E9E1A93E16E0064A7F4 /* LogRecordSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */; };
+		AECF7EA11A93E1E40064A7F4 /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7EA01A93E1E40064A7F4 /* TrackingCategory.m */; };
+		AECF7EA41A93E1E50064A7F4 /* LogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AECF7EA31A93E1E50064A7F4 /* LogRecord.m */; };
+		AECF7EA81A94211C0064A7F4 /* TimerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +47,37 @@
 		AECF7E3D1A93DC3C0064A7F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AECF7E411A93DC3C0064A7F4 /* ProjectTimer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProjectTimer.xcdatamodel; sourceTree = "<group>"; };
-		AECF7E431A93DC3C0064A7F4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AECF7E461A93DC3D0064A7F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AECF7E481A93DC3D0064A7F4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AECF7E4B1A93DC3D0064A7F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AECF7E511A93DC3D0064A7F4 /* ProjectTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECF7E561A93DC3D0064A7F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AECF7E571A93DC3D0064A7F4 /* ProjectTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTimerTests.swift; sourceTree = "<group>"; };
+		AECF7E611A93DC830064A7F4 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
+		AECF7E681A93DD000064A7F4 /* PieChartAndLegend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartAndLegend.swift; sourceTree = "<group>"; };
+		AECF7E691A93DD000064A7F4 /* DataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataItem.swift; sourceTree = "<group>"; };
+		AECF7E6C1A93DD100064A7F4 /* PieChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
+		AECF7E6D1A93DD100064A7F4 /* PieSlice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieSlice.swift; sourceTree = "<group>"; };
+		AECF7E711A93DD3B0064A7F4 /* ProjectTimer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProjectTimer-Bridging-Header.h"; sourceTree = "<group>"; };
+		AECF7E821A93DD800064A7F4 /* clearImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clearImage.png; sourceTree = "<group>"; };
+		AECF7E841A93DE9F0064A7F4 /* MCTableWithMutliSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableWithMutliSelection.h; sourceTree = "<group>"; };
+		AECF7E851A93DE9F0064A7F4 /* MCTableWithMutliSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableWithMutliSelection.m; sourceTree = "<group>"; };
+		AECF7E871A93DEAB0064A7F4 /* MCGenericTableWithForwarding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGenericTableWithForwarding.h; sourceTree = "<group>"; };
+		AECF7E881A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCGenericTableWithForwarding.m; sourceTree = "<group>"; };
+		AECF7E891A93DEAB0064A7F4 /* MCTableWithGestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableWithGestures.h; sourceTree = "<group>"; };
+		AECF7E8A1A93DEAB0064A7F4 /* MCTableWithGestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableWithGestures.m; sourceTree = "<group>"; };
+		AECF7E8B1A93DEAB0064A7F4 /* MCBlockTouchesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBlockTouchesView.h; sourceTree = "<group>"; };
+		AECF7E8C1A93DEAB0064A7F4 /* MCBlockTouchesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCBlockTouchesView.m; sourceTree = "<group>"; };
+		AECF7E8D1A93DEAB0064A7F4 /* MCTableDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTableDataObject.h; sourceTree = "<group>"; };
+		AECF7E8E1A93DEAB0064A7F4 /* MCTableDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTableDataObject.m; sourceTree = "<group>"; };
+		AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingCategorySubclass.swift; sourceTree = "<group>"; };
+		AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogRecordSubclass.swift; sourceTree = "<group>"; };
+		AECF7E9F1A93E1E40064A7F4 /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
+		AECF7EA01A93E1E40064A7F4 /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
+		AECF7EA21A93E1E50064A7F4 /* LogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogRecord.h; sourceTree = "<group>"; };
+		AECF7EA31A93E1E50064A7F4 /* LogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogRecord.m; sourceTree = "<group>"; };
+		AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,11 +120,10 @@
 			isa = PBXGroup;
 			children = (
 				AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */,
-				AECF7E431A93DC3C0064A7F4 /* ViewController.swift */,
 				AECF7E451A93DC3D0064A7F4 /* Main.storyboard */,
-				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
-				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
-				AECF7E401A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld */,
+				AECF7EA51A93FC360064A7F4 /* Controllers */,
+				AECF7E931A93DF680064A7F4 /* CoreData */,
+				AECF7EA61A93FC5D0064A7F4 /* Views */,
 				AECF7E3C1A93DC3C0064A7F4 /* Supporting Files */,
 			);
 			path = ProjectTimer;
@@ -93,6 +132,10 @@
 		AECF7E3C1A93DC3C0064A7F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AECF7E821A93DD800064A7F4 /* clearImage.png */,
+				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
+				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
+				AECF7E711A93DD3B0064A7F4 /* ProjectTimer-Bridging-Header.h */,
 				AECF7E3D1A93DC3C0064A7F4 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -113,6 +156,107 @@
 				AECF7E561A93DC3D0064A7F4 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AECF7E631A93DC9C0064A7F4 /* ChartAndLegend */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E681A93DD000064A7F4 /* PieChartAndLegend.swift */,
+				AECF7E691A93DD000064A7F4 /* DataItem.swift */,
+				AECF7E671A93DCE70064A7F4 /* PieChart */,
+				AECF7E701A93DD1B0064A7F4 /* CustomTable - LIVE */,
+			);
+			name = ChartAndLegend;
+			sourceTree = "<group>";
+		};
+		AECF7E671A93DCE70064A7F4 /* PieChart */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E6C1A93DD100064A7F4 /* PieChart.swift */,
+				AECF7E6D1A93DD100064A7F4 /* PieSlice.swift */,
+			);
+			name = PieChart;
+			sourceTree = "<group>";
+		};
+		AECF7E701A93DD1B0064A7F4 /* CustomTable - LIVE */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E841A93DE9F0064A7F4 /* MCTableWithMutliSelection.h */,
+				AECF7E851A93DE9F0064A7F4 /* MCTableWithMutliSelection.m */,
+				AECF7E751A93DD470064A7F4 /* Subclasses */,
+			);
+			name = "CustomTable - LIVE";
+			sourceTree = "<group>";
+		};
+		AECF7E751A93DD470064A7F4 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E871A93DEAB0064A7F4 /* MCGenericTableWithForwarding.h */,
+				AECF7E881A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m */,
+				AECF7E891A93DEAB0064A7F4 /* MCTableWithGestures.h */,
+				AECF7E8A1A93DEAB0064A7F4 /* MCTableWithGestures.m */,
+				AECF7E8B1A93DEAB0064A7F4 /* MCBlockTouchesView.h */,
+				AECF7E8C1A93DEAB0064A7F4 /* MCBlockTouchesView.m */,
+				AECF7E8D1A93DEAB0064A7F4 /* MCTableDataObject.h */,
+				AECF7E8E1A93DEAB0064A7F4 /* MCTableDataObject.m */,
+			);
+			name = Subclasses;
+			sourceTree = "<group>";
+		};
+		AECF7E931A93DF680064A7F4 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7EAA1A94238F0064A7F4 /* AppleGeneratedMgdObj */,
+				AECF7E941A93E0A40064A7F4 /* ManagedObjectSwiftSubclasses */,
+				AECF7E401A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		AECF7E941A93E0A40064A7F4 /* ManagedObjectSwiftSubclasses */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */,
+				AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */,
+			);
+			name = ManagedObjectSwiftSubclasses;
+			sourceTree = "<group>";
+		};
+		AECF7EA51A93FC360064A7F4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
+				AECF7E611A93DC830064A7F4 /* ViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		AECF7EA61A93FC5D0064A7F4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7EA91A9421330064A7F4 /* CustomCells */,
+				AECF7E631A93DC9C0064A7F4 /* ChartAndLegend */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AECF7EA91A9421330064A7F4 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */,
+			);
+			name = CustomCells;
+			sourceTree = "<group>";
+		};
+		AECF7EAA1A94238F0064A7F4 /* AppleGeneratedMgdObj */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7EA21A93E1E50064A7F4 /* LogRecord.h */,
+				AECF7EA31A93E1E50064A7F4 /* LogRecord.m */,
+				AECF7E9F1A93E1E40064A7F4 /* TrackingCategory.h */,
+				AECF7EA01A93E1E40064A7F4 /* TrackingCategory.m */,
+			);
+			name = AppleGeneratedMgdObj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +342,7 @@
 				AECF7E471A93DC3D0064A7F4 /* Main.storyboard in Resources */,
 				AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
+				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +360,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AECF7E441A93DC3C0064A7F4 /* ViewController.swift in Sources */,
+				AECF7E861A93DE9F0064A7F4 /* MCTableWithMutliSelection.m in Sources */,
+				AECF7E9E1A93E16E0064A7F4 /* LogRecordSubclass.swift in Sources */,
+				AECF7E661A93DCDA0064A7F4 /* TimerViewController.swift in Sources */,
+				AECF7E621A93DC830064A7F4 /* ViewController.swift in Sources */,
+				AECF7EA81A94211C0064A7F4 /* TimerCollectionViewCell.swift in Sources */,
 				AECF7E3F1A93DC3C0064A7F4 /* AppDelegate.swift in Sources */,
+				AECF7E911A93DEAB0064A7F4 /* MCBlockTouchesView.m in Sources */,
+				AECF7EA41A93E1E50064A7F4 /* LogRecord.m in Sources */,
+				AECF7E6E1A93DD100064A7F4 /* PieChart.swift in Sources */,
+				AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */,
+				AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */,
+				AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */,
+				AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */,
 				AECF7E421A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld in Sources */,
+				AECF7E6F1A93DD100064A7F4 /* PieSlice.swift in Sources */,
+				AECF7E921A93DEAB0064A7F4 /* MCTableDataObject.m in Sources */,
+				AECF7EA11A93E1E40064A7F4 /* TrackingCategory.m in Sources */,
+				AECF7E8F1A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,9 +500,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProjectTimer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ProjectTimer/ProjectTimer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -350,9 +513,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProjectTimer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ProjectTimer/ProjectTimer-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -409,6 +574,7 @@
 				AECF7E5D1A93DC3D0064A7F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AECF7E5E1A93DC3D0064A7F4 /* Build configuration list for PBXNativeTarget "ProjectTimerTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +583,7 @@
 				AECF7E601A93DC3D0064A7F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
