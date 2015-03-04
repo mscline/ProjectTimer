@@ -6,17 +6,27 @@
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
+
+
+// WE CAN TRACK DIFFERENT CATEGORIES USING OUR TIMERS
+// CATEGORIES ARE AVAILABLE TO BE USED BY PIE CHARTS
+
+// A CATEGORY HAS A TITLE, TOTAL VALUE, AND COLOR
+
 import UIKit
 
 class TimerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
 
         // INSTANCE VARIABLES
-        var selectedCategory:TrackingCategorySubclass?
-        var logRecord:LogRecordSubclass?
-
         var categories:NSArray?
         var colors:NSArray?
+        var colorNames:NSArray?
+
+        var selectedCategory:TrackingCategory?
+        var logRecord:LogRecord?
+
+
 
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
@@ -43,7 +53,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // there can only be one open logRecord at a time, so just
         // look to see if there is one without a checkout date
 
-        let lastRecord = LogRecordSubclass.returnLastLog()as NSArray
+        let lastRecord = LogRecordSubclass.returnLastLog() as NSArray
         if lastRecord.count > 0 {
 
             logRecord = lastRecord.objectAtIndex(0) as? LogRecordSubclass
@@ -51,7 +61,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
 
-    func startTimer(forCategory:TrackingCategorySubclass){
+    func startTimer(forCategory:TrackingCategory){
 
         selectedCategory = forCategory
 
@@ -62,8 +72,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
 
     func stopTimer(){
-
-        // !? had originally setup as instance method, but won't run (doesn't like the subclassing?)
 
         if logRecord != nil {
 
@@ -77,12 +85,73 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+
+    // MARK: BUTTONS
+
     @IBAction func onStopButtonPressed(sender: AnyObject) {
 
         stopTimer()
         collectionV.reloadData()  // need to update display
 
     }
+
+
+    @IBAction func onNewCategoryButtonPressed(sender: AnyObject) {
+
+        addCategoryPart1_startByAskingUserForTitle()
+
+    }
+
+
+
+    @IBAction func onDeleteButtonPressed(sender: AnyObject) {
+    }
+
+
+    // MARK: CRUD
+
+    func addCategoryPart1_startByAskingUserForTitle(){
+
+        MCAlertWithTextEntry.presentAlertWithTextEntry_alertViewTitle("Add new category", forViewController: self) { (userEnteredText) -> Void in
+
+            self.addCategoryPart2_thenAskForColor(userEnteredText)
+
+        }
+    }
+
+    func addCategoryPart2_thenAskForColor(title:NSString){
+
+        let alert = UIAlertController(title: "Select Color", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+
+        var counter = 0
+
+        // add a line in action sheet for each color
+        for color in colors! {
+
+            let colorToAdd = color as UIColor
+            let action = UIAlertAction(title: colorNames?.objectAtIndex(counter) as NSString, style: UIAlertActionStyle.Default, handler: { (uiAlertAction) -> Void in
+
+
+                self.addCategoryPart3_createNewCategory(title: title, color: colorToAdd)
+            })
+
+            alert.addAction(action)
+            counter++
+        }
+
+        presentViewController(alert, animated: true) { () -> Void in }
+
+    }
+
+    func addCategoryPart3_createNewCategory(#title:NSString, color:UIColor){
+
+        let ourTitle = title ?? ""
+        TrackingCategorySubclass.addNewTrackingCategory(title:ourTitle, totalValue: 0, color: color)
+        categories = TrackingCategorySubclass.returnListOfCategories()
+        collectionV.reloadData()
+        
+    }
+
 
     // MARK: COLLECTION VIEW DATA SOURCE
 
@@ -111,7 +180,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func updateCell(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
 
         // get corresponding data object
-        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategorySubclass
+        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
         cell.backgroundColor = dataObject.color as? UIColor
         cell.alpha = defaultAlpha
@@ -128,7 +197,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategorySubclass
+        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
         stopTimer()
         startTimer(dataObject)

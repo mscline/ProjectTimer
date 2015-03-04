@@ -5,3 +5,5 @@
 #import "MCTableWithMutliSelection.h"
 #import "LogRecord.h"
 #import "TrackingCategory.h"
+#import "MCAlertWithTextEntry.h"
+#import "TrackingCategory.h"

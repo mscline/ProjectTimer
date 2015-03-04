@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
+// !!! WHEN WORKING WITH SWIFT
+// 1) only add class methods to your subclass, or won't run
+// 2) when creating/casting objects, always cast them as your apple generated managed object (not your subclass) in order to avoid annoying breakpoint issues
+
 import UIKit
 
 class TrackingCategorySubclass: TrackingCategory {
@@ -23,13 +27,6 @@ class TrackingCategorySubclass: TrackingCategory {
     //    - (void)removeCategorysLogs:(NSSet *)values;
 
 
-    // ????
-//          lazy var MOC:NSManagedObjectContext? = {
-//
-//                return TrackingCategorySubclass.getMOC()
-//            }()
-
-
     class func addNewTrackingCategory(#title:NSString, totalValue:NSNumber, color:UIColor){
 
         let cat = NSEntityDescription.insertNewObjectForEntityForName("TrackingCategory", inManagedObjectContext: getMOC()) as TrackingCategory
@@ -41,7 +38,8 @@ class TrackingCategorySubclass: TrackingCategory {
         var err = NSErrorPointer()
         getMOC().save(err)
 
-        if err != nil { println(err) ;}
+        if err != nil {println("Error \(err)");}
+
     }
 
     class func delTrackingCategory(#obj:NSManagedObject){
@@ -50,6 +48,8 @@ class TrackingCategorySubclass: TrackingCategory {
 
         getMOC().deleteObject(obj)
         getMOC().save(err)
+
+        if err != nil {println("Error \(err)");}
 
     }
 
@@ -62,11 +62,31 @@ class TrackingCategorySubclass: TrackingCategory {
 
     }
 
+
     class func getMOC() -> NSManagedObjectContext{
 
         let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
         return AppDel.managedObjectContext!
 
+    }
+
+    class func sumTotalOfLogRecords(#parentCategory:TrackingCategory) -> (Double) {
+
+        // for each log record, find out how much time elapsed between checkin and checkout
+        // add together
+
+        var totalTime:Double = 0
+
+        for log in parentCategory.categorysLogs{
+
+            let logRecord = log as LogRecord
+            let elapsedT = LogRecordSubclass.findElaspedTime(logRecord: logRecord)
+
+            totalTime = totalTime + elapsedT
+
+        }
+
+        return totalTime
     }
 
 }

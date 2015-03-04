@@ -17,9 +17,9 @@ class LogRecordSubclass: LogRecord {
     //    @property (nonatomic, retain) NSString * notes;
     //    @property (nonatomic, retain) TrackingCategory *logRecordsCategory;
 
-    class func addNewLogRecord(#checkinTime:NSDate, parentCategory:TrackingCategorySubclass) -> LogRecordSubclass {
+    class func addNewLogRecord(#checkinTime:NSDate, parentCategory:TrackingCategory) -> LogRecord {
 
-        let log = NSEntityDescription.insertNewObjectForEntityForName("LogRecord", inManagedObjectContext: getMOC()) as LogRecordSubclass
+        let log = NSEntityDescription.insertNewObjectForEntityForName("LogRecord", inManagedObjectContext: getMOC()) as LogRecord
 
         log.checkinTime = checkinTime
         log.logRecordsCategory = parentCategory
@@ -32,7 +32,7 @@ class LogRecordSubclass: LogRecord {
 
     }
 
-    class func updateLastLogUponCheckout(#record:LogRecordSubclass){
+    class func updateLastLogUponCheckout(#record:LogRecord){
 
         record.checkoutTime = NSDate()
         var err = NSErrorPointer()
@@ -53,6 +53,16 @@ class LogRecordSubclass: LogRecord {
 
         let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
         return AppDel.managedObjectContext!
+
+    }
+
+
+    class func findElaspedTime(#logRecord:LogRecord)->(Double){
+
+        let checkoutT = logRecord.checkoutTime ?? NSDate()  // if haven't checked out use current date
+        let elapsedTime = checkoutT.timeIntervalSinceReferenceDate - logRecord.checkinTime.timeIntervalSinceReferenceDate
+
+        return elapsedTime
 
     }
 

@@ -16,11 +16,13 @@ class ViewController: UIViewController, MCTable_DataItemProtocol {
         var arrayOfDataToDisplay:[DataItem] = Array()
         var pieChartAndLegend:PieChartAndLegend?
 
+        var colors:NSArray?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-        buildSampleData()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        buildData()
         pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: self.view)
 
         //tester()
@@ -34,17 +36,30 @@ class ViewController: UIViewController, MCTable_DataItemProtocol {
         super.init(coder: aDecoder)
     }
 
-    func buildSampleData(){
+    func buildData(){
 
+        arrayOfDataToDisplay.removeAll(keepCapacity: true)
+        let categories = TrackingCategorySubclass.returnListOfCategories()
 
-        let a = DataItem(title: "one", color: UIColor.redColor(), amount: 10)
-        let b = DataItem(title: "two", color: UIColor.blueColor(), amount: 20)
-        let c = DataItem(title: "three", color: UIColor.yellowColor(), amount: 30)
+        for category in categories {
 
-        arrayOfDataToDisplay.append(a)
-        arrayOfDataToDisplay.append(b)
-        arrayOfDataToDisplay.append(c)
-        
+            // find elapsedTime
+            let cat = category as TrackingCategory
+            let sum = TrackingCategorySubclass.sumTotalOfLogRecords(parentCategory: cat)
+            let elapsedT = sum ?? 0
+
+            cat.totalValue = NSInteger(elapsedT)
+
+            // update db
+            var err = NSErrorPointer()
+            TrackingCategorySubclass.getMOC().save(err)
+
+            // create data item to pass to pie chart and label class
+            let item = DataItem(title: cat.title, color: cat.color as? UIColor, amount: Int(cat.totalValue))
+            arrayOfDataToDisplay.append(item)
+
+        }
+
     }
 
 
@@ -53,20 +68,6 @@ class ViewController: UIViewController, MCTable_DataItemProtocol {
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 
         pieChartAndLegend!.setScreenElementPositions(forViewWithSize: size)
-
-    }
-
-    func tester(){
-
-//        TrackingCategorySubclass.addNewTrackingCategory(title: "hey", totalValue: NSNumber(float: 10), color: UIColor.redColor())
-
-        let data = TrackingCategorySubclass.returnListOfCategories()
-
-        let x = data[0] as TrackingCategorySubclass
-        let str = x.title
-        println(str)
-
-        //TrackingCategorySubclass.delTrackingCategory(obj: x)
 
     }
 

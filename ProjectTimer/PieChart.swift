@@ -36,7 +36,8 @@ class PieChart: UIView {
             layer.removeFromSuperlayer()
 
         }
-// REMOVE ???  JUST USE ORDER
+
+        // REMOVE ???  JUST USE ORDER
         // make sure pie slices sorted properly
         //        let sortedArray = arrayOfPieSlices.sorted { (a, b) -> Bool in
         //
