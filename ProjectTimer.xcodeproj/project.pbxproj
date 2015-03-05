@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
+		AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */; };
+		AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE76C5D11AA7F2030089BE50 /* defaultPie.png */; };
+		AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */; };
+		AE76C5DD1AA7F76B0089BE50 /* PieChartThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5DC1AA7F76B0089BE50 /* PieChartThumbnail.m */; };
 		AEA8AA551AA76FAD004CD4BE /* PieChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */; };
 		AEA8AA581AA77050004CD4BE /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA571AA77050004CD4BE /* TrackingCategory.m */; };
-		AEA8AA5B1AA77050004CD4BE /* PieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA5A1AA77050004CD4BE /* PieChart.m */; };
 		AEA8AA5E1AA77051004CD4BE /* LogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA5D1AA77051004CD4BE /* LogRecord.m */; };
-		AEA8AA601AA77098004CD4BE /* PieChartSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA5F1AA77098004CD4BE /* PieChartSubclass.swift */; };
 		AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */; };
 		AECF7E3F1A93DC3C0064A7F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */; };
 		AECF7E421A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E401A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld */; };
@@ -50,14 +52,16 @@
 /* Begin PBXFileReference section */
 		AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAlertWithTextEntry.h; sourceTree = "<group>"; };
 		AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAlertWithTextEntry.m; sourceTree = "<group>"; };
+		AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
+		AE76C5D11AA7F2030089BE50 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
+		AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartThumbnailSubclass.swift; sourceTree = "<group>"; };
+		AE76C5DB1AA7F76B0089BE50 /* PieChartThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartThumbnail.h; sourceTree = "<group>"; };
+		AE76C5DC1AA7F76B0089BE50 /* PieChartThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartThumbnail.m; sourceTree = "<group>"; };
 		AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartsViewController.swift; sourceTree = "<group>"; };
 		AEA8AA561AA77050004CD4BE /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
 		AEA8AA571AA77050004CD4BE /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
-		AEA8AA591AA77050004CD4BE /* PieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChart.h; sourceTree = "<group>"; };
-		AEA8AA5A1AA77050004CD4BE /* PieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChart.m; sourceTree = "<group>"; };
 		AEA8AA5C1AA77051004CD4BE /* LogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogRecord.h; sourceTree = "<group>"; };
 		AEA8AA5D1AA77051004CD4BE /* LogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogRecord.m; sourceTree = "<group>"; };
-		AEA8AA5F1AA77098004CD4BE /* PieChartSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartSubclass.swift; sourceTree = "<group>"; };
 		AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AECF7E391A93DC3C0064A7F4 /* ProjectTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECF7E3D1A93DC3C0064A7F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				AECF7E821A93DD800064A7F4 /* clearImage.png */,
+				AE76C5D11AA7F2030089BE50 /* defaultPie.png */,
 				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
 				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
 				AECF7E711A93DD3B0064A7F4 /* ProjectTimer-Bridging-Header.h */,
@@ -238,7 +243,7 @@
 		AECF7E941A93E0A40064A7F4 /* ManagedObjectSwiftSubclasses */ = {
 			isa = PBXGroup;
 			children = (
-				AEA8AA5F1AA77098004CD4BE /* PieChartSubclass.swift */,
+				AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */,
 				AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */,
 				AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */,
 			);
@@ -269,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */,
+				AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -278,10 +284,10 @@
 			children = (
 				AEA8AA5C1AA77051004CD4BE /* LogRecord.h */,
 				AEA8AA5D1AA77051004CD4BE /* LogRecord.m */,
-				AEA8AA591AA77050004CD4BE /* PieChart.h */,
-				AEA8AA5A1AA77050004CD4BE /* PieChart.m */,
 				AEA8AA561AA77050004CD4BE /* TrackingCategory.h */,
 				AEA8AA571AA77050004CD4BE /* TrackingCategory.m */,
+				AE76C5DB1AA7F76B0089BE50 /* PieChartThumbnail.h */,
+				AE76C5DC1AA7F76B0089BE50 /* PieChartThumbnail.m */,
 			);
 			name = AppleGeneratedMgdObj;
 			sourceTree = "<group>";
@@ -368,6 +374,7 @@
 			files = (
 				AECF7E471A93DC3D0064A7F4 /* Main.storyboard in Resources */,
 				AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */,
+				AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
 				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
 			);
@@ -396,8 +403,10 @@
 				AECF7E911A93DEAB0064A7F4 /* MCBlockTouchesView.m in Sources */,
 				AECF7E6E1A93DD100064A7F4 /* PieChart.swift in Sources */,
 				AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */,
+				AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */,
+				AE76C5DD1AA7F76B0089BE50 /* PieChartThumbnail.m in Sources */,
 				AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */,
-				AEA8AA601AA77098004CD4BE /* PieChartSubclass.swift in Sources */,
+				AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */,
 				AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */,
 				AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */,
 				AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */,
@@ -405,7 +414,6 @@
 				AEA8AA581AA77050004CD4BE /* TrackingCategory.m in Sources */,
 				AECF7E6F1A93DD100064A7F4 /* PieSlice.swift in Sources */,
 				AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */,
-				AEA8AA5B1AA77050004CD4BE /* PieChart.m in Sources */,
 				AECF7E921A93DEAB0064A7F4 /* MCTableDataObject.m in Sources */,
 				AEA8AA551AA76FAD004CD4BE /* PieChartsViewController.swift in Sources */,
 				AECF7E8F1A93DEAB0064A7F4 /* MCGenericTableWithForwarding.m in Sources */,

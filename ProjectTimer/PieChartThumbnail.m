@@ -1,19 +1,19 @@
 //
-//  PieChart.m
+//  PieChartThumbnail.m
 //  ProjectTimer
 //
 //  Created by xcode on 3/4/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
-#import "PieChart.h"
+#import "PieChartThumbnail.h"
 #import "TrackingCategory.h"
 
 
-@implementation PieChart
+@implementation PieChartThumbnail
 
+@dynamic chartTitle;
 @dynamic snapshot;
-@dynamic title;
-@dynamic pieChartsCategories;
+@dynamic chartsCategories;
 
 @end

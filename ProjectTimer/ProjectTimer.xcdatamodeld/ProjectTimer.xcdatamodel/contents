@@ -6,21 +6,21 @@
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="logRecordsCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackingCategory" inverseName="categorysLogs" inverseEntity="TrackingCategory" syncable="YES"/>
     </entity>
-    <entity name="PieChart" representedClassName="PieChart" syncable="YES">
+    <entity name="PieChartThumbnail" representedClassName="PieChartThumbnail" syncable="YES">
+        <attribute name="chartTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="snapshot" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="pieChartsCategories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingCategory" inverseName="categoriesPieCharts" inverseEntity="TrackingCategory" syncable="YES"/>
+        <relationship name="chartsCategories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingCategory" inverseName="categoriesPieCharts" inverseEntity="TrackingCategory" syncable="YES"/>
     </entity>
     <entity name="TrackingCategory" representedClassName="TrackingCategory" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalValue" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="categoriesPieCharts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChart" inverseName="pieChartsCategories" inverseEntity="PieChart" syncable="YES"/>
+        <relationship name="categoriesPieCharts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChartThumbnail" inverseName="chartsCategories" inverseEntity="PieChartThumbnail" syncable="YES"/>
         <relationship name="categorysLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LogRecord" inverseName="logRecordsCategory" inverseEntity="LogRecord" syncable="YES"/>
     </entity>
     <elements>
         <element name="LogRecord" positionX="-54" positionY="-9" width="128" height="103"/>
         <element name="TrackingCategory" positionX="-261" positionY="-90" width="128" height="118"/>
-        <element name="PieChart" positionX="-270" positionY="-252" width="128" height="88"/>
+        <element name="PieChartThumbnail" positionX="-162" positionY="-99" width="128" height="88"/>
     </elements>
 </model>

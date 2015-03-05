@@ -6,4 +6,5 @@
 #import "LogRecord.h"
 #import "TrackingCategory.h"
 #import "MCAlertWithTextEntry.h"
+#import "PieChartThumbnail.h"
 #import "TrackingCategory.h"
