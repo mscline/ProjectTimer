@@ -12,6 +12,5 @@ class ChartCollectionViewCell: UICollectionViewCell {
 
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var image: UIImageView!
-
+    @IBOutlet weak var imageV: UIImageView!
 }

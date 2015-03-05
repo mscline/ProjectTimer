@@ -10,8 +10,10 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
-    let colors:NSArray = [UIColor.blueColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.purpleColor(), UIColor.orangeColor(), UIColor.yellowColor(), UIColor.brownColor(), UIColor.cyanColor(), UIColor.magentaColor()]
-    let colorNames:NSArray = ["Blue", "Red", "Green", "Purple", "Orange", "YellowColor", "BrownColor", "CyanColor","MagentaColor"]  // I don't know of a method to get it and rather than creating a lookup dict, lets go with quick and dirty
+
+        // constants
+        let colors:NSArray = [UIColor.blueColor(), UIColor.redColor(), UIColor.greenColor(), UIColor.purpleColor(), UIColor.orangeColor(), UIColor.yellowColor(), UIColor.brownColor(), UIColor.cyanColor(), UIColor.magentaColor()]
+        let colorNames:NSArray = ["Blue", "Red", "Green", "Purple", "Orange", "YellowColor", "BrownColor", "CyanColor","MagentaColor"]  // I don't know of a method to get it and rather than creating a lookup dict, lets go with quick and dirty
 
 
     override func viewDidLoad() {
@@ -23,7 +25,10 @@ class TabBarController: UITabBarController {
 
     func passColorsToChildViewControllers(){
 
-        for vc in self.childViewControllers {
+        for nav in self.childViewControllers {
+
+            let navC = nav as UINavigationController
+            let vc = navC.viewControllers[0] as UIViewController
 
             if vc.isKindOfClass(ViewController){
 

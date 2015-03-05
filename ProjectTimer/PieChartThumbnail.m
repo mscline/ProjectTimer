@@ -2,7 +2,7 @@
 //  PieChartThumbnail.m
 //  ProjectTimer
 //
-//  Created by xcode on 3/4/15.
+//  Created by xcode on 3/5/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
@@ -14,6 +14,7 @@
 
 @dynamic chartTitle;
 @dynamic snapshot;
+@dynamic isSelected;
 @dynamic chartsCategories;
 
 @end

@@ -8,6 +8,7 @@
     </entity>
     <entity name="PieChartThumbnail" representedClassName="PieChartThumbnail" syncable="YES">
         <attribute name="chartTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isSelected" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="snapshot" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="chartsCategories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingCategory" inverseName="categoriesPieCharts" inverseEntity="TrackingCategory" syncable="YES"/>
     </entity>
@@ -20,7 +21,7 @@
     </entity>
     <elements>
         <element name="LogRecord" positionX="-54" positionY="-9" width="128" height="103"/>
+        <element name="PieChartThumbnail" positionX="-162" positionY="-99" width="128" height="103"/>
         <element name="TrackingCategory" positionX="-261" positionY="-90" width="128" height="118"/>
-        <element name="PieChartThumbnail" positionX="-162" positionY="-99" width="128" height="88"/>
     </elements>
 </model>

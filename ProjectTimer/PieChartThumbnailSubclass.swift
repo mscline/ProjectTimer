@@ -10,6 +10,7 @@ import UIKit
 
 class PieChartThumbnailSubclass: PieChartThumbnail {
 
+    
 
     // CRUD
 
@@ -26,12 +27,33 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     }
 
+    class func getTheSelectedPieChart() -> (PieChartThumbnail?){
+
+        var err = NSErrorPointer()
+
+        let fetchRequest = NSFetchRequest(entityName: "PieChartThumbnail")
+        fetchRequest.predicate = NSPredicate(format: "%K == true", "isSelected")
+
+        let resultsArry = getMOC().executeFetchRequest(fetchRequest, error: err)
+        let results = resultsArry! as NSArray
+
+        if results.count > 0 {
+
+            return results.objectAtIndex(0) as? PieChartThumbnail
+
+        }else{
+
+            return nil
+
+        }
+
+    }
+
     class func addPieChart(#title:NSString){
 
         var pieC = NSEntityDescription.insertNewObjectForEntityForName("PieChartThumbnail", inManagedObjectContext: getMOC()) as PieChartThumbnail
         pieC.chartTitle = title
-        pieC.snapshot = UIImage(named:"defaultPie.png")
-
+        pieC.isSelected = true
 
         var err = NSErrorPointer()
         getMOC().save(err)

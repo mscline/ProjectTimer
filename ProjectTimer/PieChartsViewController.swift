@@ -10,8 +10,11 @@ import UIKit
 
 class PieChartsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
+
     var listOfPieCharts:NSArray?  // rem: working with CoreData which is in ObjC
-    
+    let alphaForNonSelectedItems:CGFloat = 0.5
+
+
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func viewWillAppear(animated: Bool) {
@@ -49,11 +52,20 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     func addNewChartPart2_createNewChartAndReload(#title:NSString){
 
+        // deselect the old charts
+        for chart in listOfPieCharts! {
+
+            let nextChart = chart as PieChartThumbnail
+            nextChart.isSelected = false
+
+        }
+
+        // add the new chart and refresh the collectionV
         PieChartThumbnailSubclass.addPieChart(title: title)
 
         listOfPieCharts = PieChartThumbnailSubclass.getPieCharts()
         collectionView.reloadData()
-        
+
     }
 
 
@@ -78,13 +90,29 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pieCharts", forIndexPath: indexPath) as ChartCollectionViewCell
 
         cell.backgroundColor = UIColor.redColor()
-       // updateCell(cell: cell, indexPath:indexPath)
+        updateCell(cell: cell, indexPath:indexPath)
         return cell
 
     }
 
-    func updateCell(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+    func updateCell(#cell:ChartCollectionViewCell, indexPath:NSIndexPath){
 
+        let dataObj = listOfPieCharts!.objectAtIndex(indexPath.row) as PieChartThumbnail
+
+        cell.titleLabel.text =  dataObj.chartTitle
+
+        if dataObj.isSelected == true {
+
+            cell.alpha = 1.0
+
+        }else{
+
+            cell.alpha = alphaForNonSelectedItems
+
+        }
+
+        let imageToDisplay:UIImage =  dataObj.snapshot as? UIImage ?? UIImage(named: "defaultPie.png")! as UIImage
+        cell.imageV.image = imageToDisplay
 
     }
 
@@ -92,7 +120,32 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        
+        selectCell_singleSelectionOnly(collectionView, didSelectItemAtIndexPath: indexPath)
+        collectionView.reloadData()
+
+    }
+
+    func selectCell_singleSelectionOnly(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath){
+
+        // select selected item and deselect others, update db
+
+        // deselect all
+        // (hmm... is this faster than using a conditional? would the compiler reinterpret it?)
+        for chart in listOfPieCharts! {
+
+            let theChart = chart as PieChartThumbnail
+            theChart.isSelected = false
+
+        }
+
+        // select selected item
+        let selectedItem = listOfPieCharts?.objectAtIndex(indexPath.row) as PieChartThumbnail
+        selectedItem.isSelected = true
+
+        // save to db
+        var err = NSErrorPointer()
+        PieChartThumbnailSubclass.getMOC().save(err)
+
     }
     
 

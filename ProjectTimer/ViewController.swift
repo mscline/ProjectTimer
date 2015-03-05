@@ -17,31 +17,35 @@ class ViewController: UIViewController, MCTable_DataItemProtocol {
         var pieChartAndLegend:PieChartAndLegend?
 
         var colors:NSArray?
-
+    
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         buildData()
-        pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: self.view)
 
-        //tester()
+        if arrayOfDataToDisplay.count > 0 {
+
+            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: self.view)
+
+        }
 
     }
 
-    
-    // MARK: CODING
-
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 
     func buildData(){
 
+        // remove old data
         arrayOfDataToDisplay.removeAll(keepCapacity: true)
-        let categories = TrackingCategorySubclass.returnListOfCategories()
 
-        for category in categories {
+        // get the selected pie chart
+        let selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
+
+        // the first time you run it, there will not be a selected chart, just exit
+        if selectedPieChart == nil {return;}
+
+        // get the categories from the pie chart object and iterate thru
+        for category in selectedPieChart!.chartsCategories {
 
             // find elapsedTime
             let cat = category as TrackingCategory
@@ -60,6 +64,13 @@ class ViewController: UIViewController, MCTable_DataItemProtocol {
 
         }
 
+    }
+
+    
+    // MARK: CODING
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 
