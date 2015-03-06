@@ -193,6 +193,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
 
+
     // MARK: COLLECTION VIEW DELEGATE
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -202,6 +203,16 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         stopTimer()
         startTimer(dataObject)
         collectionV.reloadData()
+
+    }
+
+
+    // MARK: PREPARE SEGUE
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        var vc = segue.destinationViewController as UIViewController
+        var destVC = vc as TimerLogsViewController
+        destVC.selectedTimer = selectedCategory!
 
     }
 

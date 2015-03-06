@@ -30,9 +30,9 @@ class TabBarController: UITabBarController {
             let navC = nav as UINavigationController
             let vc = navC.viewControllers[0] as UIViewController
 
-            if vc.isKindOfClass(ViewController){
+            if vc.isKindOfClass(StatsViewController){
 
-                let ourVC = vc as ViewController
+                let ourVC = vc as StatsViewController
                 ourVC.colors = colors
 
             }

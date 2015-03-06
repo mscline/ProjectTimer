@@ -62,14 +62,15 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     }
 
-    class func deletePieChart(){
+    class func deletePieChart(chart:PieChartThumbnail){
+
+        var err = NSErrorPointer()
+
+        PieChartThumbnailSubclass.getMOC().deleteObject(chart)
+        PieChartThumbnailSubclass.getMOC().save(err)
 
     }
 
-    class func editPieChart(){
-
-
-    }
 
     // CD
 

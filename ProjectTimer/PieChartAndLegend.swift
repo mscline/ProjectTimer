@@ -138,7 +138,7 @@ class PieChartAndLegend: NSObject {
 
             var legend = MCTableDataObject()
             legend.title = item.title
-            legend.isSelected = true
+            legend.isSelected = item.isSelected
             legend.wrappedObject = item
 
             arrayOfLegendItems.addObject(legend)

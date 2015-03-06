@@ -14,6 +14,9 @@ import UIKit
 
 class TrackingCategorySubclass: TrackingCategory {
 
+
+    var wouldLikeLegendToDisplayAsSelected:Bool = false  // we will pass an array of categories 
+
     // from superclass
 
     //    @property (nonatomic, retain) NSString * title;

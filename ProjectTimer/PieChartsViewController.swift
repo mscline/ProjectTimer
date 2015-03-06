@@ -11,16 +11,36 @@ import UIKit
 class PieChartsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
 
-    var listOfPieCharts:NSArray?  // rem: working with CoreData which is in ObjC
-    let alphaForNonSelectedItems:CGFloat = 0.5
+        var listOfPieCharts:NSArray?  // rem: working with CoreData which is in ObjC
+        var selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
 
+        let alphaForNonSelectedItems:CGFloat = 0.5
 
-    @IBOutlet weak var collectionView: UICollectionView!
+        @IBOutlet weak var collectionView: UICollectionView!
+
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         listOfPieCharts = PieChartThumbnailSubclass.getPieCharts()
+        selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
+        disableEditButtonIfNoItems()
+        collectionView.reloadData()
+
+    }
+
+    func disableEditButtonIfNoItems(){
+
+
+        if selectedPieChart != nil {
+
+            self.navigationItem.rightBarButtonItem?.enabled = true
+
+        } else {
+
+            self.navigationItem.rightBarButtonItem?.enabled = false
+            
+        }
 
     }
 
@@ -32,10 +52,13 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     }
 
-    @IBAction func onDeleteButtonPressed(sender: AnyObject) {
+    @IBAction func onEditButtonPressed(sender: AnyObject) {
 
+        self.performSegueWithIdentifier("toEditor", sender: sender)
 
     }
+
+
 
     // CRUD
 
@@ -61,10 +84,13 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         }
 
         // add the new chart and refresh the collectionV
-        PieChartThumbnailSubclass.addPieChart(title: title)
+        PieChartThumbnailSubclass.addPieChart(title: title)  // isSelected = true by default
 
         listOfPieCharts = PieChartThumbnailSubclass.getPieCharts()
         collectionView.reloadData()
+
+        // make sure the edit button is enabled
+        self.navigationItem.rightBarButtonItem?.enabled = true
 
     }
 
@@ -116,6 +142,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     }
 
+    
     // MARK: COLLECTION VIEW DELEGATE
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -141,13 +168,25 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         // select selected item
         let selectedItem = listOfPieCharts?.objectAtIndex(indexPath.row) as PieChartThumbnail
         selectedItem.isSelected = true
+        selectedPieChart = selectedItem
 
         // save to db
         var err = NSErrorPointer()
         PieChartThumbnailSubclass.getMOC().save(err)
 
+        // make sure the edit button is enabled
+        self.navigationItem.rightBarButtonItem?.enabled = true
+        
     }
-    
 
+
+    // MARK: SEGUE TO EDIT VIEW
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        let vc = segue.destinationViewController as EditChartViewController
+        vc.pieChartBeingEdited = selectedPieChart
+
+    }
 
 }

@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE0A0FA51AA96BF100D56BF9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */; };
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
+		AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */; };
+		AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */; };
+		AE5AFD091AAA3C5E008B132D /* TimerLogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */; };
 		AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */; };
 		AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE76C5D11AA7F2030089BE50 /* defaultPie.png */; };
 		AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */; };
 		AE76C5E01AA8F23E0089BE50 /* PieChartThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */; };
 		AE76C5E21AA923930089BE50 /* EditChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5E11AA923930089BE50 /* EditChartViewController.swift */; };
 		AEA8AA551AA76FAD004CD4BE /* PieChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */; };
-		AEA8AA581AA77050004CD4BE /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA571AA77050004CD4BE /* TrackingCategory.m */; };
 		AEA8AA5E1AA77051004CD4BE /* LogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA5D1AA77051004CD4BE /* LogRecord.m */; };
 		AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */; };
 		AECF7E3F1A93DC3C0064A7F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */; };
@@ -23,7 +26,7 @@
 		AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E481A93DC3D0064A7F4 /* Images.xcassets */; };
 		AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */; };
 		AECF7E581A93DC3D0064A7F4 /* ProjectTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E571A93DC3D0064A7F4 /* ProjectTimerTests.swift */; };
-		AECF7E621A93DC830064A7F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E611A93DC830064A7F4 /* ViewController.swift */; };
+		AECF7E621A93DC830064A7F4 /* ChartAndLegendVC_Superclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E611A93DC830064A7F4 /* ChartAndLegendVC_Superclass.swift */; };
 		AECF7E661A93DCDA0064A7F4 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */; };
 		AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E681A93DD000064A7F4 /* PieChartAndLegend.swift */; };
 		AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E691A93DD000064A7F4 /* DataItem.swift */; };
@@ -51,8 +54,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAlertWithTextEntry.h; sourceTree = "<group>"; };
 		AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAlertWithTextEntry.m; sourceTree = "<group>"; };
+		AE581C121AA9FE9200EE55D5 /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
+		AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
+		AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
+		AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLogsViewController.swift; sourceTree = "<group>"; };
 		AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE76C5D11AA7F2030089BE50 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
 		AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartThumbnailSubclass.swift; sourceTree = "<group>"; };
@@ -60,8 +68,6 @@
 		AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartThumbnail.m; sourceTree = "<group>"; };
 		AE76C5E11AA923930089BE50 /* EditChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditChartViewController.swift; sourceTree = "<group>"; };
 		AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartsViewController.swift; sourceTree = "<group>"; };
-		AEA8AA561AA77050004CD4BE /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
-		AEA8AA571AA77050004CD4BE /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
 		AEA8AA5C1AA77051004CD4BE /* LogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogRecord.h; sourceTree = "<group>"; };
 		AEA8AA5D1AA77051004CD4BE /* LogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogRecord.m; sourceTree = "<group>"; };
 		AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -75,7 +81,7 @@
 		AECF7E511A93DC3D0064A7F4 /* ProjectTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AECF7E561A93DC3D0064A7F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AECF7E571A93DC3D0064A7F4 /* ProjectTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTimerTests.swift; sourceTree = "<group>"; };
-		AECF7E611A93DC830064A7F4 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AECF7E611A93DC830064A7F4 /* ChartAndLegendVC_Superclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAndLegendVC_Superclass.swift; sourceTree = "<group>"; };
 		AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		AECF7E681A93DD000064A7F4 /* PieChartAndLegend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartAndLegend.swift; sourceTree = "<group>"; };
 		AECF7E691A93DD000064A7F4 /* DataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataItem.swift; sourceTree = "<group>"; };
@@ -116,13 +122,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AE44B8C91AA6A47600A749D2 /* MiscFunctionality */ = {
+		AE0A0FA61AA96D7800D56BF9 /* SubclassedVC_showChartAndLegend */ = {
+			isa = PBXGroup;
+			children = (
+				AECF7E611A93DC830064A7F4 /* ChartAndLegendVC_Superclass.swift */,
+				AE76C5E11AA923930089BE50 /* EditChartViewController.swift */,
+				AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */,
+			);
+			name = SubclassedVC_showChartAndLegend;
+			sourceTree = "<group>";
+		};
+		AE5AFD041AAA2BB4008B132D /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
+		AE5AFD051AAA2BC2008B132D /* StandardVC */ = {
+			isa = PBXGroup;
+			children = (
+				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
+				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
+				AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */,
+			);
+			name = StandardVC;
+			sourceTree = "<group>";
+		};
+		AE76C5E31AA926150089BE50 /* AbstractedFunctionality */ = {
 			isa = PBXGroup;
 			children = (
 				AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */,
 				AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */,
 			);
-			name = MiscFunctionality;
+			name = AbstractedFunctionality;
 			sourceTree = "<group>";
 		};
 		AECF7E301A93DC3C0064A7F4 = {
@@ -148,10 +182,9 @@
 			children = (
 				AECF7E3E1A93DC3C0064A7F4 /* AppDelegate.swift */,
 				AECF7E451A93DC3D0064A7F4 /* Main.storyboard */,
-				AECF7EA51A93FC360064A7F4 /* Controllers */,
+				AECF7EA51A93FC360064A7F4 /* ViewControllers */,
 				AECF7E931A93DF680064A7F4 /* CoreData */,
 				AECF7EA61A93FC5D0064A7F4 /* Views */,
-				AE44B8C91AA6A47600A749D2 /* MiscFunctionality */,
 				AECF7E3C1A93DC3C0064A7F4 /* Supporting Files */,
 			);
 			path = ProjectTimer;
@@ -252,16 +285,15 @@
 			name = ManagedObjectSwiftSubclasses;
 			sourceTree = "<group>";
 		};
-		AECF7EA51A93FC360064A7F4 /* Controllers */ = {
+		AECF7EA51A93FC360064A7F4 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */,
-				AECF7E611A93DC830064A7F4 /* ViewController.swift */,
-				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
-				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
-				AE76C5E11AA923930089BE50 /* EditChartViewController.swift */,
+				AE5AFD041AAA2BB4008B132D /* Navigation */,
+				AE5AFD051AAA2BC2008B132D /* StandardVC */,
+				AE0A0FA61AA96D7800D56BF9 /* SubclassedVC_showChartAndLegend */,
+				AE76C5E31AA926150089BE50 /* AbstractedFunctionality */,
 			);
-			name = Controllers;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AECF7EA61A93FC5D0064A7F4 /* Views */ = {
@@ -278,6 +310,7 @@
 			children = (
 				AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */,
 				AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */,
+				AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -287,8 +320,8 @@
 			children = (
 				AEA8AA5C1AA77051004CD4BE /* LogRecord.h */,
 				AEA8AA5D1AA77051004CD4BE /* LogRecord.m */,
-				AEA8AA561AA77050004CD4BE /* TrackingCategory.h */,
-				AEA8AA571AA77050004CD4BE /* TrackingCategory.m */,
+				AE581C121AA9FE9200EE55D5 /* TrackingCategory.h */,
+				AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */,
 				AE76C5DE1AA8F23E0089BE50 /* PieChartThumbnail.h */,
 				AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */,
 			);
@@ -401,10 +434,11 @@
 				AECF7E861A93DE9F0064A7F4 /* MCTableWithMutliSelection.m in Sources */,
 				AECF7E9E1A93E16E0064A7F4 /* LogRecordSubclass.swift in Sources */,
 				AECF7E661A93DCDA0064A7F4 /* TimerViewController.swift in Sources */,
-				AECF7E621A93DC830064A7F4 /* ViewController.swift in Sources */,
+				AECF7E621A93DC830064A7F4 /* ChartAndLegendVC_Superclass.swift in Sources */,
 				AECF7EA81A94211C0064A7F4 /* TimerCollectionViewCell.swift in Sources */,
 				AECF7E3F1A93DC3C0064A7F4 /* AppDelegate.swift in Sources */,
 				AECF7E911A93DEAB0064A7F4 /* MCBlockTouchesView.m in Sources */,
+				AE0A0FA51AA96BF100D56BF9 /* StatsViewController.swift in Sources */,
 				AECF7E6E1A93DD100064A7F4 /* PieChart.swift in Sources */,
 				AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */,
 				AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */,
@@ -413,9 +447,11 @@
 				AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */,
 				AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */,
 				AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */,
+				AE5AFD091AAA3C5E008B132D /* TimerLogsViewController.swift in Sources */,
 				AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */,
+				AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */,
+				AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */,
 				AECF7E421A93DC3C0064A7F4 /* ProjectTimer.xcdatamodeld in Sources */,
-				AEA8AA581AA77050004CD4BE /* TrackingCategory.m in Sources */,
 				AECF7E6F1A93DD100064A7F4 /* PieSlice.swift in Sources */,
 				AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */,
 				AECF7E921A93DEAB0064A7F4 /* MCTableDataObject.m in Sources */,
