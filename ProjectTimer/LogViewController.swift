@@ -1,5 +1,5 @@
 //
-//  TimerLogsViewController.swift
+//  LogViewController.swift
 //  ProjectTimer
 //
 //  Created by xcode on 3/6/15.
@@ -8,20 +8,24 @@
 
 import UIKit
 
-class TimerLogsViewController: UIViewController, UITableViewDataSource {
+class LogViewController: UIViewController, UITableViewDataSource  {
+
 
 
         var selectedTimer:TrackingCategory?
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
 
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        @IBOutlet weak var tableView: UITableView!
 
 
-        if selectedTimer == nil || selectedTimer!.categorysLogs == nil {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        if selectedTimer != nil || selectedTimer!.categorysLogs != nil {
 
-            logsToDisplay = selectedTimer!.categorysLogs!.allObjects
+            let setLogsToDisplay = selectedTimer!.categorysLogs!
+            logsToDisplay = setLogsToDisplay.allObjects
+            tableView.reloadData()
 
         }
 
@@ -42,7 +46,7 @@ class TimerLogsViewController: UIViewController, UITableViewDataSource {
         if selectedTimer == nil || selectedTimer!.categorysLogs == nil {
 
             return 0
-            
+
         }
 
         if section == 0 {
@@ -96,8 +100,8 @@ class TimerLogsViewController: UIViewController, UITableViewDataSource {
 
         cell.button_startTime.setTitle("a", forState: UIControlState.Normal)
         cell.button_startTime.setTitle("b", forState: UIControlState.Normal)
-//            = logRecord.checkinTime.timeIntervalSinceDate
-//        cell.button_endTime = logRecord.checkoutTime
+        //            = logRecord.checkinTime.timeIntervalSinceDate
+        //        cell.button_endTime = logRecord.checkoutTime
 
         return cell
 
@@ -105,21 +109,31 @@ class TimerLogsViewController: UIViewController, UITableViewDataSource {
 
     func formatDate(date:NSDate)->(String){
 
-
+        
         return "s"
-
+        
     }
-
+    
     func ifEditingAllowUserInteraction(){
-
-
+        
+        
     }
-
+    
     func formatCellInSection1(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("logB", forIndexPath: indexPath) as UITableViewCell
-
+        
         return cell
+        
+    }
+
+
+    // MARK: EDITING
+
+    @IBAction func onDatePickerEntryCompleted(sender: UIDatePicker) {
+
+        let updatedDate = sender.date
 
     }
+
 }

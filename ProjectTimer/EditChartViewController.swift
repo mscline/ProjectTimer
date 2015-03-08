@@ -14,21 +14,22 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         var pieChartBeingEdited:PieChartThumbnail?
         var doNotSaveOnExit:Bool = false
 
-    @IBOutlet weak var textField_chartName: UITextField!
 
-    @IBAction func chartTextField_textEntryCompleted(sender: AnyObject) {
-    }
+        @IBOutlet weak var textField_chartName: UITextField!
+
+        @IBAction func chartTextField_textEntryCompleted(sender: AnyObject) {}
 
 
     
     // xxxxxxxxxxx
-    // SUPERCLASS will display Legend and Chart
+    // our superclass will display the Legend and Chart
     // xxxxxxxxxxx
 
 
     // PREPARE TO DISPLAY DATA
 
-    override func getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
+    override func
+        getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
         let arrayOfDataToDisplay = TrackingCategorySubclass.returnListOfCategories()
         return NSSet(array: arrayOfDataToDisplay)
@@ -49,6 +50,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
             let parentObject:AnyObject? = item.pointerToParentObject
             if parentObject == nil { continue; }
+            if pieChartBeingEdited!.chartsCategories == nil { break; }
 
             for category in pieChartBeingEdited!.chartsCategories {
 
@@ -107,7 +109,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         if doNotSaveOnExit == true { return; }
 
         let selectedItems = getSelectedDataObjectsFromPieChartAndLegend()
-        addSelectedElementsToPieChart(arrayOfSelectedItems: selectedItems)
+        let selectedCategories:NSSet = forEachSelectedItemFindCorrespondingCategory(arrayOfSelectedItems: selectedItems)
+
+        updatePieChartWithSelectedItems(setOfSelectedCategories: selectedCategories)
         saveSnapShotOfChartInPieChartThumbObject()
 
     }
@@ -147,8 +151,12 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         return selectedItems
     }
 
-    func addSelectedElementsToPieChart(#arrayOfSelectedItems:Array<DataItem>){
+    func forEachSelectedItemFindCorrespondingCategory(#arrayOfSelectedItems:Array<DataItem>) -> (NSSet){
 
+        // create an NSSet to store our selected objects in
+        let storage = NSMutableSet()
+
+        // get category corresponding to selected item and add to our set
         for item in arrayOfSelectedItems {
 
             let ourItem = item as DataItem
@@ -156,11 +164,38 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
             if trackingCategory != nil {
 
-                pieChartBeingEdited?.addChartsCategoriesObject(trackingCategory as TrackingCategory)
+                storage.addObject(trackingCategory as TrackingCategory)
 
             }
 
         }
+
+        return storage
+
+    }
+
+    func updatePieChartWithSelectedItems(#setOfSelectedCategories:NSSet) {
+
+
+        // REMOVE NON-SELECTED CATEGORIES
+
+        // 1) get set of all categories
+        var setOfItemsToDelete = NSMutableSet(set: pieChartBeingEdited!.chartsCategories)
+
+        // 2) remove selected items
+        setOfItemsToDelete.minusSet(setOfSelectedCategories)
+
+        // 3 update the database
+        pieChartBeingEdited?.removeChartsCategories(setOfItemsToDelete)
+
+
+        // ADD SELECTED CATEGORIES
+        pieChartBeingEdited?.addChartsCategories(setOfSelectedCategories)
+
+        // SAVE DB
+        var err = NSErrorPointer()
+        PieChartThumbnailSubclass.getMOC().save(err)
+        if(err != nil ){ println(err); }
 
     }
 
@@ -191,6 +226,13 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
             textField_chartName.text = pieChartBeingEdited?.chartTitle
 
         }
+
+        // change back button to Save
+
+
+    }
+
+    override func viewDidAppear(animated: Bool) {
 
     }
 

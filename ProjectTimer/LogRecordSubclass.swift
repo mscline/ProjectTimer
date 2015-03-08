@@ -37,6 +37,7 @@ class LogRecordSubclass: LogRecord {
         record.checkoutTime = NSDate()
         var err = NSErrorPointer()
         LogRecordSubclass.getMOC().save(err)
+        
     }
 
     class func returnLastLog() -> NSArray {

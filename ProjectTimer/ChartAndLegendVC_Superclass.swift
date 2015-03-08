@@ -26,18 +26,19 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     func getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
-        // get the selected pie chart and grab its categories
-
-        let selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
-        let categories = selectedPieChart!.chartsCategories as NSSet
-// fix = should let go to vc if no pie chart created?  or put alt image??
-        return categories
+        return NSSet()
 
     }
 
     func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!){
 
         // last chance to make any changes (eg, change dataItem.isSelected = true)
+
+    }
+
+    func noDataToDispalyInChart(){
+
+        // if no data to display, can customize view here
 
     }
 
@@ -59,6 +60,10 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
             self.willCreateChartAndGraph(arrayOfDataItemsToDisplay: arrayOfDataToDisplay)  // added so if subclassing, you can override and add code
             pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: self.view)
+
+        } else {
+
+            self.noDataToDispalyInChart()
 
         }
 

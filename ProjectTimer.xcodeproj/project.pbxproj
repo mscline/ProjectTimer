@@ -11,12 +11,12 @@
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
 		AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */; };
 		AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */; };
-		AE5AFD091AAA3C5E008B132D /* TimerLogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */; };
 		AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */; };
 		AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE76C5D11AA7F2030089BE50 /* defaultPie.png */; };
 		AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */; };
 		AE76C5E01AA8F23E0089BE50 /* PieChartThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */; };
 		AE76C5E21AA923930089BE50 /* EditChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5E11AA923930089BE50 /* EditChartViewController.swift */; };
+		AE88E5C21AAB775600C0502E /* blankChart.png in Resources */ = {isa = PBXBuildFile; fileRef = AE88E5C11AAB775600C0502E /* blankChart.png */; };
 		AEA8AA551AA76FAD004CD4BE /* PieChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */; };
 		AEA8AA5E1AA77051004CD4BE /* LogRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA5D1AA77051004CD4BE /* LogRecord.m */; };
 		AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBF60BF1AA654E8008EABD3 /* TabBarController.swift */; };
@@ -41,6 +41,7 @@
 		AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */; };
 		AECF7E9E1A93E16E0064A7F4 /* LogRecordSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */; };
 		AECF7EA81A94211C0064A7F4 /* TimerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */; };
+		AED4F1691AAACB9A00EBBAD3 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,13 +61,13 @@
 		AE581C121AA9FE9200EE55D5 /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
 		AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
 		AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
-		AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerLogsViewController.swift; sourceTree = "<group>"; };
 		AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE76C5D11AA7F2030089BE50 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
 		AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartThumbnailSubclass.swift; sourceTree = "<group>"; };
 		AE76C5DE1AA8F23E0089BE50 /* PieChartThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartThumbnail.h; sourceTree = "<group>"; };
 		AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartThumbnail.m; sourceTree = "<group>"; };
 		AE76C5E11AA923930089BE50 /* EditChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditChartViewController.swift; sourceTree = "<group>"; };
+		AE88E5C11AAB775600C0502E /* blankChart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankChart.png; sourceTree = "<group>"; };
 		AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartsViewController.swift; sourceTree = "<group>"; };
 		AEA8AA5C1AA77051004CD4BE /* LogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogRecord.h; sourceTree = "<group>"; };
 		AEA8AA5D1AA77051004CD4BE /* LogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogRecord.m; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		AECF7E9B1A93E14C0064A7F4 /* TrackingCategorySubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingCategorySubclass.swift; sourceTree = "<group>"; };
 		AECF7E9D1A93E16E0064A7F4 /* LogRecordSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogRecordSubclass.swift; sourceTree = "<group>"; };
 		AECF7EA71A94211C0064A7F4 /* TimerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerCollectionViewCell.swift; sourceTree = "<group>"; };
+		AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +147,7 @@
 			children = (
 				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
 				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
-				AE5AFD081AAA3C5E008B132D /* TimerLogsViewController.swift */,
+				AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */,
 			);
 			name = StandardVC;
 			sourceTree = "<group>";
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				AECF7E821A93DD800064A7F4 /* clearImage.png */,
+				AE88E5C11AAB775600C0502E /* blankChart.png */,
 				AE76C5D11AA7F2030089BE50 /* defaultPie.png */,
 				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
 				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
@@ -413,6 +416,7 @@
 				AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
 				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
+				AE88E5C21AAB775600C0502E /* blankChart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE76C5E21AA923930089BE50 /* EditChartViewController.swift in Sources */,
+				AED4F1691AAACB9A00EBBAD3 /* LogViewController.swift in Sources */,
 				AECF7E861A93DE9F0064A7F4 /* MCTableWithMutliSelection.m in Sources */,
 				AECF7E9E1A93E16E0064A7F4 /* LogRecordSubclass.swift in Sources */,
 				AECF7E661A93DCDA0064A7F4 /* TimerViewController.swift in Sources */,
@@ -447,7 +452,6 @@
 				AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */,
 				AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */,
 				AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */,
-				AE5AFD091AAA3C5E008B132D /* TimerLogsViewController.swift in Sources */,
 				AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */,
 				AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */,
 				AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */,

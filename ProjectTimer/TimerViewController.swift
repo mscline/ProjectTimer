@@ -40,6 +40,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
         collectionV.reloadData()
+        self.navigationItem.rightBarButtonItem?.enabled = false
 
     }
 
@@ -56,14 +57,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let lastRecord = LogRecordSubclass.returnLastLog() as NSArray
         if lastRecord.count > 0 {
 
-            logRecord = lastRecord.objectAtIndex(0) as? LogRecordSubclass
-            selectedCategory = logRecord?.logRecordsCategory as? TrackingCategorySubclass
+            logRecord = lastRecord.objectAtIndex(0) as? LogRecord
+            selectedCategory = logRecord!.logRecordsCategory as TrackingCategory
+            self.navigationItem.rightBarButtonItem?.enabled = true
+
         }
+
     }
 
     func startTimer(forCategory:TrackingCategory){
 
         selectedCategory = forCategory
+        self.navigationItem.rightBarButtonItem?.enabled = true
 
         // create new logRecord for category
         let date = NSDate()
@@ -82,6 +87,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // clear old values
         selectedCategory = nil
         logRecord = nil
+
+        // disable button to see detail
+        self.navigationItem.rightBarButtonItem?.enabled = false
 
     }
 
@@ -210,9 +218,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK: PREPARE SEGUE
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        var vc = segue.destinationViewController as UIViewController
-        var destVC = vc as TimerLogsViewController
-        destVC.selectedTimer = selectedCategory!
+        var vc = segue.destinationViewController as LogViewController
+        vc.selectedTimer = selectedCategory!
 
     }
 
