@@ -20,15 +20,47 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-    
+
+
+        getLogs()
+        sortLogs()
+
+    }
+
+    func getLogs(){
+
         if selectedTimer != nil || selectedTimer!.categorysLogs != nil {
 
             let setLogsToDisplay = selectedTimer!.categorysLogs!
             logsToDisplay = setLogsToDisplay.allObjects
             tableView.reloadData()
-
+            
         }
+    }
 
+    func sortLogs(){
+
+        if logsToDisplay == nil { return;}
+
+        logsToDisplay = logsToDisplay!.sortedArrayUsingComparator({ (objA, objB) -> NSComparisonResult in
+
+            let recordA = objA as LogRecord
+            let timeA = recordA.checkinTime.timeIntervalSince1970
+
+            let recordB = objB as LogRecord
+            let timeB = recordB.checkinTime.timeIntervalSince1970
+
+            if timeA >= timeB {
+
+                return NSComparisonResult.OrderedDescending
+
+            } else {
+
+                return NSComparisonResult.OrderedAscending
+
+            }
+
+        })
     }
 
 
@@ -36,7 +68,7 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 2
+        return 1
 
     }
 
@@ -47,38 +79,16 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
             return 0
 
-        }
-
-        if section == 0 {
+        } else {
 
             return logsToDisplay!.count
 
-        } else {
-
-            return 1
         }
 
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-
-        if indexPath.section == 0 {
-
-            return formatCellInSection0(tableView, cellForRowAtIndexPath: indexPath)
-
-        }else if indexPath.section == 1 {
-
-            return formatCellInSection1(tableView, cellForRowAtIndexPath: indexPath)
-
-        }else{
-
-            abort()  // we only are usng two sections
-        }
-
-    }
-
-    func formatCellInSection0(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         // get cell to work with
         var cell = tableView.dequeueReusableCellWithIdentifier("logA", forIndexPath: indexPath) as LogTableViewCell
@@ -98,10 +108,20 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
     func formatLogCell(cell:LogTableViewCell, logRecord:LogRecord)->(LogTableViewCell){
 
-        cell.button_startTime.setTitle("a", forState: UIControlState.Normal)
-        cell.button_startTime.setTitle("b", forState: UIControlState.Normal)
-        //            = logRecord.checkinTime.timeIntervalSinceDate
-        //        cell.button_endTime = logRecord.checkoutTime
+
+        let startTime = formatDate(logRecord.checkinTime)
+        var endTime:String = " . . . "
+
+        let checkoutDate = logRecord.checkoutTime
+        if checkoutDate != nil {
+
+            endTime = formatDate(checkoutDate!)
+
+        }
+
+
+        cell.button_startTime.setTitle(startTime, forState: UIControlState.Normal)
+        cell.button_endTime.setTitle(endTime, forState: UIControlState.Normal)
 
         return cell
 
@@ -109,11 +129,12 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
     func formatDate(date:NSDate)->(String){
 
-        
-        return "s"
-        
+        let dateString = NSDateFormatter.localizedStringFromDate(date, dateStyle: NSDateFormatterStyle.ShortStyle, timeStyle: NSDateFormatterStyle.ShortStyle)
+
+        return dateString
+
     }
-    
+
     func ifEditingAllowUserInteraction(){
         
         

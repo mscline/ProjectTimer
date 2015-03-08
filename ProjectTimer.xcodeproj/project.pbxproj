@@ -145,9 +145,9 @@
 		AE5AFD051AAA2BC2008B132D /* StandardVC */ = {
 			isa = PBXGroup;
 			children = (
-				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
-				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
 				AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */,
+				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
+				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
 			);
 			name = StandardVC;
 			sourceTree = "<group>";

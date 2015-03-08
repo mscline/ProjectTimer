@@ -96,14 +96,14 @@
                                         <exclude reference="gPh-ne-ETk"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="56l-D7-rjW"/>
-                                        <exclude reference="TwA-Nl-K21"/>
-                                        <exclude reference="mmh-Vo-jH5"/>
-                                        <exclude reference="xsF-4j-GAD"/>
                                         <exclude reference="0Id-al-ZRQ"/>
                                         <exclude reference="Ijc-kF-H8r"/>
                                         <exclude reference="OSt-dc-asx"/>
                                         <exclude reference="b1X-ME-GSC"/>
+                                        <exclude reference="56l-D7-rjW"/>
+                                        <exclude reference="TwA-Nl-K21"/>
+                                        <exclude reference="mmh-Vo-jH5"/>
+                                        <exclude reference="xsF-4j-GAD"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
@@ -112,14 +112,14 @@
                                         <include reference="gPh-ne-ETk"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="56l-D7-rjW"/>
-                                        <include reference="TwA-Nl-K21"/>
-                                        <include reference="mmh-Vo-jH5"/>
-                                        <include reference="xsF-4j-GAD"/>
                                         <include reference="0Id-al-ZRQ"/>
                                         <include reference="Ijc-kF-H8r"/>
                                         <include reference="OSt-dc-asx"/>
                                         <include reference="b1X-ME-GSC"/>
+                                        <exclude reference="56l-D7-rjW"/>
+                                        <include reference="TwA-Nl-K21"/>
+                                        <include reference="mmh-Vo-jH5"/>
+                                        <include reference="xsF-4j-GAD"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -136,10 +136,10 @@
                                 <exclude reference="g8z-G6-BGl"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="VZl-jg-iHT"/>
                                 <exclude reference="GxD-FD-lHw"/>
                                 <exclude reference="asM-hh-PZX"/>
                                 <exclude reference="rH0-oD-1fN"/>
-                                <exclude reference="VZl-jg-iHT"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -147,10 +147,10 @@
                                 <include reference="g8z-G6-BGl"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="VZl-jg-iHT"/>
                                 <include reference="GxD-FD-lHw"/>
                                 <include reference="asM-hh-PZX"/>
                                 <include reference="rH0-oD-1fN"/>
-                                <include reference="VZl-jg-iHT"/>
                             </mask>
                         </variation>
                     </view>
@@ -161,7 +161,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="532.5" y="460"/>
+            <point key="canvasLocation" x="565.5" y="460"/>
         </scene>
         <!--Pie Charts-->
         <scene sceneID="30H-3u-7go">
@@ -282,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MRQ-u5-f8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="532.5" y="-1048"/>
+            <point key="canvasLocation" x="532.5" y="-322"/>
         </scene>
         <!--Build Chart-->
         <scene sceneID="Fna-i3-3IO">
@@ -359,7 +359,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5mQ-vv-ecw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1251" y="-1048"/>
+            <point key="canvasLocation" x="1323" y="-322"/>
         </scene>
         <!--Timers-->
         <scene sceneID="TuU-dH-KYg">
@@ -410,6 +410,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <gestureRecognizers/>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="OSi-vr-uCI"/>
@@ -424,6 +425,7 @@
                                         </variation>
                                         <connections>
                                             <outlet property="textLabel" destination="OSi-vr-uCI" id="TVV-zu-MhO"/>
+                                            <outletCollection property="gestureRecognizers" destination="ywG-fD-lGJ" appends="YES" id="aqU-1x-Eex"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -508,19 +510,17 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Detail" id="E8Y-Nj-KLN">
-                            <connections>
-                                <segue destination="csg-Ku-Uui" kind="show" identifier="toLogs" id="wVN-oy-V2v"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="E8Y-Nj-KLN"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionV" destination="yja-Eo-V7J" id="u5g-qC-Xih"/>
+                        <segue destination="csg-Ku-Uui" kind="show" identifier="toDetail" id="EXm-G5-6zS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4y-mP-9fo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ywG-fD-lGJ"/>
             </objects>
-            <point key="canvasLocation" x="532.5" y="-312"/>
+            <point key="canvasLocation" x="532.5" y="-1038"/>
         </scene>
         <!--Timer Logs-->
         <scene sceneID="JjQ-Kf-I8G">
@@ -540,16 +540,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="73" y="193" width="42" height="21"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHt-xM-Mb1">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="183" y="193" width="35" height="21"/>
+                                    <rect key="frame" x="46" y="162" width="42" height="21"/>
                                 </variation>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2Cd-cP-BeX">
@@ -569,24 +560,10 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fwA-Cv-erG" id="fB8-Ce-hgp">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brc-W4-1wB">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="brc-W4-1wB">
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="Button">
-                                                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="139" y="8" width="46" height="30"/>
-                                                    </variation>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gxg-uA-Z20">
-                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="Button">
-                                                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="57" y="8" width="46" height="30"/>
+                                                        <rect key="frame" x="151" y="8" width="129" height="30"/>
                                                     </variation>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wte-hs-rbt">
@@ -617,21 +594,27 @@
                                                         <action selector="onDatePickerEntryCompleted:" destination="csg-Ku-Uui" eventType="editingDidEndOnExit" id="jiq-eE-DNi"/>
                                                     </connections>
                                                 </datePicker>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gxg-uA-Z20">
+                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <variation key="widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="8" y="8" width="135" height="30"/>
+                                                    </variation>
+                                                </button>
                                             </subviews>
                                             <variation key="default">
                                                 <mask key="subviews">
                                                     <exclude reference="brc-W4-1wB"/>
-                                                    <exclude reference="Gxg-uA-Z20"/>
                                                     <exclude reference="Wte-hs-rbt"/>
                                                     <exclude reference="bqA-CH-ZWh"/>
+                                                    <exclude reference="Gxg-uA-Z20"/>
                                                 </mask>
                                             </variation>
                                             <variation key="widthClass=compact">
                                                 <mask key="subviews">
                                                     <include reference="brc-W4-1wB"/>
-                                                    <include reference="Gxg-uA-Z20"/>
                                                     <include reference="Wte-hs-rbt"/>
                                                     <include reference="bqA-CH-ZWh"/>
+                                                    <include reference="Gxg-uA-Z20"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -641,7 +624,7 @@
                                             <outlet property="datePicker" destination="bqA-CH-ZWh" id="WWl-pa-F7F"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="logB" id="jyw-ep-Yfd">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="logB" rowHeight="102" id="jyw-ep-Yfd">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jyw-ep-Yfd" id="MT6-xD-C9A">
@@ -671,27 +654,36 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="41" y="227" width="343" height="300"/>
+                                    <rect key="frame" x="0.0" y="222" width="400" height="300"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="csg-Ku-Uui" id="lHg-D8-fXX"/>
                                     <outlet property="delegate" destination="csg-Ku-Uui" id="kbT-wf-HJt"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHt-xM-Mb1">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="183" y="162" width="35" height="21"/>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="trQ-zs-0X4"/>
-                                <exclude reference="JHt-xM-Mb1"/>
                                 <exclude reference="2Cd-cP-BeX"/>
+                                <exclude reference="JHt-xM-Mb1"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="trQ-zs-0X4"/>
-                                <include reference="JHt-xM-Mb1"/>
                                 <include reference="2Cd-cP-BeX"/>
+                                <include reference="JHt-xM-Mb1"/>
                             </mask>
                         </variation>
                     </view>
@@ -704,7 +696,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VTG-EL-UBN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1213.5" y="-311"/>
+            <point key="canvasLocation" x="1314" y="-1038"/>
         </scene>
         <!--Pie Charts-->
         <scene sceneID="Xxc-kI-mPw">
@@ -723,7 +715,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S6f-Wo-hpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-253.5" y="-1048"/>
+            <point key="canvasLocation" x="-253.5" y="-312"/>
         </scene>
         <!--Satistics-->
         <scene sceneID="shW-Kx-EJD">
@@ -743,13 +735,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pun-fq-iGK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-240" y="460"/>
+            <point key="canvasLocation" x="-270" y="470"/>
         </scene>
-        <!--Time-->
+        <!--Timers-->
         <scene sceneID="xyX-2F-dXZ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s6g-yc-XWO" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Time" id="jaD-uL-Urj" userLabel="Timers"/>
+                    <tabBarItem key="tabBarItem" title="Timers" id="jaD-uL-Urj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pFr-YL-e0O">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -762,7 +754,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wiW-zK-e0O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-253.5" y="-312"/>
+            <point key="canvasLocation" x="-253.5" y="-1048"/>
         </scene>
     </scenes>
     <resources>
