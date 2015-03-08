@@ -26,7 +26,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         var selectedCategory:TrackingCategory?
         var logRecord:LogRecord?
 
-
+        // EDITING MODE
+        var editingModeIsOn = false
 
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
@@ -35,12 +36,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let defaultAlpha:CGFloat = 0.6
 
 
+    // MARK: Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
         collectionV.reloadData()
-        self.navigationItem.rightBarButtonItem?.enabled = false
 
     }
 
@@ -65,6 +67,40 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+
+    // MARK: BUTTONS
+
+    @IBAction func onStopButtonPressed(sender: AnyObject) {
+
+        stopTimer()
+        collectionV.reloadData()  // need to update display
+
+    }
+
+
+    @IBAction func onNewCategoryButtonPressed(sender: AnyObject) {
+
+        addCategoryPart1_startByAskingUserForTitle()
+
+    }
+
+    @IBAction func onEditButtonPressed(sender: AnyObject) {
+
+        toggleEditingMode()
+
+    }
+
+    @IBAction func onDeleteButtonPressed(sender: UIButton) {
+
+        // when created cell, set the button's tag to the row number so we can know the row number we are working with
+        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        deleteCategory(trackingC)
+
+    }
+
+
+    // MARK: Start & Stop Timers
+
     func startTimer(forCategory:TrackingCategory){
 
         selectedCategory = forCategory
@@ -87,36 +123,60 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // clear old values
         selectedCategory = nil
         logRecord = nil
-
-        // disable button to see detail
-        self.navigationItem.rightBarButtonItem?.enabled = false
-
+        
     }
 
 
-    // MARK: BUTTONS
+    // MARK: EDITING MODE
 
-    @IBAction func onStopButtonPressed(sender: AnyObject) {
+    func toggleEditingMode(){
 
-        stopTimer()
-        collectionV.reloadData()  // need to update display
+
+        editingModeIsOn = !editingModeIsOn
+
+        if editingModeIsOn == true {
+
+            switchToEditingModeAndReload()
+
+        } else {
+
+            turnEditingModeOff()
+            
+        }
 
     }
 
+    func switchToEditingModeAndReload(){
 
-    @IBAction func onNewCategoryButtonPressed(sender: AnyObject) {
+        collectionV.backgroundColor = UIColor.lightGrayColor()
+        collectionV.alpha = 0.7
 
-        addCategoryPart1_startByAskingUserForTitle()
+       // self.navigationItem.rightBarButtonItem.set
+
+        collectionV.reloadData()
 
     }
 
+    func turnEditingModeOff(){
 
+        collectionV.backgroundColor = UIColor.blackColor()
+        collectionV.alpha = 1.0
 
-    @IBAction func onDeleteButtonPressed(sender: AnyObject) {
+        collectionV.reloadData()
+
     }
 
 
     // MARK: CRUD
+
+    func deleteCategory(category:TrackingCategory){
+
+        TrackingCategorySubclass.delTrackingCategory(obj: category)
+        categories = TrackingCategorySubclass.returnListOfCategories()
+
+        collectionV.reloadData()
+        
+    }
 
     func addCategoryPart1_startByAskingUserForTitle(){
 
@@ -180,7 +240,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
+
         updateCell(cell: cell, indexPath:indexPath)
+        turnFeaturesOnOrOffIfInEditingModeOrNot(cell: cell, indexPath: indexPath)
+
         return cell
         
     }
@@ -199,8 +262,32 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
             cell.alpha = 1.0
         }
+
     }
 
+    func turnFeaturesOnOrOffIfInEditingModeOrNot(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+
+        if editingModeIsOn == true {
+
+            cell.textLabel.userInteractionEnabled = true
+            cell.textLabel.backgroundColor = UIColor.grayColor()
+
+            cell.viewLogLabel.hidden = false
+            cell.deleteButton.hidden = false
+
+            cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
+
+        } else {
+
+            cell.textLabel.userInteractionEnabled = false
+            cell.textLabel.backgroundColor = UIColor.clearColor()
+
+            cell.viewLogLabel.hidden = true
+            cell.deleteButton.hidden = true
+
+        }
+
+    }
 
     // MARK: COLLECTION VIEW DELEGATE
 
@@ -208,9 +295,17 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
-        stopTimer()
-        startTimer(dataObject)
-        collectionV.reloadData()
+        if editingModeIsOn == true {
+
+            performSegueWithIdentifier("toDetail", sender: dataObject)
+
+        } else {
+
+            stopTimer()
+            startTimer(dataObject)
+            collectionV.reloadData()
+
+        }
 
     }
 
@@ -218,8 +313,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK: PREPARE SEGUE
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
+        let timerBeingEdited = sender as TrackingCategory
+
         var vc = segue.destinationViewController as LogViewController
-        vc.selectedTimer = selectedCategory!
+        vc.selectedTimer = timerBeingEdited
 
     }
 

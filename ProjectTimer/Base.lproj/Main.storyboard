@@ -392,6 +392,7 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OSi-vr-uCI">
                                                     <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
@@ -404,9 +405,30 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="68" y="107" width="42" height="21"/>
+                                                        <rect key="frame" x="68" y="87" width="42" height="21"/>
                                                     </variation>
                                                 </label>
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aml-LE-FJV">
+                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <state key="normal" title="View Logs">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="57" y="129" width="71" height="30"/>
+                                                    </variation>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2k-qK-vvO">
+                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                    <state key="normal" title="X">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="132" y="16" width="30" height="30"/>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="onDeleteButtonPressed:" destination="bMx-Jm-HDI" eventType="touchUpInside" id="GWS-vU-rcb"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -415,17 +437,23 @@
                                             <mask key="subviews">
                                                 <exclude reference="OSi-vr-uCI"/>
                                                 <exclude reference="aXh-h4-6n0"/>
+                                                <exclude reference="Aml-LE-FJV"/>
+                                                <exclude reference="I2k-qK-vvO"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
                                             <mask key="subviews">
                                                 <include reference="OSi-vr-uCI"/>
                                                 <include reference="aXh-h4-6n0"/>
+                                                <include reference="Aml-LE-FJV"/>
+                                                <include reference="I2k-qK-vvO"/>
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <outlet property="deleteButton" destination="I2k-qK-vvO" id="kd2-5a-Hhf"/>
+                                            <outlet property="elapsedTime" destination="aXh-h4-6n0" id="hMz-Pu-slO"/>
                                             <outlet property="textLabel" destination="OSi-vr-uCI" id="TVV-zu-MhO"/>
-                                            <outletCollection property="gestureRecognizers" destination="ywG-fD-lGJ" appends="YES" id="aqU-1x-Eex"/>
+                                            <outlet property="viewLogLabel" destination="Aml-LE-FJV" id="Yvi-XH-VXH"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -510,7 +538,11 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="E8Y-Nj-KLN"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="E8Y-Nj-KLN">
+                            <connections>
+                                <action selector="onEditButtonPressed:" destination="bMx-Jm-HDI" id="bgt-nR-ac4"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionV" destination="yja-Eo-V7J" id="u5g-qC-Xih"/>
@@ -518,7 +550,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4y-mP-9fo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="ywG-fD-lGJ"/>
             </objects>
             <point key="canvasLocation" x="532.5" y="-1038"/>
         </scene>

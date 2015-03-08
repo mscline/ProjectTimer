@@ -11,10 +11,11 @@ import UIKit
 class LogViewController: UIViewController, UITableViewDataSource  {
 
 
-
+        // display timers
         var selectedTimer:TrackingCategory?
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
 
+        // outlets
         @IBOutlet weak var tableView: UITableView!
 
 
