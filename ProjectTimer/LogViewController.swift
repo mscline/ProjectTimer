@@ -11,20 +11,34 @@ import UIKit
 class LogViewController: UIViewController, UITableViewDataSource  {
 
 
+        @IBOutlet weak var tableView: UITableView!
+        var isInEditingMode = false
+
+        // date picker (we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit)
+        @IBOutlet weak var datePicker: UIDatePicker!
+        var datePickerActingOnLog:LogRecord?
+        var datePickerIsActingOnStartTimeNotEndTime = true
+
         // display timers
         var selectedTimer:TrackingCategory?
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
 
-        // outlets
-        @IBOutlet weak var tableView: UITableView!
 
+    // MARK: SETUP - get logs
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        datePicker.hidden = true
+        reloadTableWithUpdatedData()
+
+    }
+
+    func reloadTableWithUpdatedData(){
 
         getLogs()
         sortLogs()
+        tableView.reloadData()
 
     }
 
@@ -34,7 +48,6 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
             let setLogsToDisplay = selectedTimer!.categorysLogs!
             logsToDisplay = setLogsToDisplay.allObjects
-            tableView.reloadData()
             
         }
     }
@@ -101,7 +114,8 @@ class LogViewController: UIViewController, UITableViewDataSource  {
         formatLogCell(cell, logRecord: log)
 
         // if editing make buttons clickable
-        ifEditingAllowUserInteraction()
+        ifEditingAllowUserInteraction(cell: cell, indexPath: indexPath)
+        addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
 
         return cell
 
@@ -111,7 +125,7 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
 
         let startTime = formatDate(logRecord.checkinTime)
-        var endTime:String = " . . . "
+        var endTime:String = " ...TBA... "
 
         let checkoutDate = logRecord.checkoutTime
         if checkoutDate != nil {
@@ -136,21 +150,107 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
     }
 
-    func ifEditingAllowUserInteraction(){
-        
+    func ifEditingAllowUserInteraction(#cell:LogTableViewCell, indexPath:NSIndexPath){
+
+        if isInEditingMode == true {
+
+            cell.button_startTime.userInteractionEnabled = true
+            cell.button_endTime.userInteractionEnabled = true
+
+        // use setter methods instead
+            cell.button_startTime.titleLabel!.textColor = UIColor.orangeColor()
+            cell.button_endTime.titleLabel!.textColor = UIColor.orangeColor()
+
+            cell.button_deleteLog.hidden = false
+
+
+        }else{
+
+            cell.button_startTime.userInteractionEnabled = false
+            cell.button_endTime.userInteractionEnabled = false
+
+            cell.button_startTime.titleLabel!.textColor = UIColor.blueColor()
+            cell.button_endTime.titleLabel!.textColor = UIColor.blueColor()
+
+            cell.button_deleteLog.hidden = true
+
+
+        }
         
     }
-    
-    func formatCellInSection1(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("logB", forIndexPath: indexPath) as UITableViewCell
-        
-        return cell
-        
+
+    func addTagsSoCanLookupCorrespondingDataObject(#cell:LogTableViewCell, indexPath:NSIndexPath){
+
+        cell.button_deleteLog.tag = indexPath.row
+        cell.button_startTime.tag = indexPath.row
+        cell.button_endTime.tag = indexPath.row
+
     }
 
 
     // MARK: EDITING
+
+    @IBAction func onEditButtonPressed(sender: AnyObject) {
+
+
+        // toggle isInEditingMode and change button title
+        isInEditingMode = !isInEditingMode
+
+        if isInEditingMode == true {
+
+            navigationItem.rightBarButtonItem?.title = "Done"
+
+        } else {
+
+            navigationItem.rightBarButtonItem?.title = "Edit"
+
+        }
+
+        // reload data (table view will display differently, depending on mode)
+        tableView.reloadData()
+
+    }
+
+    @IBAction func onDeleteButtonPressed(sender: UIButton) {
+
+        let logForDeletion = logsToDisplay?.objectAtIndex(sender.tag) as LogRecord
+        LogRecordSubclass.delLogRecord(obj: logForDeletion)
+        reloadTableWithUpdatedData()
+
+    }
+
+
+    // MARK: DATE PICKER
+
+    @IBAction func onStartTimeButtonPressed(sender: UIButton) {
+
+        datePickerIsActingOnStartTimeNotEndTime = true
+        datePickerActingOnLog = logsToDisplay?.objectAtIndex(sender.tag) as? LogRecord
+
+        showDatePicker(sender:sender)
+
+    }
+
+    @IBAction func onCheckoutTimeButtonPressed(sender: UIButton) {
+
+        datePickerIsActingOnStartTimeNotEndTime = false
+        datePickerActingOnLog = logsToDisplay?.objectAtIndex(sender.tag) as? LogRecord
+
+        showDatePicker(sender:sender)
+
+    }
+
+    func showDatePicker(#sender:UIButton){
+
+        // move picker to correct position above tableV row
+        let yPos:CGFloat = sender.frame.origin.y + sender.frame.height + 200  // trans in view
+        datePicker.frame = CGRectMake(tableView.frame.origin.x,yPos,datePicker.frame.width, datePicker.frame.size.height)
+        datePicker.hidden = false
+
+        // reload row with greater height
+       // tableView.reloadRowsAtIndexPaths(<#indexPaths: [AnyObject]#>, withRowAnimation: <#UITableViewRowAnimation#>)
+
+    }
 
     @IBAction func onDatePickerEntryCompleted(sender: UIDatePicker) {
 

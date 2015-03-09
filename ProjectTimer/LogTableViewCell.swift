@@ -14,6 +14,9 @@ class LogTableViewCell: UITableViewCell {
         @IBOutlet weak var button_startTime: UIButton!
         @IBOutlet weak var button_endTime: UIButton!
 
+
+        @IBOutlet weak var button_deleteLog: UIButton!
+    
         @IBOutlet weak var datePicker: UIDatePicker!
 
 

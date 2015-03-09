@@ -50,20 +50,30 @@ class LogRecordSubclass: LogRecord {
 
     }
 
-    class func getMOC() -> NSManagedObjectContext{
-
-        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
-        return AppDel.managedObjectContext!
-
-    }
-
-
     class func findElaspedTime(#logRecord:LogRecord)->(Double){
 
         let checkoutT = logRecord.checkoutTime ?? NSDate()  // if haven't checked out use current date
         let elapsedTime = checkoutT.timeIntervalSinceReferenceDate - logRecord.checkinTime.timeIntervalSinceReferenceDate
 
         return elapsedTime
+
+    }
+
+    class func delLogRecord(#obj:NSManagedObject){
+
+        let err = NSErrorPointer()
+
+        getMOC().deleteObject(obj)
+        getMOC().save(err)
+
+        if err != nil {println("Error \(err)");}
+        
+    }
+
+    class func getMOC() -> NSManagedObjectContext{
+
+        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        return AppDel.managedObjectContext!
 
     }
 

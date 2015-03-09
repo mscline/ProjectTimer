@@ -26,6 +26,12 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         var selectedCategory:TrackingCategory?
         var logRecord:LogRecord?
 
+        // CLOCK
+        var elapsedTimeForSelectedCategory = 0.0
+        var clockLabelToUpdate:UILabel?
+        var correctClockLabelTagNumber:Int?    // used to check not updating reused cell item
+        var clockTickEveryXSeconds = 0.01
+
         // EDITING MODE
         var editingModeIsOn = false
 
@@ -43,6 +49,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
         collectionV.reloadData()
+
+        // set up timer to notify you every x seconds
+        // use to increment category's clock
+        NSTimer.scheduledTimerWithTimeInterval(clockTickEveryXSeconds, target: self, selector: "clockTick", userInfo: nil, repeats: true)
 
     }
 
@@ -90,6 +100,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+
+    // MARK: BUTTONS ON CELL (HANDLED HERE)
+
     @IBAction func onDeleteButtonPressed(sender: UIButton) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
@@ -98,8 +111,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+    @IBAction func onDidEndOnExit(sender: UITextField) {
 
-    // MARK: Start & Stop Timers
+        sender.resignFirstResponder()
+    }
+
+
+    // MARK: START & STOP TIMERS
 
     func startTimer(forCategory:TrackingCategory){
 
@@ -107,8 +125,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.rightBarButtonItem?.enabled = true
 
         // create new logRecord for category
+        // (here, we are really just keeping start and stop time)
         let date = NSDate()
         logRecord = LogRecordSubclass.addNewLogRecord(checkinTime: date, parentCategory: forCategory)
+
+        // start clock / counter
+        // (the clock is just a scrolling counter)
+        elapsedTimeForSelectedCategory = 0
 
     }
 
@@ -124,6 +147,63 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         selectedCategory = nil
         logRecord = nil
         
+    }
+
+    func clockTick(){
+
+        elapsedTimeForSelectedCategory = elapsedTimeForSelectedCategory + clockTickEveryXSeconds
+
+        if clockLabelToUpdate == nil { return; }
+
+        // check to make sure the cell you are updating corresponds to the correct category (ie, they have the same index path)
+        if clockLabelToUpdate?.tag == correctClockLabelTagNumber {
+
+                clockLabelToUpdate?.text = formatTime(elapsedTimeForSelectedCategory)
+
+        }
+        
+    }
+
+    func formatTime(elapsedTime:Double)->(String){
+
+
+        // CALC HOURS, MIN, SEC, HUNDRETHS (just did it by hand, alternatively could have used function)
+
+        // number of hours = time in sec (1 hour / 60 min)(1 min / 60 sec) with no remainder
+        let hours = Int(elapsedTimeForSelectedCategory / 3600)
+
+        // min
+        // 1) the number of min is what is left over after we have taken the hours out - use mod 3600
+        // 2) number of min = time in sec (1 min / 60 sec) with no remainder
+        let min = Int((elapsedTimeForSelectedCategory % 3600)/60)
+
+        // sec - whatever is left, after you remove the hours and min
+        let sec = Int(elapsedTimeForSelectedCategory % 60)
+
+        // hundreths - get two dec places, I just multiplied by 100 and used Int to get rid of dec
+        let hundreths = Int(elapsedTimeForSelectedCategory*100)-Int(elapsedTimeForSelectedCategory)*100
+
+
+        // PUT IN LEADING ZEROES
+        var hundrethsAsString = ""
+
+        if hundreths == 0 {
+
+            hundrethsAsString = String(stringLiteral: "00")
+
+        }else if hundreths < 10 {
+
+            hundrethsAsString = String(stringLiteral: "0\(hundreths)")
+
+        }else{
+
+            hundrethsAsString = String(stringLiteral: "\(hundreths)")
+        }
+
+
+        // BUILD STRING
+        return String(stringLiteral: "\(hours):\(min):\(sec):\(hundrethsAsString)")
+
     }
 
 
@@ -148,10 +228,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func switchToEditingModeAndReload(){
 
-        collectionV.backgroundColor = UIColor.lightGrayColor()
-        collectionV.alpha = 0.7
+        self.navigationItem.rightBarButtonItem?.title = "Done"
+        self.navigationItem.title = "Editing"
 
-       // self.navigationItem.rightBarButtonItem.set
+        collectionV.backgroundColor = UIColor.lightGrayColor()
 
         collectionV.reloadData()
 
@@ -159,8 +239,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func turnEditingModeOff(){
 
-        collectionV.backgroundColor = UIColor.blackColor()
-        collectionV.alpha = 1.0
+        self.navigationItem.rightBarButtonItem?.title = "Edit"
+        self.navigationItem.title = "Timers"
+
+        collectionV.backgroundColor = UIColor.lightGrayColor()
 
         collectionV.reloadData()
 
@@ -175,7 +257,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         categories = TrackingCategorySubclass.returnListOfCategories()
 
         collectionV.reloadData()
-        
+
     }
 
     func addCategoryPart1_startByAskingUserForTitle(){
@@ -242,7 +324,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
 
         updateCell(cell: cell, indexPath:indexPath)
+        ifSelectedCategoryFormatAndSetupClockCounter(cell: cell, indexPath: indexPath)
         turnFeaturesOnOrOffIfInEditingModeOrNot(cell: cell, indexPath: indexPath)
+
 
         return cell
         
@@ -258,10 +342,30 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         cell.textLabel.text = dataObject.title
         cell.textLabel.backgroundColor = UIColor.clearColor()
 
-        if dataObject == selectedCategory {
+        cell.elapsedTime.text = "0:00:00"
+        cell.elapsedTime.tag = -1
 
-            cell.alpha = 1.0
-        }
+    }
+
+    func ifSelectedCategoryFormatAndSetupClockCounter(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+
+        // get corresponding data object
+        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
+
+        // if not select, exit
+        if dataObject != selectedCategory { return; }
+
+        // set default settings
+        cell.alpha = 1.0
+
+        // setup clock
+        // - we will keep track of which view we are updating
+        // - then we can tell it to update
+        // - just need to check to see that the cell isn't being reused for a different row number
+        clockLabelToUpdate = cell.elapsedTime  // our label / bad name
+
+        correctClockLabelTagNumber = indexPath.row
+        cell.elapsedTime.tag = indexPath.row
 
     }
 
@@ -270,7 +374,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         if editingModeIsOn == true {
 
             cell.textLabel.userInteractionEnabled = true
-            cell.textLabel.backgroundColor = UIColor.grayColor()
+            cell.alpha = 1.0
+            cell.textLabel.backgroundColor = UIColor.whiteColor()
 
             cell.viewLogLabel.hidden = false
             cell.deleteButton.hidden = false
@@ -289,6 +394,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+
     // MARK: COLLECTION VIEW DELEGATE
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -301,9 +407,14 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         } else {
 
-            stopTimer()
-            startTimer(dataObject)
-            collectionV.reloadData()
+            // if selected new category, stop old timer, start new timer
+            if selectedCategory != dataObject {
+
+                stopTimer()
+                startTimer(dataObject)
+                collectionV.reloadData()
+
+            }
 
         }
 
