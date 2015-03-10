@@ -158,7 +158,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // check to make sure the cell you are updating corresponds to the correct category (ie, they have the same index path)
         if clockLabelToUpdate?.tag == correctClockLabelTagNumber {
 
-                clockLabelToUpdate?.text = formatTime(elapsedTimeForSelectedCategory)
+                clockLabelToUpdate?.attributedText = formatText(formatTime(elapsedTimeForSelectedCategory))
 
         }
         
@@ -321,12 +321,16 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
 
+        // get cell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
+        cell.layer.cornerRadius = 20;
+        cell.layer.masksToBounds = true;
+
+        // update content
         updateCell(cell: cell, indexPath:indexPath)
         ifSelectedCategoryFormatAndSetupClockCounter(cell: cell, indexPath: indexPath)
         turnFeaturesOnOrOffIfInEditingModeOrNot(cell: cell, indexPath: indexPath)
-
 
         return cell
         
@@ -337,13 +341,25 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // get corresponding data object
         let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
+        let defaultText_elapsedTime = "0:00:00"
+
+        // format text
+        let formattedTitle = TextFormatter.createAttributedString(dataObject.title.uppercaseString, withFont: "Futura", fontSize: 14.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
+
+        // set
         cell.backgroundColor = dataObject.color as? UIColor
         cell.alpha = defaultAlpha
-        cell.textLabel.text = dataObject.title
+        cell.textLabel.attributedText = formattedTitle
         cell.textLabel.backgroundColor = UIColor.clearColor()
 
-        cell.elapsedTime.text = "0:00:00"
+        cell.elapsedTime.attributedText = formatText(defaultText_elapsedTime)
         cell.elapsedTime.tag = -1
+TextFormatter.printListOfFontFamilyNames()
+    }
+
+    func formatText(text:String)->(NSAttributedString){
+
+        return TextFormatter.createAttributedString(text, withFont: "Damascus", fontSize: 24.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
 
     }
 

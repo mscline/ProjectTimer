@@ -178,11 +178,12 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Yk6-6L-tTg">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kmI-wN-ulO">
                                     <size key="itemSize" width="154" height="156"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="pieCharts" id="Ozk-lK-x2t" customClass="ChartCollectionViewCell" customModule="ProjectTimer" customModuleProvider="target">
@@ -192,13 +193,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="154" height="156"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biq-UW-Ya9">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biq-UW-Ya9">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="40" y="127" width="75" height="21"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                        <rect key="frame" x="40" y="118" width="75" height="21"/>
                                                     </variation>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1BV-gA-KDO">
@@ -377,8 +378,8 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yja-Eo-V7J">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="L0n-k0-5Zr">
-                                    <size key="itemSize" width="178" height="146"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="L0n-k0-5Zr">
+                                    <size key="itemSize" width="160" height="95"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -388,37 +389,44 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="178" height="146"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OSi-vr-uCI">
-                                                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVH-B5-MCY">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="0.0" y="69" width="178" height="30"/>
+                                                        <rect key="frame" x="13" y="13" width="141" height="82"/>
                                                     </variation>
-                                                    <connections>
-                                                        <action selector="onDidEndOnExit:" destination="bMx-Jm-HDI" eventType="editingDidEndOnExit" id="Bq6-X4-cEg"/>
-                                                    </connections>
-                                                </textField>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXh-h4-6n0">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="0.0" y="34" width="178" height="21"/>
+                                                        <rect key="frame" x="-9" y="26" width="178" height="33"/>
                                                     </variation>
                                                 </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OSi-vr-uCI">
+                                                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <variation key="widthClass=compact" fixedFrame="YES">
+                                                        <rect key="frame" x="13" y="64" width="136" height="30"/>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="onDidEndOnExit:" destination="bMx-Jm-HDI" eventType="editingDidEndOnExit" id="Bq6-X4-cEg"/>
+                                                    </connections>
+                                                </textField>
                                                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aml-LE-FJV">
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="View Logs">
+                                                    <state key="normal" title="Logs">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="0.0" y="96" width="178" height="30"/>
+                                                        <rect key="frame" x="6" y="0.0" width="55" height="30"/>
                                                     </variation>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2k-qK-vvO">
@@ -427,7 +435,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="140" y="0.0" width="30" height="30"/>
+                                                        <rect key="frame" x="130" y="0.0" width="30" height="30"/>
                                                     </variation>
                                                     <connections>
                                                         <action selector="onDeleteButtonPressed:" destination="bMx-Jm-HDI" eventType="touchUpInside" id="GWS-vU-rcb"/>
@@ -439,16 +447,18 @@
                                         <gestureRecognizers/>
                                         <variation key="default">
                                             <mask key="subviews">
-                                                <exclude reference="OSi-vr-uCI"/>
+                                                <exclude reference="xVH-B5-MCY"/>
                                                 <exclude reference="aXh-h4-6n0"/>
+                                                <exclude reference="OSi-vr-uCI"/>
                                                 <exclude reference="Aml-LE-FJV"/>
                                                 <exclude reference="I2k-qK-vvO"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
                                             <mask key="subviews">
-                                                <include reference="OSi-vr-uCI"/>
+                                                <include reference="xVH-B5-MCY"/>
                                                 <include reference="aXh-h4-6n0"/>
+                                                <include reference="OSi-vr-uCI"/>
                                                 <include reference="Aml-LE-FJV"/>
                                                 <include reference="I2k-qK-vvO"/>
                                             </mask>
@@ -583,7 +593,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="178" y="79" width="121" height="21"/>
                                 </variation>
                             </label>
@@ -665,6 +675,13 @@
                                     <outlet property="delegate" destination="csg-Ku-Uui" id="kbT-wf-HJt"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gvd-zL-IAg" userLabel="BlockerView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="widthClass=compact" ambiguous="YES">
+                                    <rect key="frame" x="0.0" y="551" width="400" height="0.0"/>
+                                </variation>
+                            </view>
                             <datePicker opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jm6-0r-i8s">
                                 <rect key="frame" x="-160" y="-81" width="320" height="162"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -672,7 +689,7 @@
                                     <!--2015-03-09 06:58:54 +0000-->
                                 </date>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="216"/>
+                                    <rect key="frame" x="0.0" y="192.5" width="400" height="216"/>
                                 </variation>
                                 <connections>
                                     <action selector="onDatePickerEntryCompleted:" destination="csg-Ku-Uui" eventType="editingDidEndOnExit" id="bjJ-R2-bZV"/>
@@ -680,12 +697,25 @@
                             </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Gvd-zL-IAg" firstAttribute="leading" secondItem="75q-K4-ni9" secondAttribute="leadingMargin" constant="-16" id="40e-qH-T7h"/>
+                            <constraint firstItem="Gvd-zL-IAg" firstAttribute="top" secondItem="JHt-xM-Mb1" secondAttribute="bottom" id="8Vs-P3-2g4"/>
+                            <constraint firstItem="99q-pb-hUd" firstAttribute="top" secondItem="Gvd-zL-IAg" secondAttribute="bottom" id="BiU-vT-jv3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Gvd-zL-IAg" secondAttribute="trailing" constant="-16" id="XJ3-Ln-chc"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="trQ-zs-0X4"/>
                                 <exclude reference="JHt-xM-Mb1"/>
                                 <exclude reference="2Cd-cP-BeX"/>
+                                <exclude reference="Gvd-zL-IAg"/>
                                 <exclude reference="Jm6-0r-i8s"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="40e-qH-T7h"/>
+                                <exclude reference="8Vs-P3-2g4"/>
+                                <exclude reference="XJ3-Ln-chc"/>
+                                <exclude reference="BiU-vT-jv3"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -693,7 +723,14 @@
                                 <include reference="trQ-zs-0X4"/>
                                 <include reference="JHt-xM-Mb1"/>
                                 <include reference="2Cd-cP-BeX"/>
+                                <include reference="Gvd-zL-IAg"/>
                                 <include reference="Jm6-0r-i8s"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="40e-qH-T7h"/>
+                                <include reference="8Vs-P3-2g4"/>
+                                <include reference="XJ3-Ln-chc"/>
+                                <include reference="BiU-vT-jv3"/>
                             </mask>
                         </variation>
                     </view>
@@ -707,6 +744,7 @@
                     <connections>
                         <outlet property="datePicker" destination="Jm6-0r-i8s" id="U9R-ZU-itY"/>
                         <outlet property="tableView" destination="2Cd-cP-BeX" id="ber-In-ZB8"/>
+                        <outlet property="viewToStoreDatePicker" destination="Gvd-zL-IAg" id="Nwt-pX-8LV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VTG-EL-UBN" userLabel="First Responder" sceneMemberID="firstResponder"/>

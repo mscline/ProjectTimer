@@ -8,20 +8,27 @@
 
 import UIKit
 
-class LogViewController: UIViewController, UITableViewDataSource  {
+class LogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
 
         @IBOutlet weak var tableView: UITableView!
         var isInEditingMode = false
 
-        // date picker (we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit)
-        @IBOutlet weak var datePicker: UIDatePicker!
-        var datePickerActingOnLog:LogRecord?
-        var datePickerIsActingOnStartTimeNotEndTime = true
-
         // display timers
         var selectedTimer:TrackingCategory?
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
+
+
+    @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
+        // date picker 
+        // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
+        // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
+        @IBOutlet weak var datePicker: UIDatePicker!
+        var datePickerActingOnLog:LogRecord?
+        var datePickerIsActingOnRowNumber:Int = -1
+        var datePickerIsActingOnStartTimeNotEndTime = true
+
+        @IBOutlet weak var viewToStoreDatePicker: UIView!  // the date picker doesn't move correctly
 
 
     // MARK: SETUP - get logs
@@ -29,7 +36,7 @@ class LogViewController: UIViewController, UITableViewDataSource  {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        datePicker.hidden = true
+        viewToStoreDatePicker.hidden = true
         reloadTableWithUpdatedData()
 
     }
@@ -112,10 +119,10 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
         // format cell
         formatLogCell(cell, logRecord: log)
+        addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
 
         // if editing make buttons clickable
         ifEditingAllowUserInteraction(cell: cell, indexPath: indexPath)
-        addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
 
         return cell
 
@@ -125,7 +132,7 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
 
         let startTime = formatDate(logRecord.checkinTime)
-        var endTime:String = " ...TBA... "
+        var endTime:String = " ...in progress "
 
         let checkoutDate = logRecord.checkoutTime
         if checkoutDate != nil {
@@ -148,6 +155,15 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
         return dateString
 
+    }
+
+
+    func addTagsSoCanLookupCorrespondingDataObject(#cell:LogTableViewCell, indexPath:NSIndexPath){
+
+        cell.button_deleteLog.tag = indexPath.row
+        cell.button_startTime.tag = indexPath.row
+        cell.button_endTime.tag = indexPath.row
+        
     }
 
     func ifEditingAllowUserInteraction(#cell:LogTableViewCell, indexPath:NSIndexPath){
@@ -174,16 +190,24 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
             cell.button_deleteLog.hidden = true
 
-
         }
         
     }
 
-    func addTagsSoCanLookupCorrespondingDataObject(#cell:LogTableViewCell, indexPath:NSIndexPath){
 
-        cell.button_deleteLog.tag = indexPath.row
-        cell.button_startTime.tag = indexPath.row
-        cell.button_endTime.tag = indexPath.row
+    // MARK: TABLEVIEW DELEGATE METHOD
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        var rowHeight:CGFloat = 44  // ????
+
+        if indexPath.row == datePickerIsActingOnRowNumber {
+
+            rowHeight = datePicker.frame.size.height + rowHeight
+
+        }
+
+        return rowHeight;
 
     }
 
@@ -243,12 +267,20 @@ class LogViewController: UIViewController, UITableViewDataSource  {
     func showDatePicker(#sender:UIButton){
 
         // move picker to correct position above tableV row
-        let yPos:CGFloat = sender.frame.origin.y + sender.frame.height + 200  // trans in view
-        datePicker.frame = CGRectMake(tableView.frame.origin.x,yPos,datePicker.frame.width, datePicker.frame.size.height)
-        datePicker.hidden = false
+        let superView = sender.superview! as UIView  // need to cast or get weird error
+        let originOfButtonInAbsCoord = superView.convertPoint(superView.frame.origin, toView: nil)
 
-        // reload row with greater height
-       // tableView.reloadRowsAtIndexPaths(<#indexPaths: [AnyObject]#>, withRowAnimation: <#UITableViewRowAnimation#>)
+        let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
+        pickerYPosition.constant = picker_desiredYComponent
+        viewToStoreDatePicker.hidden = false
+
+
+        // reload table with greater height (not reload row, animation looks weird)
+        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+        datePickerIsActingOnRowNumber = indexPath.row  // on reload, the table view will check to see if the picker should be showing
+
+        let arrayOfPaths:NSArray = [indexPath]
+        tableView.reloadData()
 
     }
 
@@ -256,6 +288,9 @@ class LogViewController: UIViewController, UITableViewDataSource  {
 
         let updatedDate = sender.date
 
+        // delete old data
+        datePickerIsActingOnRowNumber = -1
+        datePickerActingOnLog = nil
     }
 
 }

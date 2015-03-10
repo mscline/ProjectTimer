@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		AE0A0FA51AA96BF100D56BF9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */; };
+		AE396BDD1AAF5EB800016D80 /* Grayscale.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDC1AAF5EB800016D80 /* Grayscale.m */; };
+		AE396BDF1AAF623700016D80 /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDE1AAF623700016D80 /* TextFormatter.swift */; };
+		AE396BE11AAF738D00016D80 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396BE01AAF738D00016D80 /* defaultPie.png */; };
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
 		AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */; };
 		AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */; };
 		AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */; };
-		AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE76C5D11AA7F2030089BE50 /* defaultPie.png */; };
 		AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */; };
 		AE76C5E01AA8F23E0089BE50 /* PieChartThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */; };
 		AE76C5E21AA923930089BE50 /* EditChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5E11AA923930089BE50 /* EditChartViewController.swift */; };
@@ -56,13 +58,16 @@
 
 /* Begin PBXFileReference section */
 		AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		AE396BDB1AAF5EB800016D80 /* Grayscale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grayscale.h; sourceTree = "<group>"; };
+		AE396BDC1AAF5EB800016D80 /* Grayscale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grayscale.m; sourceTree = "<group>"; };
+		AE396BDE1AAF623700016D80 /* TextFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
+		AE396BE01AAF738D00016D80 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
 		AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAlertWithTextEntry.h; sourceTree = "<group>"; };
 		AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAlertWithTextEntry.m; sourceTree = "<group>"; };
 		AE581C121AA9FE9200EE55D5 /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
 		AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingCategory.m; sourceTree = "<group>"; };
 		AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
 		AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
-		AE76C5D11AA7F2030089BE50 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
 		AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartThumbnailSubclass.swift; sourceTree = "<group>"; };
 		AE76C5DE1AA8F23E0089BE50 /* PieChartThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartThumbnail.h; sourceTree = "<group>"; };
 		AE76C5DF1AA8F23E0089BE50 /* PieChartThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartThumbnail.m; sourceTree = "<group>"; };
@@ -152,13 +157,16 @@
 			name = StandardVC;
 			sourceTree = "<group>";
 		};
-		AE76C5E31AA926150089BE50 /* AbstractedFunctionality */ = {
+		AE76C5E31AA926150089BE50 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				AE396BDE1AAF623700016D80 /* TextFormatter.swift */,
 				AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */,
 				AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */,
+				AE396BDB1AAF5EB800016D80 /* Grayscale.h */,
+				AE396BDC1AAF5EB800016D80 /* Grayscale.m */,
 			);
-			name = AbstractedFunctionality;
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		AECF7E301A93DC3C0064A7F4 = {
@@ -196,8 +204,8 @@
 			isa = PBXGroup;
 			children = (
 				AECF7E821A93DD800064A7F4 /* clearImage.png */,
+				AE396BE01AAF738D00016D80 /* defaultPie.png */,
 				AE88E5C11AAB775600C0502E /* blankChart.png */,
-				AE76C5D11AA7F2030089BE50 /* defaultPie.png */,
 				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
 				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
 				AECF7E711A93DD3B0064A7F4 /* ProjectTimer-Bridging-Header.h */,
@@ -294,7 +302,7 @@
 				AE5AFD041AAA2BB4008B132D /* Navigation */,
 				AE5AFD051AAA2BC2008B132D /* StandardVC */,
 				AE0A0FA61AA96D7800D56BF9 /* SubclassedVC_showChartAndLegend */,
-				AE76C5E31AA926150089BE50 /* AbstractedFunctionality */,
+				AE76C5E31AA926150089BE50 /* Utilities */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -413,9 +421,9 @@
 			files = (
 				AECF7E471A93DC3D0064A7F4 /* Main.storyboard in Resources */,
 				AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */,
-				AE76C5D21AA7F2030089BE50 /* defaultPie.png in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
 				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
+				AE396BE11AAF738D00016D80 /* defaultPie.png in Resources */,
 				AE88E5C21AAB775600C0502E /* blankChart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,8 +457,10 @@
 				AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */,
 				AE76C5E01AA8F23E0089BE50 /* PieChartThumbnail.m in Sources */,
 				AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */,
+				AE396BDF1AAF623700016D80 /* TextFormatter.swift in Sources */,
 				AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */,
 				AECF7E901A93DEAB0064A7F4 /* MCTableWithGestures.m in Sources */,
+				AE396BDD1AAF5EB800016D80 /* Grayscale.m in Sources */,
 				AECF7E9C1A93E14C0064A7F4 /* TrackingCategorySubclass.swift in Sources */,
 				AECF7E6B1A93DD000064A7F4 /* DataItem.swift in Sources */,
 				AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */,

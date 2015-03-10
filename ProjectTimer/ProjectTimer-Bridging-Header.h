@@ -8,3 +8,4 @@
 #import "MCAlertWithTextEntry.h"
 #import "PieChartThumbnail.h"
 #import "TrackingCategory.h"
+#import "Grayscale.h"

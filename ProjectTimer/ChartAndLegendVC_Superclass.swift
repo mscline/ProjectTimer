@@ -111,11 +111,11 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     // MARK: ROTATIONS
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-
-        pieChartAndLegend!.setScreenElementPositions(forViewWithSize: size)
-
-    }
+//    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+//
+//        pieChartAndLegend!.setScreenElementPositions(forViewWithSize: size)
+//
+//    }
 
 
 }

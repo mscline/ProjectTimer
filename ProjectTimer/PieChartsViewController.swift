@@ -14,7 +14,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         var listOfPieCharts:NSArray?  // rem: working with CoreData which is in ObjC
         var selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
 
-        let alphaForNonSelectedItems:CGFloat = 0.5
+        let alphaForNonSelectedItems:CGFloat = 0.58
 
         @IBOutlet weak var collectionView: UICollectionView!
 
@@ -114,8 +114,9 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pieCharts", forIndexPath: indexPath) as ChartCollectionViewCell
+        cell.layer.cornerRadius = 10;
+        cell.layer.masksToBounds = true;
 
-        cell.backgroundColor = UIColor.redColor()
         updateCell(cell: cell, indexPath:indexPath)
         return cell
 
@@ -123,21 +124,28 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     func updateCell(#cell:ChartCollectionViewCell, indexPath:NSIndexPath){
 
+        // get data object
         let dataObj = listOfPieCharts!.objectAtIndex(indexPath.row) as PieChartThumbnail
 
-        cell.titleLabel.text =  dataObj.chartTitle
+        // get image
+        var imageToDisplay:UIImage =  dataObj.snapshot as? UIImage ?? UIImage(named: "defaultPie.png")! as UIImage
 
+
+        // if selected, change image to black and white
         if dataObj.isSelected == true {
 
+            cell.backgroundColor = UIColor(red: 255/255.0, green: 178/255.0, blue: 102/255.0, alpha: 1.0)
             cell.alpha = 1.0
 
         }else{
 
+            cell.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 1.0)
             cell.alpha = alphaForNonSelectedItems
-
+            imageToDisplay = Grayscale.convertToGrayscale_image(imageToDisplay)
+            
         }
 
-        let imageToDisplay:UIImage =  dataObj.snapshot as? UIImage ?? UIImage(named: "defaultPie.png")! as UIImage
+        cell.titleLabel.attributedText = TextFormatter.createAttributedString(dataObj.chartTitle, withFont: "Papyrus", fontSize: 18, fontColor: UIColor.blackColor(), nsTextAlignmentStyle: NSTextAlignment.Center)
         cell.imageV.image = imageToDisplay
 
     }
