@@ -8,11 +8,18 @@
 
 import UIKit
 
+enum editingMode{
+
+    case notEditing
+    case editing
+    case picker
+}
+
 class LogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
 
         @IBOutlet weak var tableView: UITableView!
-        var isInEditingMode = false
+        var isInEditingMode = editingMode.notEditing
 
         // display timers
         var selectedTimer:TrackingCategory?
@@ -29,9 +36,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
         @IBOutlet weak var backgroundBlockerButton: UIButton!
-
-        //@IBOutlet weak var pickerYPosition: NSLayoutConstraint!
-        // WRONG won't let attach to margins !!!
+        @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
 
 
     // MARK: SETUP - get logs
@@ -41,7 +46,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         // hide date picker
         viewToStoreTheDatePicker.hidden = true
-        //blockerView.hidden = true
+        backgroundBlockerButton.hidden = true
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -178,7 +183,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     func ifEditingAllowUserInteraction(#cell:LogTableViewCell, indexPath:NSIndexPath){
 
-        if isInEditingMode == true {
+        if isInEditingMode == editingMode.editing {
 
             cell.button_startTime.userInteractionEnabled = true
             cell.button_endTime.userInteractionEnabled = true
@@ -222,36 +227,98 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
 
-    // MARK: EDITING
+    // MARK: EDITING / EDIT BUTTON
 
     @IBAction func onEditButtonPressed(sender: AnyObject) {
 
+        // 1) make necessary changes before leaving view
+        //    (better to put code in when entering new mode than when leaving)
 
-        // toggle isInEditingMode and change button title
-        isInEditingMode = !isInEditingMode
+        if isInEditingMode == editingMode.editing {
 
-        if isInEditingMode == true {
+        } else if isInEditingMode == editingMode.notEditing{
 
-            navigationItem.rightBarButtonItem?.title = "Done"
+        } else if isInEditingMode == editingMode.picker {
 
-            // set tint color
-            let window = UIApplication.sharedApplication().delegate?.window!
-            window?.tintColor = UIColor.orangeColor()
+            // need to save
+            leavingPickerMode()
+        }
 
-        } else {
 
-            navigationItem.rightBarButtonItem?.title = "Edit"
+        // 2) switch into appropriate mode
 
-            // set tint color
-            let window = UIApplication.sharedApplication().delegate?.window!
-            window?.tintColor = UIColor.blueColor()
+        if isInEditingMode == editingMode.notEditing {
 
+            isInEditingMode = editingMode.editing
+
+        }else if isInEditingMode == editingMode.editing {
+
+            isInEditingMode = editingMode.notEditing
+
+        }else if isInEditingMode == editingMode.picker {
+
+            isInEditingMode = editingMode.editing
+
+        }
+
+
+        // 3) make appropriate changes depending on which mode you are in
+
+        if isInEditingMode == editingMode.editing {
+
+             enteringEditingMode()
+
+        } else if isInEditingMode == editingMode.notEditing{
+
+            enteringNonEditingMode()
+
+        } else if isInEditingMode == editingMode.picker {
+
+            // unused
         }
 
         // reload data (table view will display differently, depending on mode)
         tableView.reloadData()
 
     }
+
+    func enteringEditingMode(){
+
+        navigationItem.rightBarButtonItem?.title = "Done"
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.orangeColor()
+
+        // set tint color
+        let window = UIApplication.sharedApplication().delegate?.window!
+        window?.tintColor = UIColor.orangeColor()
+
+    }
+
+    func enteringNonEditingMode(){
+
+        navigationItem.rightBarButtonItem?.title = "Edit"
+
+        // set tint color
+        let window = UIApplication.sharedApplication().delegate?.window!
+        window?.tintColor = UIColor.blueColor()
+
+    }
+
+    func enteringPickerMode(){
+
+        navigationItem.rightBarButtonItem?.title = "Save"
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.greenColor()
+
+    }
+
+    func leavingPickerMode(){
+
+        savePickerData()
+        hideDatePicker()
+
+    }
+
+
+    // MARK: OTHER BUTTONS
 
     @IBAction func onDeleteButtonPressed(sender: UIButton) {
 
@@ -263,7 +330,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBAction func backgroundTouched(sender: AnyObject) {
 
+        // cancel - you can just hide it
         hideDatePicker()
+
     }
 
     // MARK: DATE PICKER
@@ -272,8 +341,12 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         datePickerIsActingOnStartTimeNotEndTime = true
         datePickerActingOnLog = logsToDisplay?.objectAtIndex(sender.tag) as? LogRecord
+        datePicker.date = datePickerActingOnLog!.checkinTime
 
         showDatePicker(sender:sender)
+
+        // temporarily change the tint color
+        sender.tintColor = UIColor.greenColor()
 
     }
 
@@ -282,18 +355,31 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         datePickerIsActingOnStartTimeNotEndTime = false
         datePickerActingOnLog = logsToDisplay?.objectAtIndex(sender.tag) as? LogRecord
 
+        if datePickerActingOnLog?.checkinTime != nil {
+
+            datePicker.date = datePickerActingOnLog!.checkoutTime
+        }
+
         showDatePicker(sender:sender)
 
+        // temporarily change the tint color
+        sender.tintColor = UIColor.greenColor()
     }
 
     func showDatePicker(#sender:UIButton){
+
+        // setup
+        isInEditingMode = editingMode.picker
+        enteringPickerMode()
+
 
         // move picker to correct position above tableV row
         let superView = sender.superview! as UIView  // need to cast or get weird error
         let originOfButtonInAbsCoord = superView.convertPoint(superView.frame.origin, toView: nil)
 
         let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
-        ppickerYPosition.constant = picker_desiredYComponent
+        pickerYPosition.constant = picker_desiredYComponent + 15.0
+
         viewToStoreTheDatePicker.hidden = false
         backgroundBlockerButton.hidden = false
 
@@ -302,16 +388,84 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
         datePickerIsActingOnRowNumber = indexPath.row  // on reload, the table view will check to see if the picker should be showing
 
-        let arrayOfPaths:NSArray = [indexPath]
-        tableView.reloadData()
+        tableView.reloadData()  // just load the whole thing, or looks weird
+
+    }
+
+    func savePickerData(){
+
+        if checkForInvalidDates() == false {
+
+            _saveLogRecordWithUpdatedPickerDate()
+            hideDatePicker()
+
+        }else{
+
+            var alert = UIAlertController(title: "Error", message: "Your checkout date must be after your check-in date.", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler:nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: true, completion: { () -> Void in  })
+        }
+    }
+
+    func checkForInvalidDates()->(Bool){
+
+        var startTime:NSDate?
+        var finishTime:NSDate?
+
+        // check to make sure that the checkout time is not before the checkin
+        if datePickerIsActingOnStartTimeNotEndTime == true {
+
+            startTime = datePicker.date
+            finishTime = datePickerActingOnLog?.checkoutTime
+
+        } else {
+
+            startTime = datePickerActingOnLog?.checkinTime
+            finishTime = datePicker.date
+
+        }
+
+        // if finish time is before start time, exit
+        if finishTime != nil   &&
+            finishTime!.timeIntervalSince1970 < startTime!.timeIntervalSince1970 {
+
+                // report that this is an invalid date
+                return true
+                
+        }
+
+        return false
+    }
+
+    func _saveLogRecordWithUpdatedPickerDate() {
+
+        // set checkInTime or checkoutTime appropriately
+        if datePickerIsActingOnStartTimeNotEndTime == true {
+
+            datePickerActingOnLog?.checkinTime = datePicker.date
+
+        } else {
+
+            datePickerActingOnLog?.checkoutTime = datePicker.date
+
+        }
+
+        // save
+        let err = NSErrorPointer()
+        LogRecordSubclass.getMOC().save(err)
 
     }
 
     func hideDatePicker(){
 
         // hide picker
+        viewToStoreTheDatePicker.hidden = true
+        backgroundBlockerButton.hidden = true
 
         // update table w/o space
+        datePickerIsActingOnRowNumber = -1
+        tableView.reloadData()
 
     }
 
