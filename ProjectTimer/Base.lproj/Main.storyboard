@@ -497,6 +497,8 @@
                                 <exclude reference="rXj-ca-88h"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="JYV-CH-llt"/>
+                                <exclude reference="Qbb-j6-Mct"/>
                                 <exclude reference="CKr-8y-Pw3"/>
                                 <exclude reference="Eur-69-SrZ"/>
                                 <exclude reference="kuU-yJ-Pfg"/>
@@ -506,8 +508,6 @@
                                 <exclude reference="5HQ-Zq-4HE"/>
                                 <exclude reference="E7f-R5-Wh0"/>
                                 <exclude reference="Q7j-xE-cqb"/>
-                                <exclude reference="JYV-CH-llt"/>
-                                <exclude reference="Qbb-j6-Mct"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -517,6 +517,8 @@
                                 <include reference="rXj-ca-88h"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="JYV-CH-llt"/>
+                                <include reference="Qbb-j6-Mct"/>
                                 <include reference="CKr-8y-Pw3"/>
                                 <include reference="Eur-69-SrZ"/>
                                 <include reference="kuU-yJ-Pfg"/>
@@ -526,8 +528,6 @@
                                 <include reference="5HQ-Zq-4HE"/>
                                 <include reference="E7f-R5-Wh0"/>
                                 <include reference="Q7j-xE-cqb"/>
-                                <include reference="JYV-CH-llt"/>
-                                <include reference="Qbb-j6-Mct"/>
                             </mask>
                         </variation>
                     </view>
@@ -578,90 +578,100 @@
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVH-B5-MCY">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tr7-hd-T2a" userLabel="StorageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                                     <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVH-B5-MCY">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <variation key="widthClass=compact" fixedFrame="YES">
+                                                                <rect key="frame" x="13" y="12" width="141" height="83"/>
+                                                            </variation>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXh-h4-6n0">
+                                                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <variation key="widthClass=compact" fixedFrame="YES">
+                                                                <rect key="frame" x="-9" y="28" width="178" height="41"/>
+                                                            </variation>
+                                                        </label>
                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OSi-vr-uCI">
                                                             <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <variation key="widthClass=compact" fixedFrame="YES">
-                                                                <rect key="frame" x="-23" y="44" width="141" height="30"/>
+                                                                <rect key="frame" x="9" y="52" width="141" height="30"/>
                                                             </variation>
                                                             <connections>
                                                                 <action selector="onDidEndOnExit:" destination="bMx-Jm-HDI" eventType="editingDidEndOnExit" id="Bq6-X4-cEg"/>
                                                             </connections>
                                                         </textField>
+                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aml-LE-FJV">
+                                                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                            <state key="normal" title="Logs">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <variation key="widthClass=compact" fixedFrame="YES">
+                                                                <rect key="frame" x="13" y="10" width="55" height="30"/>
+                                                            </variation>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2k-qK-vvO">
+                                                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                            <state key="normal" title="X">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <variation key="widthClass=compact" fixedFrame="YES">
+                                                                <rect key="frame" x="127" y="9" width="30" height="30"/>
+                                                            </variation>
+                                                            <connections>
+                                                                <action selector="onDeleteButtonPressed:" destination="bMx-Jm-HDI" eventType="touchUpInside" id="GWS-vU-rcb"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <variation key="default">
                                                         <mask key="subviews">
+                                                            <exclude reference="xVH-B5-MCY"/>
+                                                            <exclude reference="aXh-h4-6n0"/>
                                                             <exclude reference="OSi-vr-uCI"/>
+                                                            <exclude reference="Aml-LE-FJV"/>
+                                                            <exclude reference="I2k-qK-vvO"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="13" y="13" width="141" height="82"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="96"/>
                                                         <mask key="subviews">
+                                                            <include reference="xVH-B5-MCY"/>
+                                                            <include reference="aXh-h4-6n0"/>
                                                             <include reference="OSi-vr-uCI"/>
+                                                            <include reference="Aml-LE-FJV"/>
+                                                            <include reference="I2k-qK-vvO"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXh-h4-6n0">
-                                                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="-9" y="30" width="178" height="41"/>
-                                                    </variation>
-                                                </label>
-                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aml-LE-FJV">
-                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="Logs">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="6" y="0.0" width="55" height="30"/>
-                                                    </variation>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2k-qK-vvO">
-                                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                                    <state key="normal" title="X">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <variation key="widthClass=compact" fixedFrame="YES">
-                                                        <rect key="frame" x="130" y="0.0" width="30" height="30"/>
-                                                    </variation>
-                                                    <connections>
-                                                        <action selector="onDeleteButtonPressed:" destination="bMx-Jm-HDI" eventType="touchUpInside" id="GWS-vU-rcb"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <gestureRecognizers/>
                                         <variation key="default">
                                             <mask key="subviews">
-                                                <exclude reference="xVH-B5-MCY"/>
-                                                <exclude reference="aXh-h4-6n0"/>
-                                                <exclude reference="Aml-LE-FJV"/>
-                                                <exclude reference="I2k-qK-vvO"/>
+                                                <exclude reference="Tr7-hd-T2a"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
                                             <mask key="subviews">
-                                                <include reference="xVH-B5-MCY"/>
-                                                <include reference="aXh-h4-6n0"/>
-                                                <include reference="Aml-LE-FJV"/>
-                                                <include reference="I2k-qK-vvO"/>
+                                                <include reference="Tr7-hd-T2a"/>
                                             </mask>
                                         </variation>
                                         <connections>
                                             <outlet property="deleteButton" destination="I2k-qK-vvO" id="kd2-5a-Hhf"/>
                                             <outlet property="elapsedTime" destination="aXh-h4-6n0" id="hMz-Pu-slO"/>
+                                            <outlet property="storageView" destination="Tr7-hd-T2a" id="s91-5Q-48N"/>
                                             <outlet property="textLabel" destination="OSi-vr-uCI" id="TVV-zu-MhO"/>
                                             <outlet property="viewLogLabel" destination="Aml-LE-FJV" id="Yvi-XH-VXH"/>
                                         </connections>

@@ -347,7 +347,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         updateCell(cell: cell, indexPath:indexPath)
         ifSelectedCategoryFormatAndSetupClockCounter(cell: cell, indexPath: indexPath)
         turnFeaturesOnOrOffIfInEditingModeOrNot(cell: cell, indexPath: indexPath)
-println(cell.alpha)
+
 
         return cell
         
@@ -364,8 +364,8 @@ println(cell.alpha)
         let formattedTitle = TextFormatter.createAttributedString(dataObject.title.uppercaseString, withFont: "Futura", fontSize: 14.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
 
         // set
-        cell.backgroundColor = dataObject.color as? UIColor
-        cell.alpha = defaultAlpha
+        cell.storageView.backgroundColor = dataObject.color as? UIColor
+        cell.storageView.alpha = defaultAlpha
         cell.textLabel.attributedText = formattedTitle
         cell.textLabel.backgroundColor = UIColor.clearColor()
         cell.layoutIfNeeded()
@@ -396,7 +396,7 @@ println(cell.alpha)
         }
 
         // set default settings
-        cell.alpha = 1.0
+        cell.storageView.alpha = 1.0
 
         // setup clock
         // - we will keep track of which view we are updating
