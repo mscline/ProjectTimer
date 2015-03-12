@@ -28,8 +28,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         var datePickerIsActingOnStartTimeNotEndTime = true
 
         @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
-        @IBOutlet weak var blockerView: UIView!
-        @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
+        @IBOutlet weak var backgroundBlockerButton: UIButton!
+
+        //@IBOutlet weak var pickerYPosition: NSLayoutConstraint!
         // WRONG won't let attach to margins !!!
 
 
@@ -38,7 +39,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        // hide date picker
         viewToStoreTheDatePicker.hidden = true
+        //blockerView.hidden = true
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -258,6 +261,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
 
+    @IBAction func backgroundTouched(sender: AnyObject) {
+
+        hideDatePicker()
+    }
 
     // MARK: DATE PICKER
 
@@ -286,8 +293,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let originOfButtonInAbsCoord = superView.convertPoint(superView.frame.origin, toView: nil)
 
         let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
-        pickerYPosition.constant = picker_desiredYComponent
+        ppickerYPosition.constant = picker_desiredYComponent
         viewToStoreTheDatePicker.hidden = false
+        backgroundBlockerButton.hidden = false
 
 
         // reload table with greater height (not reload row, animation looks weird)
@@ -296,6 +304,14 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         let arrayOfPaths:NSArray = [indexPath]
         tableView.reloadData()
+
+    }
+
+    func hideDatePicker(){
+
+        // hide picker
+
+        // update table w/o space
 
     }
 
