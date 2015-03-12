@@ -815,7 +815,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2Cd-cP-BeX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2Cd-cP-BeX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -979,16 +979,53 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <datePicker opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jm6-0r-i8s">
-                                <rect key="frame" x="-160" y="-81" width="320" height="162"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fQj-T2-anT" userLabel="ViewToStoreTheDatePicker">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <datePicker opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jm6-0r-i8s">
+                                        <rect key="frame" x="-160" y="-81" width="320" height="162"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="447577134.16289997">
+                                            <!--2015-03-09 06:58:54 +0000-->
+                                        </date>
+                                        <connections>
+                                            <action selector="onDatePickerEntryCompleted:" destination="csg-Ku-Uui" eventType="editingDidEndOnExit" id="bjJ-R2-bZV"/>
+                                        </connections>
+                                    </datePicker>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <date key="date" timeIntervalSinceReferenceDate="447577134.16289997">
-                                    <!--2015-03-09 06:58:54 +0000-->
-                                </date>
-                                <connections>
-                                    <action selector="onDatePickerEntryCompleted:" destination="csg-Ku-Uui" eventType="editingDidEndOnExit" id="bjJ-R2-bZV"/>
-                                </connections>
-                            </datePicker>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Jm6-0r-i8s" secondAttribute="bottom" id="1N6-7L-xaw"/>
+                                    <constraint firstAttribute="height" constant="160" id="I3M-sH-45P"/>
+                                    <constraint firstAttribute="trailing" secondItem="Jm6-0r-i8s" secondAttribute="trailing" id="K1L-ft-iBp"/>
+                                    <constraint firstItem="Jm6-0r-i8s" firstAttribute="top" secondItem="fQj-T2-anT" secondAttribute="top" id="u5Y-ex-T3T"/>
+                                    <constraint firstItem="Jm6-0r-i8s" firstAttribute="leading" secondItem="fQj-T2-anT" secondAttribute="leading" id="uws-jR-BSl"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="Jm6-0r-i8s"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="I3M-sH-45P"/>
+                                        <exclude reference="1N6-7L-xaw"/>
+                                        <exclude reference="K1L-ft-iBp"/>
+                                        <exclude reference="u5Y-ex-T3T"/>
+                                        <exclude reference="uws-jR-BSl"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="Jm6-0r-i8s"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="I3M-sH-45P"/>
+                                        <include reference="1N6-7L-xaw"/>
+                                        <include reference="K1L-ft-iBp"/>
+                                        <include reference="u5Y-ex-T3T"/>
+                                        <include reference="uws-jR-BSl"/>
+                                    </mask>
+                                </variation>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Checkout Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHt-xM-Mb1">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
@@ -1026,26 +1063,29 @@
                             <constraint firstItem="JHt-xM-Mb1" firstAttribute="leading" secondItem="2Cd-cP-BeX" secondAttribute="leading" id="5Ok-HS-Kw0">
                                 <variation key="widthClass=compact" constant="163"/>
                             </constraint>
+                            <constraint firstItem="fQj-T2-anT" firstAttribute="top" secondItem="trQ-zs-0X4" secondAttribute="bottom" constant="141" id="5rc-Ee-YJP"/>
                             <constraint firstItem="Gvd-zL-IAg" firstAttribute="top" secondItem="JHt-xM-Mb1" secondAttribute="bottom" id="8Vs-P3-2g4">
                                 <variation key="widthClass=compact" constant="225"/>
                             </constraint>
+                            <constraint firstItem="fQj-T2-anT" firstAttribute="leading" secondItem="75q-K4-ni9" secondAttribute="leading" id="Aru-P0-tQe"/>
                             <constraint firstItem="99q-pb-hUd" firstAttribute="top" secondItem="Gvd-zL-IAg" secondAttribute="bottom" id="BiU-vT-jv3"/>
-                            <constraint firstItem="JHt-xM-Mb1" firstAttribute="leading" secondItem="Jm6-0r-i8s" secondAttribute="leading" id="G2p-PQ-5QG">
-                                <variation key="widthClass=compact" constant="163"/>
-                            </constraint>
+                            <constraint firstItem="fQj-T2-anT" firstAttribute="leading" secondItem="75q-K4-ni9" secondAttribute="leadingMargin" constant="-16" id="GvM-Nd-vs7"/>
                             <constraint firstItem="trQ-zs-0X4" firstAttribute="top" secondItem="1Yd-ao-8Yh" secondAttribute="bottom" constant="15" id="HhU-gl-Ens"/>
                             <constraint firstItem="JHt-xM-Mb1" firstAttribute="top" secondItem="1Yd-ao-8Yh" secondAttribute="bottom" constant="15" id="Ig1-mS-rcM">
                                 <variation key="widthClass=compact" constant="-211"/>
                             </constraint>
+                            <constraint firstItem="fQj-T2-anT" firstAttribute="top" secondItem="trQ-zs-0X4" secondAttribute="bottom" constant="141" id="N8V-go-vGY"/>
+                            <constraint firstAttribute="trailing" secondItem="fQj-T2-anT" secondAttribute="trailing" id="P2P-lD-AMZ"/>
                             <constraint firstItem="2Cd-cP-BeX" firstAttribute="leading" secondItem="75q-K4-ni9" secondAttribute="leadingMargin" constant="-16" id="P3q-mv-crt"/>
                             <constraint firstItem="99q-pb-hUd" firstAttribute="top" secondItem="2Cd-cP-BeX" secondAttribute="bottom" id="PiQ-8m-KYo"/>
+                            <constraint firstItem="fQj-T2-anT" firstAttribute="top" secondItem="trQ-zs-0X4" secondAttribute="bottom" constant="141" id="RUu-E9-EIr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Gvd-zL-IAg" secondAttribute="trailing" constant="-16" id="XJ3-Ln-chc"/>
                             <constraint firstItem="JHt-xM-Mb1" firstAttribute="leading" secondItem="trQ-zs-0X4" secondAttribute="trailing" constant="15" id="ctj-6e-jAn">
                                 <variation key="widthClass=compact" constant="30"/>
                             </constraint>
                             <constraint firstItem="2Cd-cP-BeX" firstAttribute="top" secondItem="trQ-zs-0X4" secondAttribute="bottom" constant="14" id="dyT-mo-bQ8"/>
-                            <constraint firstItem="Jm6-0r-i8s" firstAttribute="top" secondItem="75q-K4-ni9" secondAttribute="topMargin" id="gvH-ds-QuD"/>
                             <constraint firstItem="trQ-zs-0X4" firstAttribute="leading" secondItem="75q-K4-ni9" secondAttribute="leadingMargin" id="iwf-pD-ldN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fQj-T2-anT" secondAttribute="trailing" constant="-16" id="njV-Q9-lKW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2Cd-cP-BeX" secondAttribute="trailing" constant="-16" id="via-2B-dmm"/>
                             <constraint firstAttribute="bottomMargin" secondItem="JHt-xM-Mb1" secondAttribute="bottom" constant="48" id="y92-fD-ECr">
                                 <variation key="widthClass=compact" constant="274"/>
@@ -1056,11 +1096,10 @@
                                 <exclude reference="2Cd-cP-BeX"/>
                                 <exclude reference="Gvd-zL-IAg"/>
                                 <exclude reference="trQ-zs-0X4"/>
-                                <exclude reference="Jm6-0r-i8s"/>
+                                <exclude reference="fQj-T2-anT"/>
                                 <exclude reference="JHt-xM-Mb1"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="gvH-ds-QuD"/>
                                 <exclude reference="HhU-gl-Ens"/>
                                 <exclude reference="iwf-pD-ldN"/>
                                 <exclude reference="P3q-mv-crt"/>
@@ -1068,10 +1107,16 @@
                                 <exclude reference="via-2B-dmm"/>
                                 <exclude reference="0gh-rR-RjK"/>
                                 <exclude reference="5Ok-HS-Kw0"/>
-                                <exclude reference="G2p-PQ-5QG"/>
                                 <exclude reference="Ig1-mS-rcM"/>
                                 <exclude reference="ctj-6e-jAn"/>
                                 <exclude reference="y92-fD-ECr"/>
+                                <exclude reference="5rc-Ee-YJP"/>
+                                <exclude reference="Aru-P0-tQe"/>
+                                <exclude reference="GvM-Nd-vs7"/>
+                                <exclude reference="N8V-go-vGY"/>
+                                <exclude reference="P2P-lD-AMZ"/>
+                                <exclude reference="RUu-E9-EIr"/>
+                                <exclude reference="njV-Q9-lKW"/>
                                 <exclude reference="BiU-vT-jv3"/>
                                 <exclude reference="PiQ-8m-KYo"/>
                                 <exclude reference="40e-qH-T7h"/>
@@ -1084,11 +1129,10 @@
                                 <include reference="2Cd-cP-BeX"/>
                                 <include reference="Gvd-zL-IAg"/>
                                 <include reference="trQ-zs-0X4"/>
-                                <include reference="Jm6-0r-i8s"/>
+                                <include reference="fQj-T2-anT"/>
                                 <include reference="JHt-xM-Mb1"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="gvH-ds-QuD"/>
                                 <include reference="HhU-gl-Ens"/>
                                 <include reference="iwf-pD-ldN"/>
                                 <include reference="P3q-mv-crt"/>
@@ -1096,10 +1140,16 @@
                                 <include reference="via-2B-dmm"/>
                                 <include reference="0gh-rR-RjK"/>
                                 <exclude reference="5Ok-HS-Kw0"/>
-                                <include reference="G2p-PQ-5QG"/>
                                 <include reference="Ig1-mS-rcM"/>
                                 <include reference="ctj-6e-jAn"/>
                                 <include reference="y92-fD-ECr"/>
+                                <exclude reference="5rc-Ee-YJP"/>
+                                <include reference="Aru-P0-tQe"/>
+                                <include reference="GvM-Nd-vs7"/>
+                                <include reference="N8V-go-vGY"/>
+                                <include reference="P2P-lD-AMZ"/>
+                                <exclude reference="RUu-E9-EIr"/>
+                                <include reference="njV-Q9-lKW"/>
                                 <include reference="BiU-vT-jv3"/>
                                 <include reference="PiQ-8m-KYo"/>
                                 <include reference="40e-qH-T7h"/>
@@ -1116,9 +1166,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="blockerView" destination="Gvd-zL-IAg" id="Ktp-yL-CNc"/>
                         <outlet property="datePicker" destination="Jm6-0r-i8s" id="U9R-ZU-itY"/>
+                        <outlet property="pickerYPosition" destination="N8V-go-vGY" id="z24-uF-Jht"/>
                         <outlet property="tableView" destination="2Cd-cP-BeX" id="ber-In-ZB8"/>
-                        <outlet property="viewToStoreDatePicker" destination="Gvd-zL-IAg" id="Nwt-pX-8LV"/>
+                        <outlet property="viewToStoreTheDatePicker" destination="fQj-T2-anT" id="iH4-r1-3PQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VTG-EL-UBN" userLabel="First Responder" sceneMemberID="firstResponder"/>

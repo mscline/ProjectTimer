@@ -19,7 +19,6 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
 
 
-    @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
         // date picker 
         // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
         // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
@@ -28,7 +27,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         var datePickerIsActingOnRowNumber:Int = -1
         var datePickerIsActingOnStartTimeNotEndTime = true
 
-        @IBOutlet weak var viewToStoreDatePicker: UIView!  // the date picker doesn't move correctly
+        @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
+        @IBOutlet weak var blockerView: UIView!
+        @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
+        // WRONG won't let attach to margins !!!
 
 
     // MARK: SETUP - get logs
@@ -36,7 +38,11 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        viewToStoreDatePicker.hidden = true
+        viewToStoreTheDatePicker.hidden = true
+
+        // set tint color
+        let window = UIApplication.sharedApplication().delegate?.window!
+        window?.tintColor = UIColor.blueColor()
 
         reloadTableWithUpdatedData()
 
@@ -225,9 +231,17 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
             navigationItem.rightBarButtonItem?.title = "Done"
 
+            // set tint color
+            let window = UIApplication.sharedApplication().delegate?.window!
+            window?.tintColor = UIColor.orangeColor()
+
         } else {
 
             navigationItem.rightBarButtonItem?.title = "Edit"
+
+            // set tint color
+            let window = UIApplication.sharedApplication().delegate?.window!
+            window?.tintColor = UIColor.blueColor()
 
         }
 
@@ -273,7 +287,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
         pickerYPosition.constant = picker_desiredYComponent
-        viewToStoreDatePicker.hidden = false
+        viewToStoreTheDatePicker.hidden = false
 
 
         // reload table with greater height (not reload row, animation looks weird)
