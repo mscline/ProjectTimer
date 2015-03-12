@@ -37,6 +37,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         super.viewWillAppear(animated)
 
         viewToStoreDatePicker.hidden = true
+
         reloadTableWithUpdatedData()
 
     }

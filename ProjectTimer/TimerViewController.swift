@@ -48,13 +48,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getListOfCategoriesAndCheckToSeeIfTimerRunning()
-        collectionV.reloadData()
+        reloadData()
 
         // set up timer to notify you every x seconds
         // use to increment category's clock
         NSTimer.scheduledTimerWithTimeInterval(clockTickEveryXSeconds, target: self, selector: "clockTick", userInfo: nil, repeats: true)
 
+    }
+
+    func reloadData(){
+
+        getListOfCategoriesAndCheckToSeeIfTimerRunning()
+        collectionV.reloadData()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -75,6 +80,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func getListOfCategoriesAndCheckToSeeIfTimerRunning(){
 
         categories = TrackingCategorySubclass.returnListOfCategories()
+        logRecord = nil
 
         // if the app exits and is reloaded, need to look to see if tracking
         // any categories by looking at the logRecord
@@ -87,7 +93,11 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             logRecord = lastRecord.objectAtIndex(0) as? LogRecord
             selectedCategory = logRecord!.logRecordsCategory as TrackingCategory
             self.navigationItem.rightBarButtonItem?.enabled = true
+            stopButton.alpha = 1.0
 
+        } else {
+
+            stopButton.alpha = defaultAlpha
         }
 
     }
@@ -124,6 +134,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
         deleteCategory(trackingC)
 
+        // reload any active cells
+        reloadData()
+
     }
 
     @IBAction func onDidEndOnExit(sender: UITextField) {
@@ -148,6 +161,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // (the clock is just a scrolling counter)
         elapsedTimeForSelectedCategory = 0
 
+        // remove alpha on stop button
+        stopButton.alpha = 1.0
+
     }
 
     func stopTimer(){
@@ -161,7 +177,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // clear old values
         selectedCategory = nil
         logRecord = nil
-        
+
+        // add alpha to stop button
+        stopButton.alpha = defaultAlpha
+
     }
 
     func clockTick(){
@@ -235,8 +254,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         } else {
 
+            saveTitlesIfEdited()
             turnEditingModeOff()
-            
+
         }
 
     }
@@ -246,7 +266,11 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.rightBarButtonItem?.title = "Done"
         self.navigationItem.title = "Editing"
 
-        collectionV.backgroundColor = UIColor.lightGrayColor()
+        collectionV.backgroundColor = UIColor(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
+
+        // set tint color
+        let window = UIApplication.sharedApplication().delegate?.window!
+        window?.tintColor = UIColor.orangeColor()
 
         collectionV.reloadData()
 
@@ -258,10 +282,14 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.rightBarButtonItem?.title = "Edit"
         self.navigationItem.title = "Timers"
 
-        collectionV.backgroundColor = UIColor.lightGrayColor()
+        collectionV.backgroundColor = UIColor.grayColor()
 
-        collectionV.reloadData()
+        // set tint color
+        let window = UIApplication.sharedApplication().delegate?.window!
+        window?.tintColor = UIColor.blueColor()
 
+        reloadData()
+        
     }
 
 
@@ -316,6 +344,33 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         categories = TrackingCategorySubclass.returnListOfCategories()
         collectionV.reloadData()
         
+    }
+
+    func saveTitlesIfEdited(){
+
+        if categories == nil { return; }
+
+        var counter = 0
+
+        for cat in categories! {
+
+            // if category.title is different from the cell.title, update and save to db
+            let theCat = cat as TrackingCategory
+            let theCell = collectionV.cellForItemAtIndexPath(NSIndexPath(forItem: counter, inSection: 0)) as TimerCollectionViewCell
+
+            if theCat.title != theCell.textLabel.text {
+
+                // save title
+                theCat.title = theCell.textLabel.text
+
+                var err = NSErrorPointer()
+                TrackingCategorySubclass.getMOC().save(err)
+
+            }
+
+            counter++
+        }
+
     }
 
 
@@ -414,7 +469,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         if editingModeIsOn == true {
 
             cell.textLabel.userInteractionEnabled = true
-            cell.textLabel.backgroundColor = UIColor.whiteColor()
+            cell.textLabel.textColor = UIColor.whiteColor()
 
             cell.viewLogLabel.hidden = false
             cell.deleteButton.hidden = false
@@ -424,7 +479,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         } else {
 
             cell.textLabel.userInteractionEnabled = false
-            cell.textLabel.backgroundColor = UIColor.clearColor()
+            cell.textLabel.textColor = UIColor.greenColor()
 
             cell.viewLogLabel.hidden = true
             cell.deleteButton.hidden = true
