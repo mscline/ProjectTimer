@@ -15,8 +15,10 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         var doNotSaveOnExit:Bool = false
 
 
-        @IBOutlet weak var textField_chartName: UITextField!
+        @IBOutlet weak var viewToInsertChartAndLegendInto: UIView!
+        @IBOutlet weak var view_noTimersToView: UIView!
 
+        @IBOutlet weak var textField_chartName: UITextField!
         @IBAction func chartTextField_textEntryCompleted(sender: AnyObject) {}
 
 
@@ -31,9 +33,16 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
     override func
         getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
-        let arrayOfDataToDisplay = TrackingCategorySubclass.returnListOfCategories()
-        return NSSet(array: arrayOfDataToDisplay)
+            let arrayOfDataToDisplay = TrackingCategorySubclass.returnListOfCategories()
+            return NSSet(array: arrayOfDataToDisplay)
         
+    }
+
+    override func getTheViewToInsertTheChartAndLegendInto() -> (UIView?) {
+
+        viewToInsertChartAndLegendInto.alpha = 0.7
+        return viewToInsertChartAndLegendInto
+
     }
 
     override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
@@ -63,7 +72,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
             }
 
         }
+
     }
+
 
 
     // MARK: DELETE CHART
@@ -123,6 +134,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         var selectedLegendItems:[MCTableDataObject] = Array()
 
         // the legend uses the dataItem we give it to create a legendDataItem
+        if self.pieChartAndLegend == nil { return selectedItems; }
         let arrayOfLegendObjects = self.pieChartAndLegend!.arrayOfLegendItems
 
 
@@ -201,6 +213,8 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     func saveSnapShotOfChartInPieChartThumbObject(){
 
+        if pieChartAndLegend == nil {return;}
+
         let viewWorkingWith = self.pieChartAndLegend!.pieChart!
         UIGraphicsBeginImageContext(viewWorkingWith.frame.size)
         viewWorkingWith.layer.renderInContext(UIGraphicsGetCurrentContext())
@@ -223,12 +237,21 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // update label
         if pieChartBeingEdited?.chartTitle != nil {
 
-            textField_chartName.text = pieChartBeingEdited?.chartTitle
+            let theTitle = pieChartBeingEdited!.chartTitle as String
+            textField_chartName.attributedText = TextFormatter.createAttributedString(theTitle, withFont: "Papyrus", fontSize: 28, fontColor: UIColor.blackColor(), nsTextAlignmentStyle: NSTextAlignment.Center)
+
 
         }
 
+        // hide unwanted views
+        view_noTimersToView.hidden = true
+
         // change back button to Save
 
+        let alert = UIAlertController(title: "Edit Pie Graph", message: "Select which timers you would like to include in your PieChart.", preferredStyle: UIAlertControllerStyle.Alert)
+        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler:nil)
+        alert.addAction(action)
+        self.presentViewController(alert, animated: false) { () -> Void in }
 
     }
 
@@ -245,7 +268,10 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // save edited chart
         saveSelectedCategoriesForChart()
         pieChartBeingEdited?.chartTitle = textField_chartName.text
-        
+
+        // dismiss controller (always want to start with the root)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+
     }
 
 

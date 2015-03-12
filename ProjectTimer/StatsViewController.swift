@@ -19,6 +19,8 @@ class StatsViewController: ChartAndLegendVC_Superclass {
     override func viewWillAppear(animated: Bool) {
 
         defaultViewToShowIfNoData.hidden = true
+        self.navigationItem.title = selectedPieChart?.chartTitle ?? "Statistics"
+
         super.viewWillAppear(animated)
 
     }
@@ -31,13 +33,6 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         if selectedPieChart == nil || selectedPieChart!.chartsCategories == nil { return NSSet()}
 
         let categories = selectedPieChart!.chartsCategories as NSSet
-
-        // xxxxx delete xxxxx
-        for x in categories {
-            let y = x as TrackingCategory
-            println(y.title)
-        }
-        // xxxxx
 
         return categories
         

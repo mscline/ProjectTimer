@@ -37,6 +37,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
+        @IBOutlet weak var stopButton: UIButton!
 
         // CONSTANTS
         let defaultAlpha:CGFloat = 0.6
@@ -56,6 +57,20 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        stopButton.layer.cornerRadius = 5
+    }
+
+    override func viewDidAppear(animated: Bool) {
+
+        if editingModeIsOn == true {
+
+            turnEditingModeOff()
+
+        }
+    }
 
     func getListOfCategoriesAndCheckToSeeIfTimerRunning(){
 
@@ -239,6 +254,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func turnEditingModeOff(){
 
+        editingModeIsOn = false // if not already done
         self.navigationItem.rightBarButtonItem?.title = "Edit"
         self.navigationItem.title = "Timers"
 
@@ -331,6 +347,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         updateCell(cell: cell, indexPath:indexPath)
         ifSelectedCategoryFormatAndSetupClockCounter(cell: cell, indexPath: indexPath)
         turnFeaturesOnOrOffIfInEditingModeOrNot(cell: cell, indexPath: indexPath)
+println(cell.alpha)
 
         return cell
         
@@ -351,15 +368,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         cell.alpha = defaultAlpha
         cell.textLabel.attributedText = formattedTitle
         cell.textLabel.backgroundColor = UIColor.clearColor()
+        cell.layoutIfNeeded()
 
         cell.elapsedTime.attributedText = formatText(defaultText_elapsedTime)
         cell.elapsedTime.tag = -1
-TextFormatter.printListOfFontFamilyNames()
+
+        //TextFormatter.printListOfFontFamilyNames()
+
     }
 
     func formatText(text:String)->(NSAttributedString){
 
-        return TextFormatter.createAttributedString(text, withFont: "Damascus", fontSize: 24.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
+        return TextFormatter.createAttributedString(text, withFont: "Damascus", fontSize: 28.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
 
     }
 
@@ -369,7 +389,11 @@ TextFormatter.printListOfFontFamilyNames()
         let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
         // if not select, exit
-        if dataObject != selectedCategory { return; }
+        if dataObject != selectedCategory {
+
+            return;
+
+        }
 
         // set default settings
         cell.alpha = 1.0
@@ -390,7 +414,6 @@ TextFormatter.printListOfFontFamilyNames()
         if editingModeIsOn == true {
 
             cell.textLabel.userInteractionEnabled = true
-            cell.alpha = 1.0
             cell.textLabel.backgroundColor = UIColor.whiteColor()
 
             cell.viewLogLabel.hidden = false

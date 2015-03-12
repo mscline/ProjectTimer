@@ -96,7 +96,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         // if no data, tell table view 0 items to display
-        if selectedTimer == nil || selectedTimer!.categorysLogs == nil {
+        if selectedTimer == nil || selectedTimer!.categorysLogs == nil || logsToDisplay == nil {
 
             return 0
 
@@ -291,6 +291,16 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // delete old data
         datePickerIsActingOnRowNumber = -1
         datePickerActingOnLog = nil
+    }
+
+
+    // MARK: LIFECYCLE
+
+    override func viewWillDisappear(animated: Bool) {
+
+        // dismiss controller (always want to start with the root)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+        
     }
 
 }

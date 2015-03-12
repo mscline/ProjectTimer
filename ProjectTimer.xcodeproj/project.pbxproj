@@ -10,7 +10,8 @@
 		AE0A0FA51AA96BF100D56BF9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */; };
 		AE396BDD1AAF5EB800016D80 /* Grayscale.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDC1AAF5EB800016D80 /* Grayscale.m */; };
 		AE396BDF1AAF623700016D80 /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDE1AAF623700016D80 /* TextFormatter.swift */; };
-		AE396BE11AAF738D00016D80 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396BE01AAF738D00016D80 /* defaultPie.png */; };
+		AE396C471AAFAF0400016D80 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396C461AAFAF0400016D80 /* defaultPie.png */; };
+		AE396C491AB0A28500016D80 /* blackAndWhitePie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396C481AB0A28500016D80 /* blackAndWhitePie.png */; };
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
 		AE581C141AA9FE9200EE55D5 /* TrackingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = AE581C131AA9FE9200EE55D5 /* TrackingCategory.m */; };
 		AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */; };
@@ -61,7 +62,8 @@
 		AE396BDB1AAF5EB800016D80 /* Grayscale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grayscale.h; sourceTree = "<group>"; };
 		AE396BDC1AAF5EB800016D80 /* Grayscale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grayscale.m; sourceTree = "<group>"; };
 		AE396BDE1AAF623700016D80 /* TextFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
-		AE396BE01AAF738D00016D80 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
+		AE396C461AAFAF0400016D80 /* defaultPie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPie.png; sourceTree = "<group>"; };
+		AE396C481AB0A28500016D80 /* blackAndWhitePie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackAndWhitePie.png; sourceTree = "<group>"; };
 		AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAlertWithTextEntry.h; sourceTree = "<group>"; };
 		AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAlertWithTextEntry.m; sourceTree = "<group>"; };
 		AE581C121AA9FE9200EE55D5 /* TrackingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingCategory.h; sourceTree = "<group>"; };
@@ -150,8 +152,8 @@
 		AE5AFD051AAA2BC2008B132D /* StandardVC */ = {
 			isa = PBXGroup;
 			children = (
-				AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */,
 				AECF7E651A93DCDA0064A7F4 /* TimerViewController.swift */,
+				AED4F1681AAACB9A00EBBAD3 /* LogViewController.swift */,
 				AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */,
 			);
 			name = StandardVC;
@@ -204,8 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				AECF7E821A93DD800064A7F4 /* clearImage.png */,
-				AE396BE01AAF738D00016D80 /* defaultPie.png */,
+				AE396C481AB0A28500016D80 /* blackAndWhitePie.png */,
 				AE88E5C11AAB775600C0502E /* blankChart.png */,
+				AE396C461AAFAF0400016D80 /* defaultPie.png */,
 				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
 				AECF7E4A1A93DC3D0064A7F4 /* LaunchScreen.xib */,
 				AECF7E711A93DD3B0064A7F4 /* ProjectTimer-Bridging-Header.h */,
@@ -421,9 +424,10 @@
 			files = (
 				AECF7E471A93DC3D0064A7F4 /* Main.storyboard in Resources */,
 				AECF7E4C1A93DC3D0064A7F4 /* LaunchScreen.xib in Resources */,
+				AE396C491AB0A28500016D80 /* blackAndWhitePie.png in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
 				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
-				AE396BE11AAF738D00016D80 /* defaultPie.png in Resources */,
+				AE396C471AAFAF0400016D80 /* defaultPie.png in Resources */,
 				AE88E5C21AAB775600C0502E /* blankChart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,6 +604,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProjectTimer/ProjectTimer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -612,6 +617,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProjectTimer/ProjectTimer-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -12,22 +12,28 @@ import UIKit
 class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
 
-        // instance variables
+        // instance variables (you can access them, but override methods to provide required data)
         var setOfCategoriesToDisplay_yourRawData:NSSet?
         var arrayOfDataToDisplay:[DataItem] = Array()
+        var insertIntoView:UIView?
 
         var pieChartAndLegend:PieChartAndLegend?
         var colors:NSArray?
 
 
     // xxxxxxxxxxxxxxxxxxxxxxx
-    // METHODS TO OVERRIDE IF SUBCLASSING
+    // MARK: METHODS TO OVERRIDE IF SUBCLASSING
     // xxxxxxxxxxxxxxxxxxxxxxx
 
     func getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
         return NSSet()
 
+    }
+
+    func getTheViewToInsertTheChartAndLegendInto()->(UIView?){
+
+        return nil
     }
 
     func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!){
@@ -41,6 +47,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         // if no data to display, can customize view here
 
     }
+    
 
     // xxxxxxxxxxxxxxxxxxxxxxx
     // xxxxxxxxxxxxxxxxxxxxxxx
@@ -59,7 +66,8 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         if arrayOfDataToDisplay.count > 0 {
 
             self.willCreateChartAndGraph(arrayOfDataItemsToDisplay: arrayOfDataToDisplay)  // added so if subclassing, you can override and add code
-            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: self.view)
+            let intoView = getTheViewToInsertTheChartAndLegendInto() ?? self.view
+            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!)
 
         } else {
 

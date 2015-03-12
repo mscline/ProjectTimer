@@ -15,12 +15,13 @@ class PieChartAndLegend: NSObject {
     var pieChart:PieChart?                  // the pie chart is a UIView
     var table:MCTableWithMutliSelection?
 
-    var pieOrigin:CGPoint?
     var legendFrame:CGRect?
+    var minPaddingForPieChart:CGFloat = 15.0
 
 
     // INSTANCE VARIABLES
     var parentView:UIView!
+    var suggestedPieFrame:CGRect?
 
     var arrayOfDataToDisplay:[DataItem] = Array()
     var arrayOfPieSlices:[PieSlice] = Array()
@@ -28,6 +29,8 @@ class PieChartAndLegend: NSObject {
 
     let colors = [UIColor.redColor(), UIColor.blueColor(), UIColor.greenColor(), UIColor.brownColor(), UIColor.orangeColor(), UIColor.purpleColor()]
 
+
+    // MARK: BUILD AND UPDATE CHART
 
     init(arrayOfPieDataObjects:Array<DataItem>, forView:UIView){
         super.init()
@@ -52,7 +55,7 @@ class PieChartAndLegend: NSObject {
     }
 
 
-    // layout
+    // MARK: layout
 
     func setScreenElementPositions(#forViewWithSize:CGSize){
 
@@ -60,40 +63,55 @@ class PieChartAndLegend: NSObject {
         // if height it taller than width (vertical layout), then divide height in half
         // else, divide width in half
 
-        var tableOriginX:CGFloat = 0.0
-        var tableOriginY:CGFloat = 0.0
-
         if forViewWithSize.height > forViewWithSize.width {
 
-            tableOriginY = forViewWithSize.height / 2.0
+            portraitLayout(forViewWithSize: forViewWithSize)
 
         }else{
 
+            landscapeLayout(forViewWithSize: forViewWithSize)
 
         }
-        let halfScreenWidth = forViewWithSize.width / 2
-
-
-        let rightLeftCenterPadding = 30
-
-        pieOrigin = CGPointMake(10, 10)
-        legendFrame = CGRectMake(10, 250, 200, 300)
 
     }
 
-    // build components / update data
+    func portraitLayout(#forViewWithSize:CGSize){
+
+        // set legend frame
+        legendFrame = CGRectMake(0, forViewWithSize.height/2, forViewWithSize.width, forViewWithSize.height/2)
+
+        // set up suggestedPieFrame (the pie chart is going to fit the chart within the top half of the view)
+        let pieHeight:CGFloat = forViewWithSize.height / 2 - 2 * minPaddingForPieChart
+        let pieWidth:CGFloat = pieHeight
+
+        let pieOriginX:CGFloat = 0.5 * (forViewWithSize.width - forViewWithSize.height/2) + minPaddingForPieChart // the left padding is the width of the view - the width of the chart / 2
+        let pieOriginY:CGFloat = minPaddingForPieChart
+
+        suggestedPieFrame = CGRectMake(pieOriginX, pieOriginY, pieWidth, pieHeight)
+
+    }
+
+    func landscapeLayout(#forViewWithSize:CGSize){
+
+        // not available / for upgrade
+        portraitLayout(forViewWithSize: forViewWithSize)
+
+    }
+
+
+    // MARK: build components / update data
 
     private func buildPieChart(){
 
         if pieChart == nil{
 
             pieChart = PieChart()
-            pieChart!.frame = legendFrame!
             parentView.addSubview(pieChart!)
 
         }
 
-        pieChart!.updateUIViewWithEmbeddedPieChart(arrayOfPieSlices:arrayOfPieSlices, desiredHeightAndWidthOfView: 200)
+        pieChart!.updateUIViewWithEmbeddedPieChart(arrayOfPieSlices:arrayOfPieSlices, desiredHeightAndWidthOfView: suggestedPieFrame!.height)
+        pieChart!.frame = CGRectMake(suggestedPieFrame!.origin.x, suggestedPieFrame!.origin.y, pieChart!.frame.width, pieChart!.frame.height)  // set frame in step two, because need results from update
 
     }
 
