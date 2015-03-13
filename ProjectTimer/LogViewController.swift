@@ -13,6 +13,7 @@ enum editingMode{
     case notEditing
     case editing
     case picker
+    case picker_doNotSave
 }
 
 class LogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
@@ -24,7 +25,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // display timers
         var selectedTimer:TrackingCategory?
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
-
+        let inProgressMessage = " ...in progress "
 
         // date picker 
         // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
@@ -147,7 +148,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
 
         let startTime = formatDate(logRecord.checkinTime)
-        var endTime:String = " ...in progress "
+        var endTime:String = inProgressMessage
 
         let checkoutDate = logRecord.checkoutTime
         if checkoutDate != nil {
@@ -214,7 +215,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        var rowHeight:CGFloat = 44  // ????
+        var rowHeight:CGFloat = 44  // ???? JUST WENT WITH HARDCODE, BUT NOT IDEAL
 
         if indexPath.row == datePickerIsActingOnRowNumber {
 
@@ -227,21 +228,31 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
 
-    // MARK: EDITING / EDIT BUTTON
+    // MARK: EDITING
 
-    @IBAction func onEditButtonPressed(sender: AnyObject) {
+    func changeEditingMode(){
 
         // 1) make necessary changes before leaving view
         //    (better to put code in when entering new mode than when leaving)
 
         if isInEditingMode == editingMode.editing {
 
+            // do nothing
+
         } else if isInEditingMode == editingMode.notEditing{
+
+            // do nothing
 
         } else if isInEditingMode == editingMode.picker {
 
             // need to save
             leavingPickerMode()
+
+        } else if isInEditingMode == editingMode.picker_doNotSave {
+
+            hideDatePicker()
+            isInEditingMode = editingMode.picker
+
         }
 
 
@@ -266,17 +277,17 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         if isInEditingMode == editingMode.editing {
 
-             enteringEditingMode()
+            enteringEditingMode()
 
         } else if isInEditingMode == editingMode.notEditing{
 
             enteringNonEditingMode()
 
         } else if isInEditingMode == editingMode.picker {
-
+            
             // unused
         }
-
+        
         // reload data (table view will display differently, depending on mode)
         tableView.reloadData()
 
@@ -318,7 +329,13 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
 
-    // MARK: OTHER BUTTONS
+    // MARK: BUTTONS
+
+    @IBAction func onEditButtonPressed(sender: AnyObject) {
+
+        changeEditingMode()
+
+    }
 
     @IBAction func onDeleteButtonPressed(sender: UIButton) {
 
@@ -330,8 +347,9 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBAction func backgroundTouched(sender: AnyObject) {
 
-        // cancel - you can just hide it
-        hideDatePicker()
+        // cancel
+        isInEditingMode = editingMode.picker_doNotSave
+        changeEditingMode()
 
     }
 
@@ -355,9 +373,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         datePickerIsActingOnStartTimeNotEndTime = false
         datePickerActingOnLog = logsToDisplay?.objectAtIndex(sender.tag) as? LogRecord
 
-        if datePickerActingOnLog?.checkinTime != nil {
+        if datePickerActingOnLog!.checkoutTime != nil {
 
             datePicker.date = datePickerActingOnLog!.checkoutTime
+
         }
 
         showDatePicker(sender:sender)
@@ -372,6 +391,26 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         isInEditingMode = editingMode.picker
         enteringPickerMode()
 
+        // move picker into correct location
+        setPickerPosition(sender: sender)
+        viewToStoreTheDatePicker.hidden = false
+        backgroundBlockerButton.hidden = false
+
+        // reload table with greater height (not reload row, animation looks weird)
+        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+        datePickerIsActingOnRowNumber = indexPath.row  // on reload, the table view will check to see if the picker should be showing
+
+        tableView.reloadData()  // just load the whole thing, or looks weird
+
+        // scroll table
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+
+
+
+    }
+
+    func setPickerPosition(#sender:UIButton){
+
 
         // move picker to correct position above tableV row
         let superView = sender.superview! as UIView  // need to cast or get weird error
@@ -380,15 +419,13 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
         pickerYPosition.constant = picker_desiredYComponent + 15.0
 
-        viewToStoreTheDatePicker.hidden = false
-        backgroundBlockerButton.hidden = false
 
+        // if off screen, move back up
+        if pickerYPosition.constant > self.view.frame.height - datePicker.frame.height {
 
-        // reload table with greater height (not reload row, animation looks weird)
-        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-        datePickerIsActingOnRowNumber = indexPath.row  // on reload, the table view will check to see if the picker should be showing
-
-        tableView.reloadData()  // just load the whole thing, or looks weird
+            pickerYPosition.constant = self.view.frame.height - datePicker.frame.height - self.navigationController!.toolbar.frame.size.height - 4.0  // just looks a little off so adjust
+            
+        }
 
     }
 

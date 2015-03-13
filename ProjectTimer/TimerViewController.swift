@@ -139,6 +139,15 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
+    @IBAction func onLogButtonPressed(sender: TimerCollectionViewCell) {
+
+
+        let dataObject = categories?.objectAtIndex(sender.tag) as TrackingCategory
+
+        performSegueWithIdentifier("toDetail", sender: dataObject)
+
+    }
+
     @IBAction func onDidEndOnExit(sender: UITextField) {
 
         sender.resignFirstResponder()
@@ -497,7 +506,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         if editingModeIsOn == true {
 
-            performSegueWithIdentifier("toDetail", sender: dataObject)
+            // do nothing
 
         } else {
 
