@@ -30,7 +30,7 @@ class TrackingCategorySubclass: TrackingCategory {
     //    - (void)removeCategorysLogs:(NSSet *)values;
 
 
-    class func addNewTrackingCategory(#title:NSString, totalValue:NSNumber, color:UIColor){
+    class func addNewTrackingCategory(#title:NSString, totalValue:NSNumber, color:UIColor)->(TrackingCategory){
 
         let cat = NSEntityDescription.insertNewObjectForEntityForName("TrackingCategory", inManagedObjectContext: getMOC()) as TrackingCategory
 
@@ -42,6 +42,8 @@ class TrackingCategorySubclass: TrackingCategory {
         getMOC().save(err)
 
         if err != nil {println("Error \(err)");}
+
+        return cat
 
     }
 

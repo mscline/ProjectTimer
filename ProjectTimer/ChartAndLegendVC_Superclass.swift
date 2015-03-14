@@ -53,27 +53,57 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
     // xxxxxxxxxxxxxxxxxxxxxxx
 
 
+    // MARK: LIFECYCLE
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        buildChartAndLegend()
 
-        // build the chart and legend
+    }
 
-        setOfCategoriesToDisplay_yourRawData = self.getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing()  // this is just a bridge / broken out section, so can subclass it
+    // MARK: ROTATIONS
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+
+        buildChartAndLegend()
+        
+    }
+
+
+    // MARK: BUILD IT
+    func buildChartAndLegend(){
+
+        // get data from user and process
+        setOfCategoriesToDisplay_yourRawData = self.getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing()
 
         buildData()
 
         if arrayOfDataToDisplay.count > 0 {
 
-            self.willCreateChartAndGraph(arrayOfDataItemsToDisplay: arrayOfDataToDisplay)  // added so if subclassing, you can override and add code
+            // inform user "about to build"
+            self.willCreateChartAndGraph(arrayOfDataItemsToDisplay: arrayOfDataToDisplay)
+
+            // get the view to put chart in
             let intoView = getTheViewToInsertTheChartAndLegendInto() ?? self.view
+let x = intoView?.frame
+            // remove old views if already have a chart
+            removeOldViewsIfNecessary()
+
+            // build it
             pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!)
 
         } else {
 
             self.noDataToDispalyInChart()
-
+            
         }
+
+    }
+
+    func removeOldViewsIfNecessary(){
+
+        pieChartAndLegend?.pieChart?.removeFromSuperview()
+        pieChartAndLegend?.table?.removeFromSuperview()
 
     }
 
@@ -117,13 +147,6 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
     }
 
 
-    // MARK: ROTATIONS
-
-//    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-//
-//        pieChartAndLegend!.setScreenElementPositions(forViewWithSize: size)
-//
-//    }
 
 
 }

@@ -119,7 +119,7 @@ class PieChart: UIView {
         connectedLineSegments.moveToPoint(center_cgFloat)
 
         // 2) connect with point on our circle
-        connectedLineSegments.addLineToPoint(xyCoordPointOnArc)
+        connectedLineSegments.addLineToPoint(xyCoordPointOnArc)  // crash if no value
 
         // 3) draw arc
         connectedLineSegments.addArcWithCenter(center_cgFloat, radius:radius_cgfloat, startAngle:startAngle_cgfloat, endAngle: finalAngle_cgfloat, clockwise: false)

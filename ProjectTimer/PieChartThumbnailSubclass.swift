@@ -49,7 +49,7 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     }
 
-    class func addPieChart(#title:NSString){
+    class func addPieChart(#title:NSString)->(PieChartThumbnail){
 
         var pieC = NSEntityDescription.insertNewObjectForEntityForName("PieChartThumbnail", inManagedObjectContext: getMOC()) as PieChartThumbnail
         pieC.chartTitle = title
@@ -59,6 +59,8 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
         getMOC().save(err)
 
         if err != nil {println("Error \(err)");}
+
+        return pieC
 
     }
 
