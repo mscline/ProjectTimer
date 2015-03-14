@@ -32,12 +32,12 @@ class PieChartAndLegend: NSObject {
 
     // MARK: BUILD AND UPDATE CHART
 
-    init(arrayOfPieDataObjects:Array<DataItem>, forView:UIView){
+    init(arrayOfPieDataObjects:Array<DataItem>, forView:UIView, splitViewBetweenChartAndLegend:Bool){  // if splitViewBetweenChartAndLegend = false, the chart and legend subviews will be stacked one on top of the other and will take up the full view
         super.init()
 
         parentView = forView
 
-        setScreenElementPositions(forViewWithSize: parentView.frame.size)
+        setScreenElementPositions(forViewWithSize: parentView.frame.size, splitViewBetweenChartAndLegend:splitViewBetweenChartAndLegend)
         updatePieChart(arrayOfPieDataObjects)
 
     }
@@ -57,19 +57,31 @@ class PieChartAndLegend: NSObject {
 
     // MARK: layout
 
-    func setScreenElementPositions(#forViewWithSize:CGSize){
+    func setScreenElementPositions(#forViewWithSize:CGSize, splitViewBetweenChartAndLegend:Bool){
 
-        // divide screen in half, one half for table, one half for pie chart
-        // if height it taller than width (vertical layout), then divide height in half
-        // else, divide width in half
+        // set chart.frame and legend.frame values
 
-        if forViewWithSize.height > forViewWithSize.width {
+        if splitViewBetweenChartAndLegend == false {
 
-            setPositionsInPortraitView(forViewWithSize: forViewWithSize)
+            // set frames
+            legendFrame = CGRectMake(0, 0, forViewWithSize.width, forViewWithSize.height)
+            suggestedPieFrame = legendFrame
 
-        }else{
+        } else {
 
-            setPositionsInLanscapeView(forViewWithSize: forViewWithSize)
+            // divide screen in half, one half for table, one half for pie chart
+            // if height it taller than width (vertical layout), then divide height in half
+            // else, divide width in half
+
+            if forViewWithSize.height > forViewWithSize.width {
+
+                setPositionsInPortraitView(forViewWithSize: forViewWithSize)
+
+            }else{
+
+                setPositionsInLanscapeView(forViewWithSize: forViewWithSize)
+                
+            }
 
         }
 

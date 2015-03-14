@@ -16,7 +16,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         var setOfCategoriesToDisplay_yourRawData:NSSet?
         var arrayOfDataToDisplay:[DataItem] = Array()
         var insertIntoView:UIView?
-
+        var splitViewBetweenChartAndLegend = true // otherwise, both will take up full view and will be stacked one on top of the other
         var pieChartAndLegend:PieChartAndLegend?
         var colors:NSArray?
 
@@ -92,12 +92,12 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
             // get the view to put chart in
             let intoView = getTheViewToInsertTheChartAndLegendInto() ?? self.view
-let x = intoView?.frame
+
             // remove old views if already have a chart
             removeOldViewsIfNecessary()
 
             // build it
-            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!)
+            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!, splitViewBetweenChartAndLegend: self.splitViewBetweenChartAndLegend)
 
         } else {
 
@@ -153,6 +153,11 @@ let x = intoView?.frame
         super.init(coder: aDecoder)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+
+        println("need to dealloc?")
+        
+    }
 
 
 

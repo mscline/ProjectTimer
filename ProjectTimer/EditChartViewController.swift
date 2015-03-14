@@ -47,6 +47,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
 
+        // do not display both legend and chart
+        splitViewBetweenChartAndLegend = false
+        
         // deselect all items (just go with brute force)
         for item in arrayOfDataItemsToDisplay {
 
