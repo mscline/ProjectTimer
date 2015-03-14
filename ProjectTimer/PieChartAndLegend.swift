@@ -65,19 +65,21 @@ class PieChartAndLegend: NSObject {
 
         if forViewWithSize.height > forViewWithSize.width {
 
-            portraitLayout(forViewWithSize: forViewWithSize)
+            setPositionsInPortraitView(forViewWithSize: forViewWithSize)
 
         }else{
 
-            landscapeLayout(forViewWithSize: forViewWithSize)
+            setPositionsInLanscapeView(forViewWithSize: forViewWithSize)
 
         }
 
     }
 
-    func portraitLayout(#forViewWithSize:CGSize){
 
-        // set legend frame
+    func setPositionsInPortraitView(#forViewWithSize:CGSize){
+
+
+        // set legend
         legendFrame = CGRectMake(0, forViewWithSize.height/2, forViewWithSize.width, forViewWithSize.height/2)
 
         // set up suggestedPieFrame (the pie chart is going to fit the chart within the top half of the view)
@@ -89,12 +91,23 @@ class PieChartAndLegend: NSObject {
 
         suggestedPieFrame = CGRectMake(pieOriginX, pieOriginY, pieWidth, pieHeight)
 
+
     }
 
-    func landscapeLayout(#forViewWithSize:CGSize){
+    func setPositionsInLanscapeView(#forViewWithSize:CGSize){
 
-        // not available / for upgrade
-        portraitLayout(forViewWithSize: forViewWithSize)
+
+        // set legends
+        legendFrame = CGRectMake(forViewWithSize.width/2.0, 0, forViewWithSize.width/2.0, forViewWithSize.height)
+
+        // set up suggestedPieFrame (the pie chart is going to fit the chart within the top half of the view)
+        let pieHeight:CGFloat = forViewWithSize.height - 2 * minPaddingForPieChart
+        let pieWidth:CGFloat = pieHeight
+
+        let pieOriginX:CGFloat = (forViewWithSize.width - pieWidth * 2)/4
+        let pieOriginY:CGFloat = minPaddingForPieChart
+
+        suggestedPieFrame = CGRectMake(pieOriginX, pieOriginY, pieWidth, pieHeight)
 
     }
 

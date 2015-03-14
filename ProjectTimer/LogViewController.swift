@@ -138,7 +138,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
 
         // if editing make buttons clickable
-        ifEditingAllowUserInteraction(cell: cell, indexPath: indexPath)
+        ifEditingAllowUserInteractionAndChangeTextColor(cell: cell, indexPath: indexPath)
 
         return cell
 
@@ -182,7 +182,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
     }
 
-    func ifEditingAllowUserInteraction(#cell:LogTableViewCell, indexPath:NSIndexPath){
+    func ifEditingAllowUserInteractionAndChangeTextColor(#cell:LogTableViewCell, indexPath:NSIndexPath){
 
         if isInEditingMode == editingMode.editing {
 
@@ -190,19 +190,19 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
             cell.button_endTime.userInteractionEnabled = true
 
         // use setter methods instead
-            cell.button_startTime.titleLabel!.textColor = UIColor.orangeColor()
-            cell.button_endTime.titleLabel!.textColor = UIColor.orangeColor()
+            cell.button_startTime.tintColor = UIColor.orangeColor()
+            cell.button_endTime.tintColor = UIColor.orangeColor()
 
             cell.button_deleteLog.hidden = false
 
 
-        }else{
+        }else if isInEditingMode == editingMode.notEditing {
 
             cell.button_startTime.userInteractionEnabled = false
             cell.button_endTime.userInteractionEnabled = false
 
-            cell.button_startTime.titleLabel!.textColor = UIColor.blueColor()
-            cell.button_endTime.titleLabel!.textColor = UIColor.blueColor()
+            cell.button_startTime.tintColor = UIColor.blueColor()
+            cell.button_endTime.tintColor = UIColor.blueColor()
 
             cell.button_deleteLog.hidden = true
 
@@ -245,11 +245,14 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         } else if isInEditingMode == editingMode.picker {
 
+            fixerMethod_changeButtonColorsForRow(datePickerIsActingOnRowNumber, color: UIColor.orangeColor())
+
             // need to save
             leavingPickerMode()
 
         } else if isInEditingMode == editingMode.picker_doNotSave {
 
+            fixerMethod_changeButtonColorsForRow(datePickerIsActingOnRowNumber, color: UIColor.orangeColor())
             hideDatePicker()
             isInEditingMode = editingMode.picker
 
@@ -290,6 +293,16 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         // reload data (table view will display differently, depending on mode)
         tableView.reloadData()
+
+    }
+
+    func fixerMethod_changeButtonColorsForRow(row:Int, color:UIColor){
+
+        let indexPath = NSIndexPath(forRow:row, inSection:0)
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as LogTableViewCell
+
+        cell.button_startTime.tintColor = color;
+        cell.button_endTime.tintColor = color;
 
     }
 
@@ -417,13 +430,13 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let originOfButtonInAbsCoord = superView.convertPoint(superView.frame.origin, toView: nil)
 
         let picker_desiredYComponent = CGFloat(originOfButtonInAbsCoord.y + sender.frame.height)
-        pickerYPosition.constant = picker_desiredYComponent + 15.0
+        pickerYPosition.constant = picker_desiredYComponent + 8.0
 
 
         // if off screen, move back up
         if pickerYPosition.constant > self.view.frame.height - datePicker.frame.height {
 
-            pickerYPosition.constant = self.view.frame.height - datePicker.frame.height - self.navigationController!.toolbar.frame.size.height - 4.0  // just looks a little off so adjust
+            pickerYPosition.constant = self.view.frame.height - datePicker.frame.height - self.navigationController!.toolbar.frame.size.height - 10.0  // just looks a little off so adjust
             
         }
 
@@ -523,6 +536,20 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // dismiss controller (always want to start with the root)
         self.navigationController?.popToRootViewControllerAnimated(false)
         
+    }
+
+
+    // MARK: TRANSITIONS
+
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+
+        if isInEditingMode == editingMode.picker || isInEditingMode == editingMode.picker_doNotSave {
+
+            isInEditingMode = editingMode.picker_doNotSave
+            changeEditingMode()
+
+        }
+
     }
 
 }
