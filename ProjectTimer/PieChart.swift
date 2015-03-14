@@ -77,7 +77,7 @@ class PieChart: UIView {
         return total
     }
 
-    private func createSliceOfPie(#heightAndWidthOfView:Float, startAngleInRadians:Float, angleInRadians:Float, color:UIColor)->(CAShapeLayer){
+    func createSliceOfPie(#heightAndWidthOfView:Float, startAngleInRadians:Float, angleInRadians:Float, color:UIColor)->(CAShapeLayer){
 
 
         // APPLE DRAWS THE UNIT CIRCLE BACKWARDS, SO FLIP SIGNS

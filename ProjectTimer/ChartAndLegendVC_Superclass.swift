@@ -65,9 +65,16 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
     // MARK: ROTATIONS
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 
-        buildChartAndLegend()
-        
+        // there is no viewDidTransition, but we can pack something in a completion block
+        coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
+
+            self.buildChartAndLegend()
+
+        })
+
     }
+
+
 
 
     // MARK: BUILD IT

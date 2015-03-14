@@ -40,7 +40,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         @IBOutlet weak var stopButton: UIButton!
 
         // CONSTANTS
-        let defaultAlpha:CGFloat = 0.6
+        let defaultAlpha:CGFloat = 0.58
 
 
     // MARK: Lifecycle
@@ -59,6 +59,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func reloadData(){
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
+        collectionV.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: defaultAlpha)  
         collectionV.reloadData()
     }
 
@@ -461,7 +462,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // set default settings
         cell.storageView.alpha = 1.0
-
+        
         // setup clock
         // - we will keep track of which view we are updating
         // - then we can tell it to update

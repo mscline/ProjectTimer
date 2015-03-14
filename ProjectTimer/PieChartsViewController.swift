@@ -14,7 +14,11 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         var listOfPieCharts:NSArray?  // rem: working with CoreData which is in ObjC
         var selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
 
+        // colors and alpha
         let alphaForNonSelectedItems:CGFloat = 0.58
+        let color_selected = UIColor(red: 255/255.0, green: 178/255.0, blue: 102/255.0, alpha: 1.0)
+        let color_unselected = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 1.0)
+
 
         @IBOutlet weak var collectionView: UICollectionView!
 
@@ -134,12 +138,12 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         // if selected, change image to black and white
         if dataObj.isSelected == true {
 
-            cell.backgroundColor = UIColor(red: 255/255.0, green: 178/255.0, blue: 102/255.0, alpha: 1.0)
+            cell.backgroundColor = color_selected
             cell.alpha = 1.0
 
         }else{
 
-            cell.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 1.0)
+            cell.backgroundColor = color_unselected
             cell.alpha = alphaForNonSelectedItems
             imageToDisplay = Grayscale.convertToGrayscale_image(imageToDisplay)
             

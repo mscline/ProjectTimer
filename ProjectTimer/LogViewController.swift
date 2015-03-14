@@ -27,7 +27,8 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
         let inProgressMessage = " ...in progress "
 
-        // date picker 
+
+        // date picker
         // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
         // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
         @IBOutlet weak var datePicker: UIDatePicker!

@@ -43,6 +43,17 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         // if no data to display, can customize view here
         defaultViewToShowIfNoData.hidden = false
 
+        // remove old pieChart and legend if necessary
+        pieChartAndLegend?.pieChart?.removeFromSuperview()
+        pieChartAndLegend?.table?.removeFromSuperview()
+
+        if pieChartAndLegend?.pieChart != nil {
+
+            pieChartAndLegend?.pieChart = nil
+            pieChartAndLegend?.table = nil
+
+        }
+
     }
 
 
