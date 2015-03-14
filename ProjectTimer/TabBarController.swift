@@ -42,7 +42,6 @@ class TabBarController: UITabBarController {
     func addSampleData(){
 
         sampleData_pieChart_timeSpentCoding()
-        sampleData_pieChart_daily()
 
     }
 
@@ -78,40 +77,6 @@ class TabBarController: UITabBarController {
         updateLastLogUponCheckout(record: logD, timeInterval: 3200)
         updateLastLogUponCheckout(record: logE, timeInterval: 300)
 
-    }
-
-    func sampleData_pieChart_daily(){
-
-        // build chart
-        let pieChart = PieChartThumbnailSubclass.addPieChart(title: "Clients")
-
-        // create categories
-        let catA = TrackingCategorySubclass.addNewTrackingCategory(title: "Code Masters", totalValue: 100, color: UIColor.purpleColor())
-        let catB = TrackingCategorySubclass.addNewTrackingCategory(title: "Jamba", totalValue: 100, color: UIColor.blueColor())
-        let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.yellowColor())
-        let catD = TrackingCategorySubclass.addNewTrackingCategory(title: "Debug", totalValue: 100, color: UIColor.redColor())
-        let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "Other", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
-
-        // add categories to pie chart
-        pieChart.addChartsCategoriesObject(catA)
-        pieChart.addChartsCategoriesObject(catB)
-        pieChart.addChartsCategoriesObject(catC)
-        pieChart.addChartsCategoriesObject(catD)
-        pieChart.addChartsCategoriesObject(catE)
-
-        // add log records
-        let logA = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catA)
-        let logB = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catB)
-        let logC = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catC)
-        let logD = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catD)
-        let logE = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catE)
-
-        updateLastLogUponCheckout(record: logA, timeInterval: 3000)
-        updateLastLogUponCheckout(record: logB, timeInterval: 2400)
-        updateLastLogUponCheckout(record: logC, timeInterval: 2700)
-        updateLastLogUponCheckout(record: logD, timeInterval: 3200)
-        updateLastLogUponCheckout(record: logE, timeInterval: 300)
-        
     }
 
     func updateLastLogUponCheckout(#record:LogRecord, timeInterval:Double){

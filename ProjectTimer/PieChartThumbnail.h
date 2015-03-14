@@ -2,7 +2,7 @@
 //  PieChartThumbnail.h
 //  ProjectTimer
 //
-//  Created by xcode on 3/5/15.
+//  Created by xcode on 3/14/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
@@ -14,8 +14,9 @@
 @interface PieChartThumbnail : NSManagedObject
 
 @property (nonatomic, retain) NSString * chartTitle;
-@property (nonatomic, retain) id snapshot;
 @property (nonatomic, retain) NSNumber * isSelected;
+@property (nonatomic, retain) id snapshot;
+@property (nonatomic, retain) NSNumber * indexNumber;
 @property (nonatomic, retain) NSSet *chartsCategories;
 @end
 

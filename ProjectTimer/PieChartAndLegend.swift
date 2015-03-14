@@ -183,7 +183,7 @@ class PieChartAndLegend: NSObject {
             legend.title = item.title
             legend.isSelected = item.isSelected
             legend.wrappedObject = item
-
+            legend.sortPosition = item.indexOfPosition
             arrayOfLegendItems.addObject(legend)
 
         }
@@ -215,7 +215,7 @@ class PieChartAndLegend: NSObject {
     }
 
 
-    // MARK: TABLEVIEW DELEGATES (implementing protocol not required due to forwarding, ie, all methods optional)
+    // MARK: TABLEVIEW DELEGATES (rem: this is a custom subclass of tableview - implementing protocol not required due to forwarding, ie, all methods optional)
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
@@ -230,16 +230,22 @@ class PieChartAndLegend: NSObject {
         cell.imageView?.backgroundColor = legendColor
 
 
+//xxxx LOG
+            let x = dataObject.indexOfPosition
+            println("HERE: \(indexPath.row) \(x)") //\(dataObject.title) \(legendColor)")
+//xxxx
+
+
+
         // and add swipe gesture recognizer if required
         if cell.gestureRecognizers?.count == nil {
 
             var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeReceived:"))
-            var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeReceived:"))
-
             leftSwipe.direction = .Left
-            rightSwipe.direction = .Right
-
             cell.addGestureRecognizer(leftSwipe)
+
+            var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeReceived:"))
+            rightSwipe.direction = .Right
             cell.addGestureRecognizer(rightSwipe)
 
         }

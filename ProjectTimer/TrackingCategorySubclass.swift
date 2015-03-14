@@ -37,6 +37,7 @@ class TrackingCategorySubclass: TrackingCategory {
         cat.title = title
         cat.totalValue = totalValue
         cat.color = color
+        cat.indexNumber = returnListOfCategories().count
 
         var err = NSErrorPointer()
         getMOC().save(err)
@@ -61,6 +62,7 @@ class TrackingCategorySubclass: TrackingCategory {
     class func returnListOfCategories()->NSArray{
 
         let fetchRequest = NSFetchRequest(entityName: "TrackingCategory")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
         var err = NSErrorPointer()
         return getMOC().executeFetchRequest(fetchRequest, error: err)! as NSArray

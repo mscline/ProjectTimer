@@ -17,6 +17,7 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
     class func getPieCharts() -> (NSArray){
 
         var fetchRequest = NSFetchRequest(entityName: "PieChartThumbnail")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
         var err = NSErrorPointer()
         let pieCharts = getMOC().executeFetchRequest(fetchRequest, error: err)
@@ -54,6 +55,7 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
         var pieC = NSEntityDescription.insertNewObjectForEntityForName("PieChartThumbnail", inManagedObjectContext: getMOC()) as PieChartThumbnail
         pieC.chartTitle = title
         pieC.isSelected = true
+        pieC.indexNumber = getPieCharts().count
 
         var err = NSErrorPointer()
         getMOC().save(err)

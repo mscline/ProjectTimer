@@ -53,7 +53,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     func addSnapShotOfChartToPieChartThumbObject(chart:PieChartThumbnail){
 
-        if pieChartAndLegend == nil {return;}
+        if pieChartAndLegend == nil || pieChartAndLegend!.pieChart == nil {return;}
 
         let viewWorkingWith = self.pieChartAndLegend!.pieChart!
         UIGraphicsBeginImageContext(viewWorkingWith.frame.size)
@@ -154,7 +154,8 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
                                 color:      cat.color as? UIColor,
                                 amount:     Int(cat.totalValue),
                                 isSelected: true,
-                                optional_parentObject: cat)
+                                optional_parentObject: cat,
+                                positionInChart:    Double(cat.indexNumber))
 
             arrayOfDataToDisplay.append(item)
 

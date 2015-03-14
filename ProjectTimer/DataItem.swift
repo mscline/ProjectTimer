@@ -14,17 +14,19 @@ class DataItem: NSObject {
         var color:UIColor?
         var amount:Int?
         var isSelected = true
-    
+        var indexOfPosition:Double?
+
         weak var pointerToParentObject:AnyObject?  // if items are selected, you want a way to figure out corresponding parent objects, rather than using tags (like in UITableView), I am just going allow the user to give the pointer (thus dispensing with the lookup process)
     
 
-    init(title:NSString?, color:UIColor?, amount:Int?, isSelected:Bool!, optional_parentObject:AnyObject?){
+    init(title:NSString?, color:UIColor?, amount:Int?, isSelected:Bool!, optional_parentObject:AnyObject?, positionInChart:Double){
 
         self.title = title ?? ""
         self.color = color ?? UIColor.whiteColor()
         self.amount = amount ?? 0
         self.isSelected = isSelected
         self.pointerToParentObject = optional_parentObject
+        self.indexOfPosition = positionInChart ?? 0
 
     }
 }

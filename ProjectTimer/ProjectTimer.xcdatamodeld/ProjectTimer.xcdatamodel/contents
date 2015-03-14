@@ -8,12 +8,14 @@
     </entity>
     <entity name="PieChartThumbnail" representedClassName="PieChartThumbnail" syncable="YES">
         <attribute name="chartTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="indexNumber" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="isSelected" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="snapshot" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
         <relationship name="chartsCategories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingCategory" inverseName="categoriesPieCharts" inverseEntity="TrackingCategory" syncable="YES"/>
     </entity>
     <entity name="TrackingCategory" representedClassName="TrackingCategory" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="indexNumber" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalValue" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="categoriesPieCharts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChartThumbnail" inverseName="chartsCategories" inverseEntity="PieChartThumbnail" syncable="YES"/>
@@ -21,7 +23,7 @@
     </entity>
     <elements>
         <element name="LogRecord" positionX="-54" positionY="-9" width="128" height="103"/>
-        <element name="PieChartThumbnail" positionX="-162" positionY="-99" width="128" height="105"/>
-        <element name="TrackingCategory" positionX="-261" positionY="-90" width="128" height="120"/>
+        <element name="PieChartThumbnail" positionX="-162" positionY="-99" width="128" height="120"/>
+        <element name="TrackingCategory" positionX="-261" positionY="-90" width="128" height="135"/>
     </elements>
 </model>

@@ -2,7 +2,7 @@
 //  TrackingCategory.h
 //  ProjectTimer
 //
-//  Created by xcode on 3/6/15.
+//  Created by xcode on 3/14/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 @property (nonatomic, retain) id color;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * totalValue;
+@property (nonatomic, retain) NSNumber * indexNumber;
 @property (nonatomic, retain) NSSet *categoriesPieCharts;
 @property (nonatomic, retain) NSSet *categorysLogs;
 @end
