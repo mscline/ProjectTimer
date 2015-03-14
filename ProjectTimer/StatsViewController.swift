@@ -56,8 +56,21 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
     }
 
+    override func viewWillDisappear(animated: Bool) {
 
-    // TODO change chart title
-    // if have chart but no items, need different message
+        // save thumb of chart
+        if selectedPieChart != nil {
+
+            addSnapShotOfChartToPieChartThumbObject(selectedPieChart!)
+
+            var err = NSErrorPointer()
+            PieChartThumbnailSubclass.getMOC().save(err)
+
+        }
+
+        // call superclass viewWillDisappear
+        super.viewWillDisappear(animated)
+
+    }
 
 }

@@ -47,7 +47,23 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         // if no data to display, can customize view here
 
     }
+
     
+    // MARK: HELPER METHOD TO CALL IN SUBCLASSES
+
+    func addSnapShotOfChartToPieChartThumbObject(chart:PieChartThumbnail){
+
+        if pieChartAndLegend == nil {return;}
+
+        let viewWorkingWith = self.pieChartAndLegend!.pieChart!
+        UIGraphicsBeginImageContext(viewWorkingWith.frame.size)
+        viewWorkingWith.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        chart.snapshot = image
+        
+    }
 
     // xxxxxxxxxxxxxxxxxxxxxxx
     // xxxxxxxxxxxxxxxxxxxxxxx
@@ -146,19 +162,12 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     }
 
-    
+
     // MARK: CODING
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
-    override func viewWillDisappear(animated: Bool) {
-
-        println("need to dealloc?")
-        
-    }
-
 
 
 }

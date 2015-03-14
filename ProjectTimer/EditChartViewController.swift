@@ -126,7 +126,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         let selectedCategories:NSSet = forEachSelectedItemFindCorrespondingCategory(arrayOfSelectedItems: selectedItems)
 
         updatePieChartWithSelectedItems(setOfSelectedCategories: selectedCategories)
-        saveSnapShotOfChartInPieChartThumbObject()
+        addSnapShotOfChartToPieChartThumbObject(pieChartBeingEdited!)
 
     }
 
@@ -214,19 +214,6 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     }
 
-    func saveSnapShotOfChartInPieChartThumbObject(){
-
-        if pieChartAndLegend == nil {return;}
-
-        let viewWorkingWith = self.pieChartAndLegend!.pieChart!
-        UIGraphicsBeginImageContext(viewWorkingWith.frame.size)
-        viewWorkingWith.layer.renderInContext(UIGraphicsGetCurrentContext())
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        pieChartBeingEdited?.snapshot = image
-
-    }
 
     // MARK: LIFECYCLE
 
