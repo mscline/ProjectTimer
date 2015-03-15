@@ -161,8 +161,30 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
         }
 
+        // sort data
+        makeSureDataIsSorted()
+
     }
 
+    func makeSureDataIsSorted(){
+
+        arrayOfDataToDisplay.sort { (a, b) -> Bool in
+
+            let alpha = a as DataItem
+            let beta = b as DataItem
+
+            if a.indexOfPosition < b.indexOfPosition {
+
+                return true
+
+            }else{
+
+                return false
+            }
+
+        }
+
+    }
 
     // MARK: CODING
 
