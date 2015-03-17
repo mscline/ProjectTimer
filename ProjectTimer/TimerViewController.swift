@@ -64,7 +64,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func reloadData(){
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
-        collectionV.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: defaultAlpha)  
+        collectionV.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: defaultAlpha)
         collectionV.reloadData()
     }
 
@@ -85,7 +85,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func getListOfCategoriesAndCheckToSeeIfTimerRunning(){
 
-        categories = TrackingCategorySubclass.returnListOfCategories()
+        getCategoriesFromDatabase()
         logRecord = nil
 
         // if the app exits and is reloaded, need to look to see if tracking
@@ -159,6 +159,34 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         sender.resignFirstResponder()
     }
 
+    @IBAction func onHideButtonPressed(sender: UIButton) {
+
+        // when created cell, set the button's tag to the row number so we can know the row number we are working with
+        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        toggleCategoryIsHidden(timer: trackingC)
+        
+    }
+
+    @IBAction func onChangeColorButtonPressed(sender: AnyObject) {
+
+        // when created cell, set the button's tag to the row number so we can know the row number we are working with
+        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+
+        // reuse old code - get color using alert view
+        addCategoryPart2_thenAskForColor { (color) -> () in
+
+            // save color
+            trackingC.color = color
+
+            var err = NSErrorPointer()
+            TrackingCategorySubclass.getMOC().save(err)
+
+            // reload cell
+            self.reloadData()
+
+        }
+
+    }
 
     // MARK: START & STOP TIMERS
 
@@ -288,6 +316,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let window = UIApplication.sharedApplication().delegate?.window!
         window?.tintColor = UIColor.orangeColor()
 
+        getCategoriesFromDatabase()
         collectionV.reloadData()
 
     }
@@ -312,11 +341,24 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     // MARK: CRUD
 
+    func getCategoriesFromDatabase(){
+
+        if editingModeIsOn == true {
+
+            categories = TrackingCategorySubclass.returnListOfCategories()
+
+        }else{
+
+            categories = TrackingCategorySubclass.returnListOfCategoriesMarkedUnhidden()
+
+        }
+
+    }
     func deleteCategory(category:TrackingCategory){
 
         TrackingCategorySubclass.delTrackingCategory(obj: category)
-        categories = TrackingCategorySubclass.returnListOfCategories()
 
+        getCategoriesFromDatabase()
         collectionV.reloadData()
 
     }
@@ -325,12 +367,17 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         MCAlertWithTextEntry.presentAlertWithTextEntry_alertViewTitle("Add new category", forViewController: self) { (userEnteredText) -> Void in
 
-            self.addCategoryPart2_thenAskForColor(userEnteredText)
+            // on completion run
+            self.addCategoryPart2_thenAskForColor(completionBlock: { (color) -> () in
+
+                self.addCategoryPart3_createNewCategory(title: userEnteredText, color: color)
+
+            })
 
         }
     }
 
-    func addCategoryPart2_thenAskForColor(title:NSString){
+    func addCategoryPart2_thenAskForColor(#completionBlock:(UIColor)->()){
 
         let alert = UIAlertController(title: "Select Color", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
 
@@ -342,8 +389,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             let colorToAdd = color as UIColor
             let action = UIAlertAction(title: colorNames?.objectAtIndex(counter) as NSString, style: UIAlertActionStyle.Default, handler: { (uiAlertAction) -> Void in
 
+                completionBlock(colorToAdd)  // this color is preloaded when create action
 
-                self.addCategoryPart3_createNewCategory(title: title, color: colorToAdd)
             })
 
             alert.addAction(action)
@@ -358,7 +405,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         let ourTitle = title ?? ""
         TrackingCategorySubclass.addNewTrackingCategory(title:ourTitle, totalValue: 0, color: color)
-        categories = TrackingCategorySubclass.returnListOfCategories()
+        getListOfCategoriesAndCheckToSeeIfTimerRunning()
         collectionV.reloadData()
         
     }
@@ -387,6 +434,27 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
             counter++
         }
+
+    }
+
+    func toggleCategoryIsHidden(#timer:TrackingCategory){
+
+        // toggle isHidden property
+        if timer.isHidden == 1 {
+
+            timer.isHidden = 0
+
+        }else{
+
+            timer.isHidden = 1
+        }
+
+        // save
+        var err = NSErrorPointer()
+        TrackingCategorySubclass.getMOC().save(err)
+
+        // update collection view
+        reloadData()
 
     }
 
@@ -434,15 +502,33 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // format text
         let formattedTitle = TextFormatter.createAttributedString(dataObject.title.uppercaseString, withFont: "Futura", fontSize: 14.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
 
+// not working
+cell.textLabel.adjustsFontSizeToFitWidth = true
+cell.elapsedTime.adjustsFontSizeToFitWidth = true
+
         // set
         cell.storageView.backgroundColor = dataObject.color as? UIColor
         cell.storageView.alpha = defaultAlpha
+        
         cell.textLabel.attributedText = formattedTitle
         cell.textLabel.backgroundColor = UIColor.clearColor()
         cell.layoutIfNeeded()
 
         cell.elapsedTime.attributedText = formatText(defaultText_elapsedTime)
+
+        // set tags subviews (now when hit, we know which tag we are working with)
+        cell.hideButton.tag = indexPath.row
+        cell.changeColorButton.tag = indexPath.row
         cell.elapsedTime.tag = -1
+
+        if dataObject.isHidden == 0 {
+
+            cell.hideButton.setTitle("Hide", forState: UIControlState.Normal)
+
+        }else{
+
+            cell.hideButton.setTitle("Unhide", forState: UIControlState.Normal)
+        }
 
         //TextFormatter.printListOfFontFamilyNames()
 
@@ -489,10 +575,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             cell.textLabel.userInteractionEnabled = true
             cell.textLabel.textColor = UIColor.whiteColor()
 
+            cell.hideButton.hidden = false
             cell.viewLogLabel.hidden = false
             cell.deleteButton.hidden = false
+            cell.changeColorButton.hidden = false
 
             cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
+            cell.hideButton.tag = indexPath.row
 
         } else {
 
@@ -500,8 +589,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             cell.textLabel.userInteractionEnabled = false
             cell.textLabel.textColor = UIColor.greenColor()
 
+            cell.hideButton.hidden = true
             cell.viewLogLabel.hidden = true
             cell.deleteButton.hidden = true
+            cell.changeColorButton.hidden = true
 
         }
 

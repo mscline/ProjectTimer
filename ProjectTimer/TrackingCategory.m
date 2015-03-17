@@ -2,7 +2,7 @@
 //  TrackingCategory.m
 //  ProjectTimer
 //
-//  Created by xcode on 3/14/15.
+//  Created by xcode on 3/17/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
@@ -14,9 +14,10 @@
 @implementation TrackingCategory
 
 @dynamic color;
+@dynamic indexNumber;
 @dynamic title;
 @dynamic totalValue;
-@dynamic indexNumber;
+@dynamic isHidden;
 @dynamic categoriesPieCharts;
 @dynamic categorysLogs;
 

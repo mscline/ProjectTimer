@@ -15,6 +15,8 @@ class TimerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var elapsedTime: UILabel!
 
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var hideButton: UIButton!
     @IBOutlet weak var viewLogLabel: UIButton!  // not using as a button, handled by collection view's did select item (left for button formatting...)
+    @IBOutlet weak var changeColorButton: UIButton!
 
 }

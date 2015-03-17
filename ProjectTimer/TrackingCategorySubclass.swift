@@ -38,6 +38,7 @@ class TrackingCategorySubclass: TrackingCategory {
         cat.totalValue = totalValue
         cat.color = color
         cat.indexNumber = returnListOfCategories().count
+        cat.isHidden = 0
 
         var err = NSErrorPointer()
         getMOC().save(err)
@@ -69,6 +70,16 @@ class TrackingCategorySubclass: TrackingCategory {
 
     }
 
+    class func returnListOfCategoriesMarkedUnhidden()->NSArray{
+
+        let fetchRequest = NSFetchRequest(entityName: "TrackingCategory")
+        fetchRequest.predicate = NSPredicate(format: "%K == 0", "isHidden")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
+
+        var err = NSErrorPointer()
+        return getMOC().executeFetchRequest(fetchRequest, error: err)! as NSArray
+        
+    }
 
     class func getMOC() -> NSManagedObjectContext{
 
