@@ -550,6 +550,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // there is no viewDidTransition, but we can pack something in a completion block
         coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
 
+            self.collectionV.collectionViewLayout.invalidateLayout()
             self.collectionV.reloadData()
 
         })
