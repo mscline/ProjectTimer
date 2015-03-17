@@ -34,6 +34,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // EDITING MODE
         var editingModeIsOn = false
+        let collectionViewLayoutDefault = CollectionViewLayout()
+        var collectionViewLayoutEditing:UICollectionViewLayout?
 
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
@@ -48,6 +50,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // save current collection flow layout and change to circle
+        collectionViewLayoutEditing = collectionV.collectionViewLayout
+        collectionV.collectionViewLayout = collectionViewLayoutDefault
         reloadData()
 
         // set up timer to notify you every x seconds
@@ -276,6 +281,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.rightBarButtonItem?.title = "Done"
         self.navigationItem.title = "Editing"
 
+        collectionV.collectionViewLayout = collectionViewLayoutEditing!
         collectionV.backgroundColor = UIColor(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
 
         // set tint color
@@ -292,6 +298,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.rightBarButtonItem?.title = "Edit"
         self.navigationItem.title = "Timers"
 
+        collectionV.collectionViewLayout = collectionViewLayoutDefault
         collectionV.backgroundColor = UIColor.grayColor()
 
         // set tint color
@@ -405,7 +412,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // get cell
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
-        cell.layer.cornerRadius = 20;
         cell.layer.masksToBounds = true;
 
         // update content
@@ -477,7 +483,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func turnFeaturesOnOrOffIfInEditingModeOrNot(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
 
         if editingModeIsOn == true {
-
+            
+            cell.layer.cornerRadius = 10;
             cell.textLabel.userInteractionEnabled = true
             cell.textLabel.textColor = UIColor.whiteColor()
 
@@ -488,6 +495,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         } else {
 
+            cell.layer.cornerRadius = cell.frame.width/2;
             cell.textLabel.userInteractionEnabled = false
             cell.textLabel.textColor = UIColor.greenColor()
 
@@ -533,6 +541,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         var vc = segue.destinationViewController as LogViewController
         vc.selectedTimer = timerBeingEdited
 
+    }
+
+    // MARK: ROTATIONS
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+
+        // there is no viewDidTransition, but we can pack something in a completion block
+        coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
+
+            self.collectionV.reloadData()
+
+        })
+        
     }
 
 }
