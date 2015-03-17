@@ -468,6 +468,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // set default settings
         cell.storageView.alpha = 1.0
+        collectionV.bringSubviewToFront(cell)
         
         // setup clock
         // - we will keep track of which view we are updating

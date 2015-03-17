@@ -41,7 +41,7 @@
     storageArray = [NSMutableArray new];
 
     // calc cell size
-    cellSize = CGSizeMake(125.0, 125.0);
+    [self calculateCellSize];
 
     // get number of elements
     divideCircleInXPieces = [self.collectionView numberOfItemsInSection:0];
@@ -65,6 +65,20 @@
     angle =  2 * M_PI / divideCircleInXPieces;
     
     
+}
+
+-(void)calculateCellSize {
+
+    if(self.collectionView.frame.size.height > self.collectionView.frame.size.width){
+
+        CGFloat cellWidth = 0.4 * self.collectionView.frame.size.width;
+        cellSize = CGSizeMake(cellWidth, cellWidth);
+
+    }else{
+
+        CGFloat cellHeight = 0.4 * self.collectionView.frame.size.height;
+        cellSize = CGSizeMake(cellHeight, cellHeight);
+    }
 }
 
 -(NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
