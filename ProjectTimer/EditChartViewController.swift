@@ -33,9 +33,6 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // get recently added categories
         let arrayOfNewCategories = createListOfNewTimerCategoriesCanAddToPieChart()
 
-println("\n\n")
-println(arrayOfNewCategories)
-
         // put each in a wrapper and add to your chart
         var indexOfNewCat = Double(pieChartBeingEdited!.pieChartsCategoryWrappers.count)
 
@@ -52,7 +49,15 @@ println(arrayOfNewCategories)
     func createListOfNewTimerCategoriesCanAddToPieChart()->(NSArray){
 
         // get list of all your old categories (stored inside their wrappers)
-        let oldCategories = pieChartBeingEdited!.pieChartsCategoryWrappers
+
+        var oldCategories = NSSet()
+
+        if pieChartBeingEdited?.pieChartsCategoryWrappers != nil {
+
+            oldCategories = pieChartBeingEdited!.pieChartsCategoryWrappers
+
+        }
+
 
         var arrayOfCategories = NSMutableArray()
 
@@ -69,11 +74,14 @@ println(arrayOfNewCategories)
 
         for trackingCategory in allTrackingCategories {
 
+            let ourTrackingCategory = trackingCategory as TrackingCategory
             var isNewCat = true
 
             for categoriesAlreadyHave in oldCategories {
 
-                if trackingCategory === categoriesAlreadyHave {
+                let ourCategoriesAlreadyHave = categoriesAlreadyHave as? TrackingCategory
+                
+                if ourTrackingCategory == ourCategoriesAlreadyHave {
 
                     isNewCat = false
                     break

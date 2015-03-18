@@ -22,8 +22,8 @@ class TabBarController: UITabBarController {
         passColorsToChildViewControllers()
 
         // start with the center tab
-        let vcs = self.viewControllers! as NSArray
-        self.selectedViewController = vcs.objectAtIndex(1) as UINavigationController
+//        let vcs = self.viewControllers! as NSArray
+//        self.selectedViewController = vcs.objectAtIndex(1) as UINavigationController
 
         // add sample data on first load
         let userDefaults = NSUserDefaults()
@@ -80,6 +80,7 @@ class TabBarController: UITabBarController {
 
     }
 
+    // helper method for creating sample data
     func updateLastLogUponCheckout(#record:LogRecord, timeInterval:Double){
 
         record.checkoutTime = NSDate().dateByAddingTimeInterval(timeInterval)
