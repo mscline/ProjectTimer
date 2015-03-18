@@ -59,11 +59,11 @@ class TabBarController: UITabBarController {
         catE.isHidden = 1  // moc will be updated by future method calls
 
         // add categories to pie chart
-        pieChart.addChartsCategoriesObject(catA)
-        pieChart.addChartsCategoriesObject(catB)
-        pieChart.addChartsCategoriesObject(catC)
-        pieChart.addChartsCategoriesObject(catD)
-        pieChart.addChartsCategoriesObject(catE)
+//        pieChart.addChartsCategoriesObject(catA)
+//        pieChart.addChartsCategoriesObject(catB)
+//        pieChart.addChartsCategoriesObject(catC)
+//        pieChart.addChartsCategoriesObject(catD)
+//        pieChart.addChartsCategoriesObject(catE)
 
         // add log records
         let logA = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catA)

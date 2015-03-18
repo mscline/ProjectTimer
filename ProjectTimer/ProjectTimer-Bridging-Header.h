@@ -10,3 +10,4 @@
 #import "TrackingCategory.h"
 #import "Grayscale.h"
 #import "CollectionViewLayout.h"
+#import "PieChartCategoryWrapper.h"

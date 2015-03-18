@@ -147,31 +147,31 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         for category in setOfCategoriesToDisplay_yourRawData! {
 
             // find elapsedTime
-            let cat = category as TrackingCategory
-            let sum = TrackingCategorySubclass.sumTotalOfLogRecords(parentCategory: cat)
+            let cat = category as PieChartCategoryWrapper
+            let sum = TrackingCategorySubclass.sumTotalOfLogRecords(parentCategory: cat.catWrappersBaseCategory)
             let elapsedT = sum ?? 0
 
-            cat.totalValue = NSInteger(elapsedT)
+            cat.catWrappersBaseCategory.totalValue = NSInteger(elapsedT)
 
             // update db
             var err = NSErrorPointer()
             TrackingCategorySubclass.getMOC().save(err)
 
             // create data item to pass to pie chart and label class
-            let item = DataItem(title:      cat.title,
+            let item = DataItem(title:      cat.catWrappersBaseCategory.title,
                                 color:      cat.color as? UIColor,
-                                amount:     Int(cat.totalValue),
+                                amount:     Int(cat.catWrappersBaseCategory.totalValue),
                                 isSelected: true,
                                 optional_parentObject: cat,
-                                positionInChart:    Double(cat.indexNumber))
+                                positionInChart:    Double(cat.position))
 
             arrayOfDataToDisplay.append(item)
 
         }
 
         // sort data
-        makeSureDataIsSorted()
-
+        makeSureDataIsSorted()  // the data may have come from a set, so need to sort
+        
     }
 
     func makeSureDataIsSorted(){

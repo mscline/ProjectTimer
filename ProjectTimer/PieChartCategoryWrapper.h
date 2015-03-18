@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSNumber * position;
 @property (nonatomic, retain) id color;
+@property (nonatomic, retain) NSNumber * isHidden;
 @property (nonatomic, retain) PieChartThumbnail *catWrappersPieChart;
 @property (nonatomic, retain) TrackingCategory *catWrappersBaseCategory;
 

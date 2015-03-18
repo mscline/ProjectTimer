@@ -30,11 +30,29 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         // get the selected pie chart and grab its categories
         selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
 
-        if selectedPieChart == nil || selectedPieChart!.chartsCategories == nil { return NSSet()}
+        // this gives us a list of the charts categories for free
+        if selectedPieChart == nil || selectedPieChart!.pieChartsCategoryWrappers == nil { return NSSet()}
 
-        let categories = selectedPieChart!.chartsCategories as NSSet
+        var listOfAllCatWrappers = selectedPieChart!.pieChartsCategoryWrappers as NSSet
 
-        return categories
+        // unfortunately, we do not have a filtered list - we do not want to display the hidden cats
+        // we have two options: a) requery the db  b) just filter it with a nested loop => we will do that
+
+        // make list of items that are not hidden
+        var itemsForDisplay = NSMutableSet()
+
+        for item in itemsForDisplay {
+
+            let ourItem = item as PieChartCategoryWrapper
+            if ourItem.isHidden == 0 {
+
+                itemsForDisplay.addObject(ourItem)
+
+            }
+        }
+
+        return itemsForDisplay
+
         
     }
 

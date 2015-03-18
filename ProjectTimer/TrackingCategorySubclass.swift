@@ -32,7 +32,7 @@ class TrackingCategorySubclass: TrackingCategory {
 
     class func addNewTrackingCategory(#title:NSString, totalValue:NSNumber, color:UIColor)->(TrackingCategory){
 
-        let cat = NSEntityDescription.insertNewObjectForEntityForName("TrackingCategory", inManagedObjectContext: getMOC()) as TrackingCategory
+        let cat = NSEntityDescription.insertNewObjectForEntityForName("BaseCategory", inManagedObjectContext: getMOC()) as TrackingCategory
 
         cat.title = title
         cat.totalValue = totalValue
@@ -62,7 +62,7 @@ class TrackingCategorySubclass: TrackingCategory {
 
     class func returnListOfCategories()->NSArray{
 
-        let fetchRequest = NSFetchRequest(entityName: "TrackingCategory")
+        let fetchRequest = NSFetchRequest(entityName: "BaseCategory")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
         var err = NSErrorPointer()
@@ -72,7 +72,7 @@ class TrackingCategorySubclass: TrackingCategory {
 
     class func returnListOfCategoriesMarkedUnhidden()->NSArray{
 
-        let fetchRequest = NSFetchRequest(entityName: "TrackingCategory")
+        let fetchRequest = NSFetchRequest(entityName: "BaseCategory")
         fetchRequest.predicate = NSPredicate(format: "%K == 0", "isHidden")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 

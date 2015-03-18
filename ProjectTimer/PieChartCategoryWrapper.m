@@ -15,6 +15,7 @@
 
 @dynamic position;
 @dynamic color;
+@dynamic isHidden;
 @dynamic catWrappersPieChart;
 @dynamic catWrappersBaseCategory;
 

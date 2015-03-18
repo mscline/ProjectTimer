@@ -27,14 +27,81 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
     // our superclass will display the Legend and Chart
     // xxxxxxxxxxx
 
+    // MARK: UPDATE LIST OF CATEGORIES
+    func importNewTimerCategoriesIntoChart(){
 
-    // PREPARE TO DISPLAY DATA
+        // get recently added categories
+        let arrayOfNewCategories = createListOfNewTimerCategoriesCanAddToPieChart()
+
+println("\n\n")
+println(arrayOfNewCategories)
+
+        // put each in a wrapper and add to your chart
+        var indexOfNewCat = Double(pieChartBeingEdited!.pieChartsCategoryWrappers.count)
+
+        for cat in arrayOfNewCategories {
+
+            let wrapper = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChartBeingEdited!, baseCategory: cat as TrackingCategory, positionIndexNumber: indexOfNewCat)
+
+            indexOfNewCat++
+
+        }
+
+    }
+
+    func createListOfNewTimerCategoriesCanAddToPieChart()->(NSArray){
+
+        // get list of all your old categories (stored inside their wrappers)
+        let oldCategories = pieChartBeingEdited!.pieChartsCategoryWrappers
+
+        var arrayOfCategories = NSMutableArray()
+
+        for wrapper in oldCategories {
+
+            arrayOfCategories.addObject(wrapper.catWrappersBaseCategory)
+        }
+
+        // get list of all of the timers categories
+        let allTrackingCategories = TrackingCategorySubclass.returnListOfCategories()
+
+        // create list of category that the pie chart doesn't have yet
+        var arrayOfNewCategories = NSMutableArray()
+
+        for trackingCategory in allTrackingCategories {
+
+            var isNewCat = true
+
+            for categoriesAlreadyHave in oldCategories {
+
+                if trackingCategory === categoriesAlreadyHave {
+
+                    isNewCat = false
+                    break
+
+                }
+
+            }
+
+            if isNewCat == true {
+
+                arrayOfNewCategories.addObject(trackingCategory)
+
+            }
+        }
+
+      return arrayOfNewCategories
+
+    }
+
+
+    // MARK: PREPARE TO DISPLAY DATA
 
     override func
         getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
-            let arrayOfDataToDisplay = TrackingCategorySubclass.returnListOfCategories()
-            return NSSet(array: arrayOfDataToDisplay)
+        importNewTimerCategoriesIntoChart()
+        let itemsForDisplay = pieChartBeingEdited!.pieChartsCategoryWrappers
+        return itemsForDisplay
         
     }
 
@@ -47,7 +114,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
 
-        // do not display both legend and chart
+        // do not display both legend and chart vertically
         splitViewBetweenChartAndLegend = false
         
         // deselect all items (just go with brute force)
@@ -62,9 +129,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
             let parentObject:AnyObject? = item.pointerToParentObject
             if parentObject == nil { continue; }
-            if pieChartBeingEdited!.chartsCategories == nil { break; }
+            if pieChartBeingEdited!.pieChartsCategoryWrappers == nil { break; }
 
-            for category in pieChartBeingEdited!.chartsCategories {
+            for category in pieChartBeingEdited!.pieChartsCategoryWrappers {
 
                     if category === parentObject! {
 
@@ -83,12 +150,12 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // set alpha so can see background pie chart 
         self.pieChartAndLegend?.table?.alpha = 0.7
 
-        // adjust position
-        var frame = self.pieChartAndLegend!.pieChart!.frame
-        let pieChartRadius = frame.size.height/2
-        let xPosition = self.view.frame.size.width - pieChartRadius + 200
-        frame = CGRectMake(xPosition, frame.origin.y, frame.size.width, frame.size.height)
-        
+//        // adjust position
+//        var frame = self.pieChartAndLegend!.pieChart!.frame
+//        let pieChartRadius = frame.size.height/2
+//        let xPosition = self.view.frame.size.width - pieChartRadius + 200
+//        frame = CGRectMake(xPosition, frame.origin.y, frame.size.width, frame.size.height)
+
     }
 
 
@@ -206,23 +273,23 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         // REMOVE NON-SELECTED CATEGORIES
 
-        // 1) get set of all categories
-        var setOfItemsToDelete = NSMutableSet(set: pieChartBeingEdited!.chartsCategories)
-
-        // 2) remove selected items
-        setOfItemsToDelete.minusSet(setOfSelectedCategories)
-
-        // 3 update the database
-        pieChartBeingEdited?.removeChartsCategories(setOfItemsToDelete)
-
-
-        // ADD SELECTED CATEGORIES
-        pieChartBeingEdited?.addChartsCategories(setOfSelectedCategories)
-
-        // SAVE DB
-        var err = NSErrorPointer()
-        PieChartThumbnailSubclass.getMOC().save(err)
-        if(err != nil ){ println(err); }
+//        // 1) get set of all categories
+//        var setOfItemsToDelete = NSMutableSet(set: pieChartBeingEdited!.chartsCategories)
+//
+//        // 2) remove selected items
+//        setOfItemsToDelete.minusSet(setOfSelectedCategories)
+//
+//        // 3 update the database
+//        pieChartBeingEdited?.removeChartsCategories(setOfItemsToDelete)
+//
+//
+//        // ADD SELECTED CATEGORIES
+//        pieChartBeingEdited?.addChartsCategories(setOfSelectedCategories)
+//
+//        // SAVE DB
+//        var err = NSErrorPointer()
+//        PieChartThumbnailSubclass.getMOC().save(err)
+//        if(err != nil ){ println(err); }
 
     }
 
@@ -248,7 +315,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // hide unwanted views
         view_noTimersToView.hidden = true
 
-        // change back button to Save
+        // change back button to Save ????
 
         let alert = UIAlertController(title: "Edit Pie Graph", message: "Select which timers you would like to include in your PieChart.", preferredStyle: UIAlertControllerStyle.Alert)
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler:nil)
