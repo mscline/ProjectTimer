@@ -554,6 +554,8 @@
                                 <exclude reference="rXj-ca-88h"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="2ob-II-lUN"/>
+                                <exclude reference="E65-oD-7QA"/>
                                 <exclude reference="6E3-pw-DmK"/>
                                 <exclude reference="gPh-10-ncZ"/>
                                 <exclude reference="lLl-4h-MDB"/>
@@ -565,8 +567,6 @@
                                 <exclude reference="EoO-O8-jAi"/>
                                 <exclude reference="o83-YP-65V"/>
                                 <exclude reference="xvv-Kb-0bt"/>
-                                <exclude reference="2ob-II-lUN"/>
-                                <exclude reference="E65-oD-7QA"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -576,6 +576,8 @@
                                 <include reference="rXj-ca-88h"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="2ob-II-lUN"/>
+                                <include reference="E65-oD-7QA"/>
                                 <include reference="6E3-pw-DmK"/>
                                 <include reference="gPh-10-ncZ"/>
                                 <include reference="lLl-4h-MDB"/>
@@ -587,8 +589,6 @@
                                 <include reference="EoO-O8-jAi"/>
                                 <include reference="o83-YP-65V"/>
                                 <include reference="xvv-Kb-0bt"/>
-                                <include reference="2ob-II-lUN"/>
-                                <include reference="E65-oD-7QA"/>
                             </mask>
                         </variation>
                     </view>
