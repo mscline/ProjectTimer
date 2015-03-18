@@ -42,6 +42,11 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     }
 
+    func didCreateChartAndGraph(){
+
+
+    }
+
     func noDataToDispalyInChart(){
 
         // if no data to display, can customize view here
@@ -120,6 +125,9 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
             self.noDataToDispalyInChart()
             
         }
+
+        // notify user that chart is finished
+        self.didCreateChartAndGraph()
 
     }
 

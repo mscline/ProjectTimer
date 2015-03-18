@@ -78,6 +78,18 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     }
 
+    override func didCreateChartAndGraph() {
+
+        // set alpha so can see background pie chart 
+        self.pieChartAndLegend?.table?.alpha = 0.7
+
+        // adjust position
+        var frame = self.pieChartAndLegend!.pieChart!.frame
+        let pieChartRadius = frame.size.height/2
+        let xPosition = self.view.frame.size.width - pieChartRadius + 200
+        frame = CGRectMake(xPosition, frame.origin.y, frame.size.width, frame.size.height)
+        
+    }
 
 
     // MARK: DELETE CHART
