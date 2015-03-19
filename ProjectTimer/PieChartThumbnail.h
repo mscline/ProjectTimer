@@ -2,7 +2,7 @@
 //  PieChartThumbnail.h
 //  ProjectTimer
 //
-//  Created by xcode on 3/18/15.
+//  Created by xcode on 3/19/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 

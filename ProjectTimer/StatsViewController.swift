@@ -32,7 +32,6 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
         // this gives us a list of the charts categories for free
         if selectedPieChart == nil || selectedPieChart!.pieChartsCategoryWrappers == nil { return NSSet()}
-
         var listOfAllCatWrappers = selectedPieChart!.pieChartsCategoryWrappers as NSSet
 
         // unfortunately, we do not have a filtered list - we do not want to display the hidden cats
@@ -41,7 +40,7 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         // make list of items that are not hidden
         var itemsForDisplay = NSMutableSet()
 
-        for item in itemsForDisplay {
+        for item in listOfAllCatWrappers {
 
             let ourItem = item as PieChartCategoryWrapper
             if ourItem.isHidden == 0 {
