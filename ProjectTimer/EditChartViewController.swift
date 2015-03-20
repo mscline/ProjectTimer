@@ -72,6 +72,39 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     }
 
+//    override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
+//
+//        // do not display both legend and chart vertically
+//        splitViewBetweenChartAndLegend = false
+//
+//        // deselect all items (just go with brute force)
+//        for item in arrayOfDataItemsToDisplay {
+//
+//            item.isSelected = false
+//
+//        }
+//
+//        // if an item belongs to a category, it should be selected (go with brute force nested loop)
+//        for item in arrayOfDataItemsToDisplay {
+//
+//            let parentObject:AnyObject? = item.pointerToParentObject
+//            if parentObject == nil { continue; }
+//            if pieChartBeingEdited!.pieChartsCategoryWrappers == nil { break; }
+//
+//            for category in pieChartBeingEdited!.pieChartsCategoryWrappers {
+//
+//                if category === parentObject! {
+//
+//                    item.isSelected = true
+//                    
+//                }
+//                
+//            }
+//            
+//        }
+//        
+//    }
+
     override func didCreateChartAndGraph() {
 
         // set alpha so can see background pie chart 

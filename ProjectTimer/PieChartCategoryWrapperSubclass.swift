@@ -23,7 +23,7 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
         wrapper.color = baseCategory.color
         wrapper.isHidden = 1  
         wrapper.isSelected = 0
-
+abort()
         // add to parent
         pieChart.addPieChartsCategoryWrappersObject(wrapper)
 
