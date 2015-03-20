@@ -9,7 +9,7 @@
 
 import UIKit
 
-class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
+class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, PieChartAndLegendWasSelected {
 
 
         // instance variables (you can access them, but override methods to provide required data)
@@ -53,7 +53,22 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
     }
 
-    
+
+    // MARK: PIE CHART DELEGATE METHODS TO OVERRIDE
+
+    func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
+
+        // override if desired
+
+    }
+
+    func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {
+
+        // override if desired
+
+    }
+
+
     // MARK: HELPER METHOD TO CALL IN SUBCLASSES
 
     func addSnapShotOfChartToPieChartThumbObject(chart:PieChartThumbnail){
@@ -119,6 +134,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
 
             // build it
             pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!, splitViewBetweenChartAndLegend: self.splitViewBetweenChartAndLegend)
+            pieChartAndLegend!.delegate = self
 
         } else {
 
@@ -161,7 +177,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
             let item = DataItem(title:      cat.catWrappersBaseCategory.title,
                                 color:      cat.color as? UIColor,
                                 amount:     Int(cat.catWrappersBaseCategory.totalValue),
-                                isSelected: true,
+                                isSelected: convertToBool_stupidHelper(cat.isSelected),
                                 optional_parentObject: cat,
                                 positionInChart:    Double(cat.position))
 
@@ -172,6 +188,26 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol {
         // sort data
         makeSureDataIsSorted()  // the data may have come from a set, so need to sort
         
+    }
+
+    func convertToBool_stupidHelper(number:NSNumber)->(Bool){
+
+        // got weird errors, will do manually
+
+        if number == 0 {
+
+            return false
+
+        }else if number == 1 {
+
+            return true
+
+        } else {
+
+            abort()
+
+        }
+
     }
 
     func makeSureDataIsSorted(){

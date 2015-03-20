@@ -35,7 +35,8 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         importNewTimerCategoriesIntoChart()
         let itemsForDisplay = pieChartBeingEdited!.pieChartsCategoryWrappers
-        return itemsForDisplay
+
+        return itemsForDisplay  // these are category wrapper items, which will be converted into pie chart DataItems - which will be edited in willCreateChartAndGraph, below
         
     }
 
@@ -50,30 +51,22 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         // do not display both legend and chart vertically
         splitViewBetweenChartAndLegend = false
-        
-        // deselect all items (just go with brute force)
+
+
+        // ADD CHECKMARKS
+
+        // a DataItem has a property isSelected which will determine
+        // whether or not it is given a checkmark
+
+        // but, in this case, we want our checkmarks to correspond to the
+        // isHidden property on our original data item
+        // (rem: this VC, allows us to select which elements are displayed/hidden)
+
         for item in arrayOfDataItemsToDisplay {
 
-            item.isSelected = false
+            let parentObject:PieChartCategoryWrapper = item.pointerToParentObject as PieChartCategoryWrapper
 
-        }
-
-        // if an item belongs to a category, it should be selected (go with brute force nested loop)
-        for item in arrayOfDataItemsToDisplay {
-
-            let parentObject:AnyObject? = item.pointerToParentObject
-            if parentObject == nil { continue; }
-            if pieChartBeingEdited!.pieChartsCategoryWrappers == nil { break; }
-
-            for category in pieChartBeingEdited!.pieChartsCategoryWrappers {
-
-                    if category === parentObject! {
-
-                        item.isSelected = true
-
-                    }
-                
-            }
+            item.isSelected = self.convertToBool_stupidHelper(parentObject.isHidden)
 
         }
 
@@ -85,6 +78,43 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         self.pieChartAndLegend?.table?.alpha = 0.7
     }
 
+    override func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
+
+        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+
+        // trash
+        var err2 = NSErrorPointer()
+    categoryWrapperObj.isHidden == 0.0
+    PieChartCategoryWrapperSubclass.getMOC().save(err2)
+// xxxxx
+
+        return;
+
+
+        // toggle isHidden value 
+        // (this will just change our check mark here, but in the stats controller it means it will not be included)
+        if categoryWrapperObj.isHidden == 0 {
+
+            categoryWrapperObj.isHidden == 1
+
+        }else{
+
+            categoryWrapperObj.isHidden == 0
+        }
+
+
+        // save updates
+        var err = NSErrorPointer()
+        PieChartCategoryWrapperSubclass.getMOC().save(err)
+        if err != nil { println(err)}
+let x2 = categoryWrapperObj.isHidden
+    }
+
+    override func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {
+
+        // override if desired
+
+    }
 
     // MARK: UPDATE LIST OF CATEGORIES
 

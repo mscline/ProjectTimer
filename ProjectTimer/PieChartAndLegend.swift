@@ -8,12 +8,21 @@
 
 import UIKit
 
+protocol PieChartAndLegendWasSelected {
+
+    func itemWasSelected(#theObjectYouPassedIn:AnyObject?)->()
+    func colorWasChangedForItem(#theObjectYouPassedIn:AnyObject?, color:UIColor)->()
+
+}
+
+
 class PieChartAndLegend: NSObject {
 
 
     // [PUBLIC] INSTANCE VARIABLES
     var pieChart:PieChart?                  // the pie chart is a UIView
     var table:MCTableWithMutliSelection?
+    var delegate:PieChartAndLegendWasSelected?
 
     var legendFrame:CGRect?
     var minPaddingForPieChart:CGFloat = 15.0
@@ -228,13 +237,8 @@ class PieChartAndLegend: NSObject {
         // rather than customizing our table view cells and having to do extra work, we are just going to use the existing imageView on our cell
         cell.imageView?.image = UIImage(named: "clearImage.png")
         cell.imageView?.backgroundColor = legendColor
-
-
-//xxxx LOG
-            let x = dataObject.indexOfPosition
-            println("HERE: \(indexPath.row) \(x)") //\(dataObject.title) \(legendColor)")
-//xxxx
-
+        //cell.imageView?.image!.layer.borderColor = UIColor.blackColor().CGColor
+        //cell.imageView!.image.layer.borderWidth = 2.0
 
 
         // and add swipe gesture recognizer if required
@@ -252,11 +256,17 @@ class PieChartAndLegend: NSObject {
 
     }
 
-    private func helper_doesContainUIView(#view:UIView){
-
-    }
-
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        if delegate != nil {
+
+            let selectedObject = arrayOfLegendItems[indexPath.row] as MCTableDataObject
+            let wrappedDataObject = selectedObject.wrappedObject as DataItem
+            let originalObjectPassedIn: AnyObject? = wrappedDataObject.pointerToParentObject
+            
+            delegate?.itemWasSelected(theObjectYouPassedIn: originalObjectPassedIn)
+
+        }
 
         // update pie chart
         buildArrayOfPieSlicesFromLegendData()
