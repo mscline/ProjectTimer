@@ -36,7 +36,10 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         importNewTimerCategoriesIntoChart()
         let itemsForDisplay = pieChartBeingEdited!.pieChartsCategoryWrappers
 
-        return itemsForDisplay  // these are category wrapper items, which will be converted into pie chart DataItems - which will be edited in willCreateChartAndGraph, below
+        return itemsForDisplay
+
+            // 1) these are category wrapper items, which will be converted into pie chart DataItems by the superclass 
+            // 2) we will edit these DataItems in willCreateChartAndGraph, below
         
     }
 
@@ -56,54 +59,23 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // ADD CHECKMARKS
 
         // a DataItem has a property isSelected which will determine
-        // whether or not it is given a checkmark
+        // whether or not it is given a checkmark in the table view
 
         // but, in this case, we want our checkmarks to correspond to the
-        // isHidden property on our original data item
-        // (rem: this VC, allows us to select which elements are displayed/hidden)
+        //  notUsedInChart property on our original data item
+        // (rem: this VC, allows us to select which elements show in our final pie chart)
 
         for item in arrayOfDataItemsToDisplay {
 
             let parentObject:PieChartCategoryWrapper = item.pointerToParentObject as PieChartCategoryWrapper
 
-            item.isSelected = self.convertToBool_stupidHelper(parentObject.isHidden)
+            let shouldNotCheckMark = parentObject.notUsedInChart as Bool
+            let shouldCheckMark = !shouldNotCheckMark
+            item.isSelected = shouldCheckMark
 
         }
 
     }
-
-//    override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
-//
-//        // do not display both legend and chart vertically
-//        splitViewBetweenChartAndLegend = false
-//
-//        // deselect all items (just go with brute force)
-//        for item in arrayOfDataItemsToDisplay {
-//
-//            item.isSelected = false
-//
-//        }
-//
-//        // if an item belongs to a category, it should be selected (go with brute force nested loop)
-//        for item in arrayOfDataItemsToDisplay {
-//
-//            let parentObject:AnyObject? = item.pointerToParentObject
-//            if parentObject == nil { continue; }
-//            if pieChartBeingEdited!.pieChartsCategoryWrappers == nil { break; }
-//
-//            for category in pieChartBeingEdited!.pieChartsCategoryWrappers {
-//
-//                if category === parentObject! {
-//
-//                    item.isSelected = true
-//                    
-//                }
-//                
-//            }
-//            
-//        }
-//        
-//    }
 
     override func didCreateChartAndGraph() {
 
@@ -115,32 +87,23 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
 
-        // trash
-        var err2 = NSErrorPointer()
-    categoryWrapperObj.isHidden == 0.0
-    PieChartCategoryWrapperSubclass.getMOC().save(err2)
-// xxxxx
+        // !!! need to refetch object (for some reason, it is not live) !!!
+        var err = NSErrorPointer()
+        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
 
-        return;
-
-
-        // toggle isHidden value 
+        // toggle notUsedInChart value
         // (this will just change our check mark here, but in the stats controller it means it will not be included)
-        if categoryWrapperObj.isHidden == 0 {
-
-            categoryWrapperObj.isHidden == 1
-
-        }else{
-
-            categoryWrapperObj.isHidden == 0
-        }
-
+        let usedInChart = catWrapper.notUsedInChart as Bool
+        catWrapper.notUsedInChart = !usedInChart
+        catWrapper.position = 99
 
         // save updates
-        var err = NSErrorPointer()
-        PieChartCategoryWrapperSubclass.getMOC().save(err)
-        if err != nil { println(err)}
-let x2 = categoryWrapperObj.isHidden
+        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
+        if err != nil || didSave == false { println("error: \(err)")}
+
+                let catWrapper2 = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+        println(catWrapper2)
+
     }
 
     override func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {

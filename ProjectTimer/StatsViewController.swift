@@ -43,7 +43,7 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         for item in listOfAllCatWrappers {
 
             let ourItem = item as PieChartCategoryWrapper
-            if ourItem.isHidden == 0 {
+            if ourItem.notUsedInChart == false {
 
                 itemsForDisplay.addObject(ourItem)
 

@@ -52,11 +52,14 @@ class TabBarController: UITabBarController {
 
         // create categories
         let catA = TrackingCategorySubclass.addNewTrackingCategory(title: "Planning", totalValue: 100, color: UIColor.purpleColor())
+
+return
+
         let catB = TrackingCategorySubclass.addNewTrackingCategory(title: "Coding", totalValue: 100, color: UIColor.blueColor())
         let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.yellowColor())
         let catD = TrackingCategorySubclass.addNewTrackingCategory(title: "Debug", totalValue: 100, color: UIColor.redColor())
         let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "Other", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
-        catE.isHidden = 1  // moc will be updated by future method calls
+        catE.timerIsHidden = 1  // moc will be updated by future method calls
 
         // add categories to pie chart
 //        pieChart.addChartsCategoriesObject(catA)

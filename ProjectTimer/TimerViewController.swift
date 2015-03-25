@@ -349,7 +349,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         }else{
 
-            categories = TrackingCategorySubclass.returnListOfCategoriesMarkedUnhidden()
+            categories = TrackingCategorySubclass.returnListOfTimersMarkedUnhidden()
 
         }
 
@@ -440,13 +440,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func toggleCategoryIsHidden(#timer:TrackingCategory){
 
         // toggle isHidden property
-        if timer.isHidden == 1 {
+        if timer.timerIsHidden == 1 {
 
-            timer.isHidden = 0
+            timer.timerIsHidden = 0
 
         }else{
 
-            timer.isHidden = 1
+            timer.timerIsHidden = 1
         }
 
         // save
@@ -521,7 +521,7 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
         cell.changeColorButton.tag = indexPath.row
         cell.elapsedTime.tag = -1
 
-        if dataObject.isHidden == 0 {
+        if dataObject.timerIsHidden == 0 {
 
             cell.hideButton.setTitle("Hide", forState: UIControlState.Normal)
 

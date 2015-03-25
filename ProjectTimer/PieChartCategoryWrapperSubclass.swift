@@ -12,7 +12,7 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
 
     // the project has basic categories/timers that are shared
     // but each pie chart may customize color, appearance, and select which categories are shown in the chart
-    // thus, a pie chart will make categories in editing mode
+    // thus, a pie chart will make a category wrapper for each category
 
     class func createCategoryWrapperForPieChart(#pieChart:PieChartThumbnail, baseCategory:TrackingCategory, positionIndexNumber:Double)->(PieChartCategoryWrapper){
 
@@ -21,9 +21,9 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
         wrapper.catWrappersBaseCategory = baseCategory;
         wrapper.position = positionIndexNumber
         wrapper.color = baseCategory.color
-        wrapper.isHidden = 1  
+        wrapper.notUsedInChart = true
         wrapper.isSelected = 0
-abort()
+
         // add to parent
         pieChart.addPieChartsCategoryWrappersObject(wrapper)
 
@@ -43,5 +43,5 @@ abort()
         return AppDel.managedObjectContext!
 
     }
-
+    
 }

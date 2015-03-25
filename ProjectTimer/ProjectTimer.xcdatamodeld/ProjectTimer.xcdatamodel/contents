@@ -3,7 +3,7 @@
     <entity name="BaseCategory" representedClassName="TrackingCategory" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="indexNumber" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="isHidden" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="timerIsHidden" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalValue" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="baseCategorysWrappers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChartCategoryWrapper" inverseName="catWrappersBaseCategory" inverseEntity="PieChartCategoryWrapper" syncable="YES"/>
@@ -17,23 +17,23 @@
     </entity>
     <entity name="PieChartCategoryWrapper" representedClassName="PieChartCategoryWrapper" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="isHidden" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="isSelected" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="isSelected" optional="YES" attributeType="Boolean" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="notUsedInChart" optional="YES" attributeType="Boolean" defaultValueString="0.0" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="catWrappersBaseCategory" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="BaseCategory" inverseName="baseCategorysWrappers" inverseEntity="BaseCategory" syncable="YES"/>
-        <relationship name="catWrappersPieChart" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="PieChartThumbnail" inverseName="pieChartsCategoryWrappers" inverseEntity="PieChartThumbnail" syncable="YES"/>
+        <relationship name="catWrappersBaseCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaseCategory" inverseName="baseCategorysWrappers" inverseEntity="BaseCategory" syncable="YES"/>
+        <relationship name="catWrappersPieChart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PieChartThumbnail" inverseName="pieChartsCategoryWrappers" inverseEntity="PieChartThumbnail" syncable="YES"/>
     </entity>
     <entity name="PieChartThumbnail" representedClassName="PieChartThumbnail" syncable="YES">
         <attribute name="chartTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="indexNumber" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="isSelected" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="snapshot" optional="YES" attributeType="Transformable" storedInTruthFile="YES" syncable="YES"/>
-        <relationship name="pieChartsCategoryWrappers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChartCategoryWrapper" inverseName="catWrappersPieChart" inverseEntity="PieChartCategoryWrapper" syncable="YES"/>
+        <relationship name="pieChartsCategoryWrappers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PieChartCategoryWrapper" inverseName="catWrappersPieChart" inverseEntity="PieChartCategoryWrapper" syncable="YES"/>
     </entity>
     <elements>
         <element name="BaseCategory" positionX="-209" positionY="-40" width="128" height="148"/>
         <element name="LogRecord" positionX="-20" positionY="9" width="128" height="103"/>
-        <element name="PieChartCategoryWrapper" positionX="-371" positionY="-45" width="128" height="133"/>
+        <element name="PieChartCategoryWrapper" positionX="-371" positionY="-45" width="128" height="135"/>
         <element name="PieChartThumbnail" positionX="-369" positionY="-216" width="128" height="118"/>
     </elements>
 </model>

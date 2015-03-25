@@ -2,7 +2,7 @@
 //  PieChartCategoryWrapper.m
 //  ProjectTimer
 //
-//  Created by xcode on 3/19/15.
+//  Created by xcode on 3/25/15.
 //  Copyright (c) 2015 MSCline. All rights reserved.
 //
 
@@ -14,9 +14,9 @@
 @implementation PieChartCategoryWrapper
 
 @dynamic color;
-@dynamic isHidden;
-@dynamic position;
 @dynamic isSelected;
+@dynamic notUsedInChart;
+@dynamic position;
 @dynamic catWrappersBaseCategory;
 @dynamic catWrappersPieChart;
 
