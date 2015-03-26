@@ -1660,12 +1660,12 @@
             </objects>
             <point key="canvasLocation" x="-253.5" y="-312"/>
         </scene>
-        <!--Satistics-->
+        <!--Statistics-->
         <scene sceneID="shW-Kx-EJD">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="agi-mN-Flq" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Satistics" id="uWs-cS-jAH"/>
+                    <tabBarItem key="tabBarItem" title="Statistics" id="uWs-cS-jAH"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xM0-Ph-joe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

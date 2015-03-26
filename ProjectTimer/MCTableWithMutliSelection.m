@@ -20,6 +20,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
   // drag and drop
   @property BOOL moveCellInProgress;
   @property MCBlockTouchesView *blocker;
+  @property NSString *dropDirections;
 
 
 @end
@@ -38,6 +39,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     if(self){
 
         [self setup_blockInFrontOfView:blockInFrontOfThisView];
+        [self setup_misc];
 
     }
     
@@ -52,12 +54,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     if(self){
 
         [self setup_blockInFrontOfView:nil ];
-
-        // ??? when is this called ???
-        // ??? check what happens when we background it ???
-        // I dont' see any reason why to bother storing the default settings here
-
-
+        [self setup_misc];
     }
     
     return self;
@@ -70,6 +67,13 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     [self setupDelegates];
     [self setupBlockerView:view];
     [self setDefaultSettings];
+
+}
+
+-(void)setup_misc
+{
+
+    self.dropDirections = @"Double Click To Drop";
 
 }
 
@@ -196,6 +200,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     MCTableDataObject *item = [arrayOfDataForDisplay objectAtIndex:indexPath.row];
 
     cell.textLabel.text = item.title;
+    cell.detailTextLabel.text = item.subtitle;
     // UPGRADE???   cell.imageView.image = [UIImage imageWithData:???];
 
     return item;
@@ -219,9 +224,9 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
 -(void)addLabelWithDragAndDropDirectionsToCellIfDoesNotHave:(UITableViewCell *)cell
 {
+    // we didn't create the cell, so we are just going to do a quick insertion
 
     // set defaults
-    NSString *dropDirections = @"Double Click To Drop";
     UIColor *textColor = color_cellDefault;                         // UPGRADE ????
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:10];  // UPGRADE ????
 
@@ -234,7 +239,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
         if([subview isKindOfClass:[UILabel class]])
         {
             UILabel *label = (UILabel *)subview;
-            if([label.text isEqualToString:dropDirections]){ return; }
+            if([label.text isEqualToString:self.dropDirections]){ return; }
         }
 
     }
@@ -242,9 +247,10 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     // if does not have, add one
     UILabel *label = [[UILabel alloc]initWithFrame:labelFrame];
-    label.text = dropDirections;
+    label.text = self.dropDirections;
     label.font = font;
     label.textColor = textColor;
+    label.hidden = true;
     [cell addSubview:label];
 
 }
@@ -252,7 +258,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 - (UITableViewCell *)addCheckmarkAndHighlights:(UITableViewCell *)cell dataObject:(MCTableDataObject *)item
 {
 
-    if(!moveCellInProgress){
+    if(!moveCellInProgress){  // a view controller property
 
         // add checkmark
         if([item.isSelected boolValue]) {
@@ -265,12 +271,16 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
         }
 
+        // make sure drop notification is off
+        [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
+
     }else{
 
         // if highlighted change background color
         if(item.isHighlightForDrag == isHighlighted) {
 
             cell.backgroundColor = color_selectCellForDrag;
+            [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:true];
 
         } else if (item.isHighlightForDrag == slowlyFade){
 
@@ -279,13 +289,17 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
             [UIView animateWithDuration:1.0 animations:^{
 
                 cell.backgroundColor = color_cellDefault;
+                [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
+
             }];
 
             item.isHighlightForDrag = none;
 
-        } else {
+        } else {  // it is not a not highlighted cell
 
             cell.accessoryType = UITableViewCellAccessoryNone;
+            [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
+
         }
 
     }
@@ -293,6 +307,28 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     return cell;
 
 
+}
+
+-(void)helper_turnDropNotificationOnOrOffForCell:(UITableViewCell *)cell shouldDisplay:(BOOL)shouldDisplay
+{
+    // check to see if cell has the drop directions
+    // the user created the cell, so we added a subview
+    // thus, to change it to hide/unhide it, we need to look for it
+
+    for (id subview in cell.subviews){
+
+        if([subview isKindOfClass:[UILabel class]])
+        {
+            UILabel *label = (UILabel *)subview;
+            if([label.text isEqualToString:self.dropDirections]){
+
+            label.hidden = !shouldDisplay;
+
+            }
+
+        }
+        
+    }
 }
 
 

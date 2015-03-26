@@ -188,17 +188,109 @@ class PieChartAndLegend: NSObject {
         arrayOfLegendItems.removeAllObjects()
         var counter = 0
 
+        let sumOfAllCategories = helper_getSumOfAllItemsValue()
+
         // create a legend item for each data item
         for item in arrayOfDataToDisplay {
 
             var legend = MCTableDataObject()
             legend.title = item.title
+            legend.subtitle = buildSubtitle(category: item, elapsedTimeForSelectedCategory:item.amount, totalTime: sumOfAllCategories)
             legend.isSelected = item.isSelected
             legend.wrappedObject = item
             legend.sortPosition = item.indexOfPosition
             arrayOfLegendItems.addObject(legend)
 
         }
+    }
+
+    private func buildSubtitle(#category:DataItem, elapsedTimeForSelectedCategory:Int?, totalTime:Float)->(String){
+
+        // deal with optionals
+        var elapsedTime = elapsedTimeForSelectedCategory ?? 0
+
+        // if the category is not selected, do not display detail info
+        if category.isSelected == false {return "";}
+
+        // make string with amount of time passed in it
+        let timePassed = helper_formatTime(elapsedTime)
+
+        // make string with percentage of total
+        let categorysPercentageOfTotalTimePassed:Float = Float(elapsedTime) / totalTime
+        let percentageWithTwoDecimalPlaces = Int(categorysPercentageOfTotalTimePassed*100)
+        let percentageAsString = "(\(percentageWithTwoDecimalPlaces)%)"
+
+        // combine strings and return
+        let combinedString = "\(timePassed) \(percentageAsString)"
+        return combinedString
+
+    }
+
+    private func helper_getSumOfAllItemsValue()->(Float){
+
+        var total:Float = 0.0
+
+        // go through all data items being display, if it is selected, then add to sum
+        for slice in arrayOfDataToDisplay {
+
+            if slice.isSelected == true {
+
+                let amount = slice.amount ?? 0
+                total = total + Float(amount)
+
+            }
+        }
+
+        return total
+    }
+
+    private func helper_formatTime(elapsedTime:Int!)->(String){
+
+        // CALC DAYS, HOURS, MIN, SEC, HUNDRETHS (just did it by hand, alternatively could have used function)
+
+        // how many days have passed
+        // convert seconds into days = (1 min / 60 sec)(1 hour / 60 min)(1 day / 24 hours) with no remainder
+        let days = Int(elapsedTime / (3600 * 24))  // take Int do no remainder
+
+        // how much time is remaining
+        let remainingTime = elapsedTime - (days * (3600 * 24))
+
+        // number of hours = time in sec (1 hour / 60 min)(1 min / 60 sec) with no remainder
+        let hours = Int(remainingTime / 3600)
+
+        // min
+        // 1) the number of min is what is left over after we have taken the hours out - use mod 3600
+        // 2) number of min = time in sec (1 min / 60 sec) with no remainder
+        let min = Int((remainingTime % 3600)/60)
+
+        // sec - whatever is left, after you remove the hours and min
+        let sec = Int(remainingTime % 60)
+
+        
+        
+        // BUILD STRING
+        var buildString = "\(sec) seconds"
+
+        if min > 0 {
+
+            buildString = "\(min) minutes \(buildString)"
+
+        }
+
+        if hours > 0 {
+
+            buildString = "\(hours) hours \(buildString)"
+
+        }
+
+        if days > 0 {
+
+            buildString = "\(days) days \(buildString)"
+
+        }
+
+        return buildString
+        
     }
 
     private func buildArrayOfPieSlicesFromLegendData(){
@@ -240,8 +332,10 @@ class PieChartAndLegend: NSObject {
         // rather than customizing our table view cells and having to do extra work, we are just going to use the existing imageView on our cell
         cell.imageView?.image = UIImage(named: "clearImage.png")
         cell.imageView?.backgroundColor = legendColor
-        //cell.imageView?.image!.layer.borderColor = UIColor.blackColor().CGColor
-        //cell.imageView!.image.layer.borderWidth = 2.0
+
+        // add black border around
+        cell.imageView?.layer.borderColor = UIColor.blackColor().CGColor
+        cell.imageView!.layer.borderWidth = 1.0
 
 
         // and add swipe gesture recognizer if required
@@ -261,10 +355,28 @@ class PieChartAndLegend: NSObject {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        // get corresponding data object
+        let selectedObject = arrayOfLegendItems[indexPath.row] as MCTableDataObject
+        let wrappedDataObject = selectedObject.wrappedObject as DataItem
+
+        // toggle data objects is selected property
+        // (the table would take care of this itself, but we want to recalc our percentage of total value, so we will need to rebuild the chart and legend; this means that we need to update the data items used by the chart and legend)
+        let isSelected = wrappedDataObject.isSelected
+
+        if isSelected == nil || isSelected == false {
+
+            wrappedDataObject.isSelected = true
+
+        }else{
+
+            wrappedDataObject.isSelected = false
+
+        }
+
+        // notify delegate
         if delegate != nil {
 
-            let selectedObject = arrayOfLegendItems[indexPath.row] as MCTableDataObject
-            let wrappedDataObject = selectedObject.wrappedObject as DataItem
+
             let originalObjectPassedIn: AnyObject? = wrappedDataObject.pointerToParentObject
             
             delegate?.itemWasSelected(theObjectYouPassedIn: originalObjectPassedIn)
@@ -272,8 +384,11 @@ class PieChartAndLegend: NSObject {
         }
 
         // update pie chart
-        buildArrayOfPieSlicesFromLegendData()
-        buildPieChart()
+       // buildArrayOfPieSlicesFromLegendData()
+       // buildPieChart()
+
+        //update pie chart
+        updatePieChart(arrayOfDataToDisplay)
 
     }
 
