@@ -10,8 +10,10 @@ import UIKit
 
 protocol PieChartAndLegendWasSelected {
 
+    // you may want to update your datasource
     func itemWasSelected(#theObjectYouPassedIn:AnyObject?)->()
     func colorWasChangedForItem(#theObjectYouPassedIn:AnyObject?, color:UIColor)->()
+    func objectMovedToNewPosition(#theObjectYouPassedIn:AnyObject?, position:Int)->()
 
 }
 
@@ -36,7 +38,8 @@ class PieChartAndLegend: NSObject {
     var arrayOfPieSlices:[PieSlice] = Array()
     var arrayOfLegendItems = NSMutableArray()
 
-    let colors = [UIColor.redColor(), UIColor.blueColor(), UIColor.greenColor(), UIColor.brownColor(), UIColor.orangeColor(), UIColor.purpleColor()]
+
+    var colors = [UIColor.redColor(), UIColor.blueColor(), UIColor.brownColor(), UIColor.orangeColor(), UIColor.purpleColor()] as NSArray
 
 
     // MARK: BUILD AND UPDATE CHART
@@ -276,62 +279,144 @@ class PieChartAndLegend: NSObject {
 
     func tableView_dataObjects_orderDidChange() {
 
-        tableViewDidChange()
+        updatePositionsAfterDrop()
+
     }
 
 
-    // MARK: GESTURES
+    // MARK: SWIPE TO CHANGE COLOR
 
     func swipeReceived(sender:UISwipeGestureRecognizer) {
 
+        if delegate == nil { return; }
+
+        // get index path for cell
         let selectedCell = sender.view as UITableViewCell
         let indexPath = table?.indexPathForCell(selectedCell)
         if indexPath == nil { return;}
 
+        // get data object
         let correspondingLegendItem = arrayOfLegendItems.objectAtIndex(indexPath!.row) as MCTableDataObject
         let dataObject = correspondingLegendItem.wrappedObject as DataItem
+        let originalObjectPassedIn: AnyObject? = dataObject.pointerToParentObject
+
+        // get next color
+        let nextColor = getNextColor(sender: sender, cell: selectedCell)
+
+        // notify delegate will change color so it can save, etc.
+        delegate?.colorWasChangedForItem(theObjectYouPassedIn: originalObjectPassedIn, color: nextColor)
+
+        // we don't want to ask the dataSource to requery (who knows how the data is managed), so change the local pie and legend data (our views)
+        dataObject.color = nextColor  // note: we didn't have to do this for the checkmark, because we were just updating our data objects and rebuilding
+
+        // update pie chart
+        updatePieChart(arrayOfDataToDisplay)
+
+    }
+
+    func getNextColor(#sender:AnyObject, cell:UITableViewCell)->(UIColor){
+
+
+        let currentColor = cell.imageView?.backgroundColor
+
+        // get next color
+        var colorIndex = helper_getIndexForCurrentColorOrReturn0(color: currentColor)
 
         if (sender.direction == .Left) {
 
-            dataObject.color = UIColor.purpleColor()
-            selectedCell.imageView?.backgroundColor = UIColor.purpleColor()
+            colorIndex = colorIndex + 1
 
-            buildArrayOfPieSlicesFromLegendData()
-            buildPieChart()
+        }else if (sender.direction == .Right) {
+
+            colorIndex = colorIndex - 1
 
         }
 
-        if (sender.direction == .Right) {
+        if colorIndex < 0 { colorIndex = colors.count - 1; }
+        if colorIndex >= colors.count { colorIndex = 0; }
 
-            dataObject.color = UIColor.orangeColor()
-            selectedCell.imageView?.backgroundColor = UIColor.orangeColor()
+        let nextColor = colors.objectAtIndex(colorIndex) as UIColor
+        return nextColor
 
-            buildArrayOfPieSlicesFromLegendData()
-            buildPieChart()
-        }
     }
 
+    func helper_getIndexForCurrentColorOrReturn0(#color:UIColor?)->(Int){
 
-    // MARK: UPDATE PIE CHART
+        if color == nil { return 0; }
 
-    func tableViewDidChange(){
+        var index = 0
+
+        for colorInList in colors {
+
+            let theColorInList = colorInList as UIColor
+
+            if theColorInList == color {
+
+                return index
+
+            }
+
+            index++
+
+        }
+
+        return 0
+
+    }
+
+    // MARK: UPDATE POSITIONS
+
+    func updatePositionsAfterDrop(){
         
-        // the tableView objects are already in the correct order and have pointers to the correct data objects
-        // grab the original data objects from the tableDataObjects and repopulate the array of data objects (they are just parallel arrays)
+        // the tableView will move objects into the correct position
+        // thus the legend will have the correct order
+        // grab these objects
+
+        // then use these data objects to rebuild the ChartAndLegend
+        // and finally, notify the dataSource
+
+        rebuildChartAndTableDataAfterDrop()
+        notifyDataSourceOfChangeInPositionsAfterDrop()
         
+        updatePieChart(arrayOfDataToDisplay)
+
+    }
+
+    func rebuildChartAndTableDataAfterDrop(){
+
         arrayOfDataToDisplay.removeAll(keepCapacity: true)
-        
+
+        var position:Double = 0
+
         for tableDataObject in table!.arrayOfDataForDisplay {
-            
-            arrayOfDataToDisplay.append(tableDataObject.wrappedObject as DataItem)
+
+            let wrappedLegendAndChartDataObject = tableDataObject.wrappedObject as DataItem
+            wrappedLegendAndChartDataObject.indexOfPosition = position
+            position++
+
+            arrayOfDataToDisplay.append(wrappedLegendAndChartDataObject)
             
         }
-        
-        buildArrayOfPieSlicesFromLegendData()
-        buildPieChart()
-        
+
     }
-    
+
+    func notifyDataSourceOfChangeInPositionsAfterDrop(){
+
+        // update data source
+        var index = 0
+
+        for chartAndLegendObject in arrayOfDataToDisplay {
+
+            // get original data object
+            let originalObjectYouPassedIn:AnyObject? = chartAndLegendObject.pointerToParentObject as AnyObject?
+
+            // update chart and legend
+            delegate?.objectMovedToNewPosition(theObjectYouPassedIn: originalObjectYouPassedIn, position: index)
+            
+            index++
+            
+        }
+    }
 
     
 }

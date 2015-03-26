@@ -51,10 +51,33 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         }
 
         return itemsForDisplay
-
         
     }
 
+// DELETE
+//    override func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
+//
+//        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+//
+//        // !!! need to refetch object (for some reason, it is not live) !!!
+//        var err = NSErrorPointer()
+//        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+//
+//        // toggle isSelected value
+//        // (this will just change our check mark here, but in the stats controller it means it will not be included)
+//        let shouldBeSelected = catWrapper.isSelected as Bool
+//        catWrapper.isSelected = !shouldBeSelected
+//
+//        // save updates
+//        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
+//        if err != nil || didSave == false { println("error: \(err)")}
+//
+//        let catWrapper2 = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+//        println(catWrapper2)
+//        
+//    }
+
+    
     override func noDataToDispalyInChart(){
 
         // if no data to display, can customize view here

@@ -53,20 +53,25 @@ class TabBarController: UITabBarController {
         // create categories
         let catA = TrackingCategorySubclass.addNewTrackingCategory(title: "Planning", totalValue: 100, color: UIColor.purpleColor())
 
-return
 
         let catB = TrackingCategorySubclass.addNewTrackingCategory(title: "Coding", totalValue: 100, color: UIColor.blueColor())
         let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.yellowColor())
         let catD = TrackingCategorySubclass.addNewTrackingCategory(title: "Debug", totalValue: 100, color: UIColor.redColor())
         let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "Other", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
-        catE.timerIsHidden = 1  // moc will be updated by future method calls
+        catE.timerIsHidden = true  // moc will be updated by future method calls
 
-        // add categories to pie chart
-//        pieChart.addChartsCategoriesObject(catA)
-//        pieChart.addChartsCategoriesObject(catB)
-//        pieChart.addChartsCategoriesObject(catC)
-//        pieChart.addChartsCategoriesObject(catD)
-//        pieChart.addChartsCategoriesObject(catE)
+        // create category wrappers (containing the categories), to attach to pie chart
+        var catW1 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catA, positionIndexNumber: 0)
+        var catW2 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catB, positionIndexNumber: 1)
+        var catW3 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catC, positionIndexNumber: 2)
+        var catW4 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catD, positionIndexNumber: 3)
+
+        // by default, category wrappers are hidden, change it
+        catW1.notUsedInChart = false
+        catW2.notUsedInChart = false
+        catW3.notUsedInChart = false
+        catW4.notUsedInChart = false
+
 
         // add log records
         let logA = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catA)
@@ -75,6 +80,7 @@ return
         let logD = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catD)
         let logE = LogRecordSubclass.addNewLogRecord(checkinTime: NSDate(), parentCategory: catE)
 
+        // log records are not created with a checkout time, so add it
         updateLastLogUponCheckout(record: logA, timeInterval: 3000)
         updateLastLogUponCheckout(record: logB, timeInterval: 2400)
         updateLastLogUponCheckout(record: logC, timeInterval: 2700)
@@ -99,9 +105,9 @@ return
             let navC = nav as UINavigationController
             let vc = navC.viewControllers[0] as UIViewController
 
-            if vc.isKindOfClass(StatsViewController){
+            if vc.isKindOfClass(ChartAndLegendVC_Superclass){
 
-                let ourVC = vc as StatsViewController
+                let ourVC = vc as ChartAndLegendVC_Superclass
                 ourVC.colors = colors
 
             }
@@ -113,6 +119,14 @@ return
                 ourVC.colorNames = colorNames
                 
             }
+
+            if vc.isKindOfClass(PieChartsViewController){
+
+                let ourVC = vc as PieChartsViewController
+                ourVC.colors = colors
+
+            }
+            
         }
 
     }

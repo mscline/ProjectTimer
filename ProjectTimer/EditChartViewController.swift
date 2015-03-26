@@ -14,7 +14,6 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         var pieChartBeingEdited:PieChartThumbnail?
         var doNotSaveOnExit:Bool = false
 
-
         @IBOutlet weak var viewToInsertChartAndLegendInto: UIView!
         @IBOutlet weak var view_noTimersToView: UIView!
 
@@ -95,22 +94,13 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // (this will just change our check mark here, but in the stats controller it means it will not be included)
         let usedInChart = catWrapper.notUsedInChart as Bool
         catWrapper.notUsedInChart = !usedInChart
-        catWrapper.position = 99
 
         // save updates
         let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
         if err != nil || didSave == false { println("error: \(err)")}
 
-                let catWrapper2 = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
-        println(catWrapper2)
-
     }
 
-    override func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {
-
-        // override if desired
-
-    }
 
     // MARK: UPDATE LIST OF CATEGORIES
 

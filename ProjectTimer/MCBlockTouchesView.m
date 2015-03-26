@@ -29,7 +29,7 @@
         
         [self addGestures];
         
-        vcIsMyDelegate = (id)blockView;
+        vcIsMyDelegate = (id)delegate;
 
     }
     return self;

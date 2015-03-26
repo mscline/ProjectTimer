@@ -18,7 +18,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         let alphaForNonSelectedItems:CGFloat = 0.58
         let color_selected = UIColor(red: 255/255.0, green: 178/255.0, blue: 102/255.0, alpha: 1.0)
         let color_unselected = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 1.0)
-
+        var colors:NSArray?  // will pass to Edit VC
 
         @IBOutlet weak var collectionView: UICollectionView!
 
@@ -198,6 +198,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
         let vc = segue.destinationViewController as EditChartViewController
         vc.pieChartBeingEdited = selectedPieChart
+        vc.colors = colors
 
     }
 

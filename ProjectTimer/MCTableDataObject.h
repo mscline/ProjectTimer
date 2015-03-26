@@ -10,7 +10,8 @@
 
 @interface MCTableDataObject : NSObject
 
-@property NSString * title;
+@property NSString *title;
+@property NSString *subtitle;
 
 // if you are just using this as a wrapper, then here is a convenient place
 // to store a pointer to the original object

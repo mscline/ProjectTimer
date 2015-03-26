@@ -54,21 +54,68 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
     }
 
 
-    // MARK: PIE CHART DELEGATE METHODS TO OVERRIDE
-
+    // MARK: PIE CHART DELEGATE METHODS (YOU CAN OVERRIDE IN SUBCLASS)
+    //       WE ARE JUST GOING TO SAVE UPDATED DATA
+    
     func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
 
         // override if desired
 
+        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+
+        // !!! need to refetch object (for some reason, it is not live) !!!
+        var err = NSErrorPointer()
+        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+
+        // toggle isSelected value
+        // (this will just change our check mark here, but in the stats controller it means it will not be included)
+        let shouldBeSelected = catWrapper.isSelected as Bool
+        catWrapper.isSelected = !shouldBeSelected
+
+        // save updates
+        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
+        if err != nil || didSave == false { println("error: \(err)")}
+        
     }
 
     func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {
 
-        // override if desired
+        // SAVE COLOR FOR ITEM (you do not need to update the view)
+
+        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+
+        // !!! need to refetch object (for some reason, it is not live) !!!
+        var err = NSErrorPointer()
+        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+
+        // update color
+        catWrapper.color = color
+
+        // save updates
+        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
+        if err != nil || didSave == false { println("error: \(err)")}
+        
+    }
+    
+    func objectMovedToNewPosition(#theObjectYouPassedIn: AnyObject?, position: Int) {
+
+        // save position (you do not need to update the view)
+
+        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+
+        // !!! need to refetch object (for some reason, it is not live) !!!
+        var err = NSErrorPointer()
+        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+
+        // update position
+        catWrapper.position = position
+
+        // save updates
+        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
+        if err != nil || didSave == false { println("error: \(err)")}
 
     }
-
-
+    
     // MARK: HELPER METHOD TO CALL IN SUBCLASSES
 
     func addSnapShotOfChartToPieChartThumbObject(chart:PieChartThumbnail){
@@ -135,6 +182,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
             // build it
             pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!, splitViewBetweenChartAndLegend: self.splitViewBetweenChartAndLegend)
             pieChartAndLegend!.delegate = self
+            pieChartAndLegend!.colors = colors!
 
         } else {
 

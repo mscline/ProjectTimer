@@ -22,7 +22,7 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
         wrapper.position = positionIndexNumber
         wrapper.color = baseCategory.color
         wrapper.notUsedInChart = true
-        wrapper.isSelected = 0
+        wrapper.isSelected = true
 
         // add to parent
         pieChart.addPieChartsCategoryWrappersObject(wrapper)
