@@ -342,6 +342,31 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
 
+    func addNewLog(){
+
+        let now = NSDate()
+        let record = LogRecordSubclass.addNewLogRecord(checkinTime: now, parentCategory: selectedTimer!)
+
+        // logs not created with a checkout date, so add it (it should be the same as the start date)
+        record.checkoutTime = NSDate().dateByAddingTimeInterval(0.0)
+
+        // save
+        var err = NSErrorPointer()
+        LogRecordSubclass.getMOC().save(err)
+
+    }
+
+    func requeryDbAndReloadTable(){
+
+        for var x = 1; x < 1000; x++ {println("x");}
+        // need to requery db
+        var err = NSErrorPointer()
+        selectedTimer = TrackingCategorySubclass.getMOC().existingObjectWithID(selectedTimer!.objectID, error: err) as? TrackingCategory
+
+        //   reload
+        tableView.reloadData()
+        
+    }
 
     // MARK: BUTTONS
 
@@ -364,6 +389,13 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // cancel
         isInEditingMode = editingMode.picker_doNotSave
         changeEditingMode()
+
+    }
+
+    @IBAction func onAddButtonPressed(sender: AnyObject) {
+
+        addNewLog()
+        requeryDbAndReloadTable()
 
     }
 

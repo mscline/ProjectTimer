@@ -1245,7 +1245,8 @@
                                                             <exclude reference="oIc-lQ-mHR"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact">
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="8" y="8" width="139.5" height="30"/>
                                                         <mask key="constraints">
                                                             <include reference="nRI-ah-498"/>
                                                             <include reference="oIc-lQ-mHR"/>
@@ -1276,7 +1277,8 @@
                                                             <exclude reference="XfC-x3-c6D"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact">
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="147.5" y="8" width="15" height="30"/>
                                                         <mask key="constraints">
                                                             <include reference="8qY-wV-450"/>
                                                             <include reference="HpC-vE-S53"/>
@@ -1304,7 +1306,8 @@
                                                             <exclude reference="op3-vc-YKh"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact">
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="162.5" y="8" width="131.5" height="30"/>
                                                         <mask key="constraints">
                                                             <include reference="UBW-yR-UbD"/>
                                                             <include reference="op3-vc-YKh"/>
@@ -1337,7 +1340,8 @@
                                                             <exclude reference="UEI-20-gaj"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact">
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="288" y="8" width="30" height="30"/>
                                                         <mask key="constraints">
                                                             <include reference="SHr-ds-Lq3"/>
                                                             <include reference="UEI-20-gaj"/>
