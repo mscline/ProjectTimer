@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AE0A0FA51AA96BF100D56BF9 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */; };
+		AE2B2DD21AC5BBDA00F5937B /* AddButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2B2DD11AC5BBDA00F5937B /* AddButtonTableViewCell.swift */; };
 		AE396BDD1AAF5EB800016D80 /* Grayscale.m in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDC1AAF5EB800016D80 /* Grayscale.m */; };
 		AE396BDF1AAF623700016D80 /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE396BDE1AAF623700016D80 /* TextFormatter.swift */; };
 		AE396C471AAFAF0400016D80 /* defaultPie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396C461AAFAF0400016D80 /* defaultPie.png */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		AE0A0FA41AA96BF100D56BF9 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		AE2B2DD11AC5BBDA00F5937B /* AddButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddButtonTableViewCell.swift; sourceTree = "<group>"; };
 		AE396BDB1AAF5EB800016D80 /* Grayscale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grayscale.h; sourceTree = "<group>"; };
 		AE396BDC1AAF5EB800016D80 /* Grayscale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grayscale.m; sourceTree = "<group>"; };
 		AE396BDE1AAF623700016D80 /* TextFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */,
 				AECEDE591AB77FE200B418C8 /* CollectionViewLayout.h */,
 				AECEDE5A1AB77FE200B418C8 /* CollectionViewLayout.m */,
+				AE2B2DD11AC5BBDA00F5937B /* AddButtonTableViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				AECF7E6E1A93DD100064A7F4 /* PieChart.swift in Sources */,
 				AECF7E6A1A93DD000064A7F4 /* PieChartAndLegend.swift in Sources */,
 				AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */,
+				AE2B2DD21AC5BBDA00F5937B /* AddButtonTableViewCell.swift in Sources */,
 				AEB3D6B21AC3243800384D21 /* TrackingCategory.m in Sources */,
 				AEBF60C01AA654E8008EABD3 /* TabBarController.swift in Sources */,
 				AE396BDF1AAF623700016D80 /* TextFormatter.swift in Sources */,

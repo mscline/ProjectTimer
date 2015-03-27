@@ -19,26 +19,25 @@ enum editingMode{
 class LogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
 
-        @IBOutlet weak var tableView: UITableView!
-        var isInEditingMode = editingMode.notEditing
+    @IBOutlet weak var tableView: UITableView!
+    var isInEditingMode = editingMode.notEditing
 
-        // display timers
-        var selectedTimer:TrackingCategory?
-        var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
-        let inProgressMessage = " ...in progress "
+    // display timers
+    var selectedTimer:TrackingCategory?
+    var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
+    let inProgressMessage = " ...in progress "
 
+    // date picker
+    // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
+    // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
+    @IBOutlet weak var datePicker: UIDatePicker!
+    var datePickerActingOnLog:LogRecord?
+    var datePickerIsActingOnRowNumber:Int = -1
+    var datePickerIsActingOnStartTimeNotEndTime = true
 
-        // date picker
-        // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
-        // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
-        @IBOutlet weak var datePicker: UIDatePicker!
-        var datePickerActingOnLog:LogRecord?
-        var datePickerIsActingOnRowNumber:Int = -1
-        var datePickerIsActingOnStartTimeNotEndTime = true
-
-        @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
-        @IBOutlet weak var backgroundBlockerButton: UIButton!
-        @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
+    @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
+    @IBOutlet weak var backgroundBlockerButton: UIButton!
+    @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
 
 
     // MARK: SETUP - get logs
@@ -72,7 +71,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
             let setLogsToDisplay = selectedTimer!.categorysLogs!
             logsToDisplay = setLogsToDisplay.allObjects
-            
+
         }
     }
 
@@ -106,7 +105,16 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 1
+        // if in editing mode, add a second section where we can put editing controls
+        // for the time being, we will add a row with an editing button
+        if isInEditingMode == editingMode.notEditing {
+
+            return 1;
+
+        }else{
+
+            return 2;
+        }
 
     }
 
@@ -117,31 +125,50 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
             return 0
 
-        } else {
+        }
+
+        if section == 0 {
 
             return logsToDisplay!.count
 
+        }else if section == 1 {
+
+            return 1
         }
+
+        return 0
 
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
+        if indexPath.section == 0 {
 
-        // get cell to work with
-        var cell = tableView.dequeueReusableCellWithIdentifier("logA", forIndexPath: indexPath) as LogTableViewCell
+            // get cell to work with
+            var cell = tableView.dequeueReusableCellWithIdentifier("logA", forIndexPath: indexPath) as LogTableViewCell
 
-        // get data object
-        let log = logsToDisplay?.objectAtIndex(indexPath.row) as LogRecord
+            // get data object
+            let log = logsToDisplay?.objectAtIndex(indexPath.row) as LogRecord
 
-        // format cell
-        formatLogCell(cell, logRecord: log)
-        addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
+            // format cell
+            formatLogCell(cell, logRecord: log)
+            addTagsSoCanLookupCorrespondingDataObject(cell: cell, indexPath: indexPath)
 
-        // if editing make buttons clickable
-        ifEditingAllowUserInteractionAndChangeTextColor(cell: cell, indexPath: indexPath)
+            // if editing make buttons clickable
+            ifEditingAllowUserInteractionAndChangeTextColor(cell: cell, indexPath: indexPath)
 
-        return cell
+            return cell
+
+        }else if indexPath.section == 1 {
+
+            var cell2 = tableView.dequeueReusableCellWithIdentifier("addButton", forIndexPath: indexPath) as AddButtonTableViewCell
+            cell2.button.setTitleColor(UIColor.greenColor(), forState: UIControlState.Normal)
+            return cell2
+
+        } else {
+
+            return UITableViewCell()
+        }
 
     }
 
@@ -180,7 +207,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         cell.button_deleteLog.tag = indexPath.row
         cell.button_startTime.tag = indexPath.row
         cell.button_endTime.tag = indexPath.row
-        
+
     }
 
     func ifEditingAllowUserInteractionAndChangeTextColor(#cell:LogTableViewCell, indexPath:NSIndexPath){
@@ -190,7 +217,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
             cell.button_startTime.userInteractionEnabled = true
             cell.button_endTime.userInteractionEnabled = true
 
-        // use setter methods instead
+            // use setter methods instead
             cell.button_startTime.tintColor = UIColor.orangeColor()
             cell.button_endTime.tintColor = UIColor.orangeColor()
 
@@ -208,7 +235,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
             cell.button_deleteLog.hidden = true
 
         }
-        
+
     }
 
 
@@ -288,10 +315,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
             enteringNonEditingMode()
 
         } else if isInEditingMode == editingMode.picker {
-            
+
             // unused
         }
-        
+
         // reload data (table view will display differently, depending on mode)
         tableView.reloadData()
 
@@ -365,7 +392,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         //   reload
         tableView.reloadData()
-        
+
     }
 
     // MARK: BUTTONS
@@ -470,7 +497,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if pickerYPosition.constant > self.view.frame.height - datePicker.frame.height {
 
             pickerYPosition.constant = self.view.frame.height - datePicker.frame.height - self.navigationController!.toolbar.frame.size.height - 10.0  // just looks a little off so adjust
-            
+
         }
 
     }
@@ -512,77 +539,78 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // if finish time is before start time, exit
         if finishTime != nil   &&
             finishTime!.timeIntervalSince1970 < startTime!.timeIntervalSince1970 {
-
+                
                 // report that this is an invalid date
                 return true
                 
         }
-
+        
         return false
     }
-
+    
     func _saveLogRecordWithUpdatedPickerDate() {
-
+        
         // set checkInTime or checkoutTime appropriately
         if datePickerIsActingOnStartTimeNotEndTime == true {
-
+            
             datePickerActingOnLog?.checkinTime = datePicker.date
-
+            
         } else {
-
+            
             datePickerActingOnLog?.checkoutTime = datePicker.date
-
+            
         }
-
+        
         // save
         let err = NSErrorPointer()
         LogRecordSubclass.getMOC().save(err)
-
+        
     }
-
+    
     func hideDatePicker(){
-
+        
         // hide picker
         viewToStoreTheDatePicker.hidden = true
         backgroundBlockerButton.hidden = true
-
+        
         // update table w/o space
         datePickerIsActingOnRowNumber = -1
         tableView.reloadData()
-
+        
     }
-
+    
     @IBAction func onDatePickerEntryCompleted(sender: UIDatePicker) {
-
+        
         let updatedDate = sender.date
-
+        
         // delete old data
         datePickerIsActingOnRowNumber = -1
         datePickerActingOnLog = nil
     }
-
-
+    
+    
     // MARK: LIFECYCLE
-
+    
     override func viewWillDisappear(animated: Bool) {
-
+        
         // dismiss controller (always want to start with the root)
         self.navigationController?.popToRootViewControllerAnimated(false)
         
     }
-
-
+    
+    
     // MARK: TRANSITIONS
-
+    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-
+        
         if isInEditingMode == editingMode.picker || isInEditingMode == editingMode.picker_doNotSave {
-
+            
             isInEditingMode = editingMode.picker_doNotSave
             changeEditingMode()
-
+            
         }
-
+        
     }
-
+    
 }
+
