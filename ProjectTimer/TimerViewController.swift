@@ -72,15 +72,16 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         super.viewWillAppear(animated)
 
         stopButton.layer.cornerRadius = 5
+
     }
 
     override func viewDidAppear(animated: Bool) {
 
-        if editingModeIsOn == true {
-
-            turnEditingModeOff()
-
-        }
+//        if editingModeIsOn == true {
+//
+//            turnEditingModeOff()
+//
+//        }
     }
 
     func getListOfCategoriesAndCheckToSeeIfTimerRunning(){
@@ -156,7 +157,12 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     @IBAction func onDidEndOnExit(sender: UITextField) {
 
+        // when created cell, set the button's tag to the row number so we can know the row number we are working with
+        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+
         sender.resignFirstResponder()
+        saveTitleIfEdited(trackingCat: trackingC, textField: sender)
+
     }
 
     @IBAction func onHideButtonPressed(sender: UIButton) {
@@ -297,7 +303,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         } else {
 
-            saveTitlesIfEdited()
             turnEditingModeOff()
 
         }
@@ -307,7 +312,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func switchToEditingModeAndReload(){
 
         self.navigationItem.rightBarButtonItem?.title = "Done"
-        self.navigationItem.title = "Editing"
+        self.navigationItem.title = "Edit Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutEditing!
         collectionV.backgroundColor = UIColor(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
@@ -410,29 +415,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         
     }
 
-    func saveTitlesIfEdited(){
+    func saveTitleIfEdited(#trackingCat:TrackingCategory, textField:UITextField){
 
-        if categories == nil { return; }
 
-        var counter = 0
+        // save title
+        var err = NSErrorPointer()
+        trackingCat.title = textField.text
 
-        for cat in categories! {
+        let didSave = TrackingCategorySubclass.getMOC().save(err)
+        if didSave == false || err != nil {
 
-            // if category.title is different from the cell.title, update and save to db
-            let theCat = cat as TrackingCategory
-            let theCell = collectionV.cellForItemAtIndexPath(NSIndexPath(forItem: counter, inSection: 0)) as TimerCollectionViewCell
+            println("error: \(err)")
 
-            if theCat.title != theCell.textLabel.text {
-
-                // save title
-                theCat.title = theCell.textLabel.text
-
-                var err = NSErrorPointer()
-                TrackingCategorySubclass.getMOC().save(err)
-
-            }
-
-            counter++
         }
 
     }
@@ -516,9 +510,14 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
 
         cell.elapsedTime.attributedText = formatText(defaultText_elapsedTime)
 
+        // add highlight when tapped
+        cell.viewLogLabel.showsTouchWhenHighlighted = true
+        cell.changeColorButton.showsTouchWhenHighlighted = true
+
         // set tags subviews (now when hit, we know which tag we are working with)
         cell.hideButton.tag = indexPath.row
         cell.changeColorButton.tag = indexPath.row
+        cell.textLabel.tag = indexPath.row
         cell.elapsedTime.tag = -1
 
         if dataObject.timerIsHidden == 0 {
@@ -528,6 +527,7 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
         }else{
 
             cell.hideButton.setTitle("Unhide", forState: UIControlState.Normal)
+
         }
 
         //TextFormatter.printListOfFontFamilyNames()
@@ -582,6 +582,7 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
 
             cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
             cell.hideButton.tag = indexPath.row
+
 
         } else {
 

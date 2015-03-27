@@ -19,7 +19,7 @@ class StatsViewController: ChartAndLegendVC_Superclass {
     override func viewWillAppear(animated: Bool) {
 
         defaultViewToShowIfNoData.hidden = true
-        self.navigationItem.title = selectedPieChart?.chartTitle ?? "Statistics"
+        makeNavBarTransparent()
 
         super.viewWillAppear(animated)
 
@@ -53,30 +53,6 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         return itemsForDisplay
         
     }
-
-// DELETE
-//    override func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
-//
-//        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
-//
-//        // !!! need to refetch object (for some reason, it is not live) !!!
-//        var err = NSErrorPointer()
-//        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
-//
-//        // toggle isSelected value
-//        // (this will just change our check mark here, but in the stats controller it means it will not be included)
-//        let shouldBeSelected = catWrapper.isSelected as Bool
-//        catWrapper.isSelected = !shouldBeSelected
-//
-//        // save updates
-//        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
-//        if err != nil || didSave == false { println("error: \(err)")}
-//
-//        let catWrapper2 = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
-//        println(catWrapper2)
-//        
-//    }
-
     
     override func noDataToDispalyInChart(){
 
@@ -113,4 +89,18 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
     }
 
+    func makeNavBarTransparent(){
+
+        self.navigationController!.view.backgroundColor = UIColor.clearColor()
+        self.navigationController!.navigationBar.backgroundColor = UIColor.clearColor()
+        self.navigationController!.navigationBar.translucent = true;
+
+        self.navigationController!.navigationBar.barTintColor = UIColor.clearColor()
+
+        self.navigationController!.navigationBar.shadowImage = UIImage()
+        self.navigationController!.navigationBar.shadowImage = UIImage()
+
+        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        
+    }
 }

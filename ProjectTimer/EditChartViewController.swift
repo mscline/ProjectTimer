@@ -13,6 +13,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         var pieChartBeingEdited:PieChartThumbnail?
         var doNotSaveOnExit:Bool = false
+        var showAlertMessageWhenReturnToThisScreen = true
 
         @IBOutlet weak var viewToInsertChartAndLegendInto: UIView!
         @IBOutlet weak var view_noTimersToView: UIView!
@@ -235,11 +236,20 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         // hide unwanted views
         view_noTimersToView.hidden = true
 
-        // present instructions in alert
-        let alert = UIAlertController(title: "Edit Pie Graph", message: "Select which timers you would like to include in your PieChart.", preferredStyle: UIAlertControllerStyle.Alert)
-        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler:nil)
-        alert.addAction(action)
-        self.presentViewController(alert, animated: false) { () -> Void in }
+        // if came from Pie Charts VC, then display alert
+
+        if showAlertMessageWhenReturnToThisScreen == true {
+
+            // don't show alert if this vc is on the top of its nav controller's stack
+            showAlertMessageWhenReturnToThisScreen = false
+
+            // present instructions in alert
+            let alert = UIAlertController(title: "Edit Pie Graph", message: "Select which timers you would like to include in your PieChart.", preferredStyle: UIAlertControllerStyle.Alert)
+            let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler:nil)
+            alert.addAction(action)
+            self.presentViewController(alert, animated: false) { () -> Void in }
+            
+        }
 
     }
 

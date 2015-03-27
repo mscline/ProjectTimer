@@ -199,6 +199,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         let vc = segue.destinationViewController as EditChartViewController
         vc.pieChartBeingEdited = selectedPieChart
         vc.colors = colors
+        vc.showAlertMessageWhenReturnToThisScreen = true
 
     }
 

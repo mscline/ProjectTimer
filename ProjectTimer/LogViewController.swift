@@ -19,25 +19,25 @@ enum editingMode{
 class LogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
 
 
-    @IBOutlet weak var tableView: UITableView!
-    var isInEditingMode = editingMode.notEditing
+        @IBOutlet weak var tableView: UITableView!
+        var isInEditingMode = editingMode.notEditing
 
-    // display timers
-    var selectedTimer:TrackingCategory?
-    var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
-    let inProgressMessage = " ...in progress "
+        // display timers
+        var selectedTimer:TrackingCategory?
+        var logsToDisplay:NSArray?       // rem: stored in CoreData, which used ObjC
+        let inProgressMessage = " ...in progress "
 
-    // date picker
-    // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
-    // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
-    @IBOutlet weak var datePicker: UIDatePicker!
-    var datePickerActingOnLog:LogRecord?
-    var datePickerIsActingOnRowNumber:Int = -1
-    var datePickerIsActingOnStartTimeNotEndTime = true
+        // date picker
+        // - we just have one picker that is hidden in the background and will be moved to correct location, making it look like it was placed in the table (we will resize tableview cell, for fit);
+        // (a drawback is that we have to programatically set the cell size; alternatively, we could use sectons for each log and add a second row for the prototype cell)
+        @IBOutlet weak var datePicker: UIDatePicker!
+        var datePickerActingOnLog:LogRecord?
+        var datePickerIsActingOnRowNumber:Int = -1
+        var datePickerIsActingOnStartTimeNotEndTime = true
 
-    @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
-    @IBOutlet weak var backgroundBlockerButton: UIButton!
-    @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
+        @IBOutlet weak var viewToStoreTheDatePicker: UIView! // the date picker doesn't move correctly
+        @IBOutlet weak var backgroundBlockerButton: UIButton!
+        @IBOutlet weak var pickerYPosition: NSLayoutConstraint!
 
 
     // MARK: SETUP - get logs
@@ -383,17 +383,6 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
 
-    func requeryDbAndReloadTable(){
-
-        for var x = 1; x < 1000; x++ {println("x");}
-        // need to requery db
-        var err = NSErrorPointer()
-        selectedTimer = TrackingCategorySubclass.getMOC().existingObjectWithID(selectedTimer!.objectID, error: err) as? TrackingCategory
-
-        //   reload
-        tableView.reloadData()
-
-    }
 
     // MARK: BUTTONS
 
@@ -422,7 +411,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     @IBAction func onAddButtonPressed(sender: AnyObject) {
 
         addNewLog()
-        requeryDbAndReloadTable()
+        reloadTableWithUpdatedData()
 
     }
 
@@ -594,7 +583,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     override func viewWillDisappear(animated: Bool) {
         
         // dismiss controller (always want to start with the root)
-        self.navigationController?.popToRootViewControllerAnimated(false)
+       // self.navigationController?.popToRootViewControllerAnimated(false)
         
     }
     
