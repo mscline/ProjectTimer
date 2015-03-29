@@ -12,8 +12,8 @@ class TabBarController: UITabBarController {
 
 
         // constants
-        let colors:NSArray = [UIColor.blueColor(), UIColor.redColor(), UIColor.purpleColor(), UIColor.orangeColor(), UIColor.yellowColor(), UIColor.brownColor(), UIColor.cyanColor(), UIColor.magentaColor()]
-        let colorNames:NSArray = ["Blue", "Red", "Purple", "Orange", "YellowColor", "BrownColor", "CyanColor","MagentaColor"]  // I don't know of a method to get it and rather than creating a lookup dict, lets go with quick and dirty
+        let colors:NSArray = [UIColor.blueColor(), UIColor.redColor(), UIColor.purpleColor(), UIColor.orangeColor(), UIColor.brownColor(), UIColor.cyanColor(), UIColor.magentaColor()]
+        let colorNames:NSArray = ["Blue", "Red", "Purple", "Orange", "BrownColor", "CyanColor","MagentaColor"]  // I don't know of a method to get it and rather than creating a lookup dict, lets go with quick and dirty
 
 
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class TabBarController: UITabBarController {
 
 
         let catB = TrackingCategorySubclass.addNewTrackingCategory(title: "Coding", totalValue: 100, color: UIColor.blueColor())
-        let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.yellowColor())
+        let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.orangeColor())
         let catD = TrackingCategorySubclass.addNewTrackingCategory(title: "Debug", totalValue: 100, color: UIColor.redColor())
         let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "Other", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
         catE.timerIsHidden = true  // moc will be updated by future method calls

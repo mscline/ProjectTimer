@@ -167,11 +167,18 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    @IBAction func onHideButtonPressed(sender: UIButton) {
+    @IBAction func onHideButtonTapped(sender: AnyObject) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
         let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
-        toggleCategoryIsHidden(timer: trackingC, sender:sender)
+
+        // the buttons would flash upon reuse, so put a label under the button to display text (grr)
+        // so need to get the label so can change
+        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
+        let cell = collectionV.cellForItemAtIndexPath(indexPath) as TimerCollectionViewCell
+
+        // get the cell from the collection view and then use it
+        toggleCategoryIsHidden(timer: trackingC, labelToUpdate: cell.hideLabel)
         
     }
 
@@ -433,19 +440,19 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    func toggleCategoryIsHidden(#timer:TrackingCategory, sender:UIButton){
+    func toggleCategoryIsHidden(#timer:TrackingCategory, labelToUpdate:UILabel){
 
         // toggle isHidden property
         // update screen without reloading (or get annoying error as apple changes reuse cells and initiates a button press look as the first cell changes title)
         if timer.timerIsHidden == 1 {
 
             timer.timerIsHidden = 0
-            sender.setTitle(isNotHiddenTitle, forState: UIControlState.Normal)
+            labelToUpdate.text = isNotHiddenTitle
             
         }else{
 
             timer.timerIsHidden = 1
-            sender.setTitle(isHiddenTitle, forState: UIControlState.Normal)
+            labelToUpdate.text = isHiddenTitle
 
         }
 
@@ -519,7 +526,8 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
         cell.changeColorButton.showsTouchWhenHighlighted = true
 
         // set tags subviews (now when hit, we know which tag we are working with)
-        cell.hideButton.tag = indexPath.row
+        cell.hideLabel.tag = indexPath.row
+        cell.hideLabelButtonOverTop.tag = indexPath.row
         cell.changeColorButton.tag = indexPath.row
         cell.textLabel.tag = indexPath.row
         cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
@@ -528,11 +536,11 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
 
         if dataObject.timerIsHidden == 0 {
 
-            cell.hideButton.setTitle(isNotHiddenTitle, forState: UIControlState.Normal)
+            cell.hideLabel.text = isNotHiddenTitle
 
         }else{
 
-            cell.hideButton.setTitle(isHiddenTitle, forState: UIControlState.Normal)
+            cell.hideLabel.text = isHiddenTitle
 
         }
 
@@ -581,7 +589,7 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
             cell.textLabel.userInteractionEnabled = true
             cell.textLabel.textColor = UIColor.whiteColor()
 
-            cell.hideButton.hidden = false
+            cell.hideLabel.hidden = false
             cell.viewLogLabel.hidden = false
             cell.deleteButton.hidden = false
             cell.changeColorButton.hidden = false
@@ -592,7 +600,7 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
             cell.textLabel.userInteractionEnabled = false
             cell.textLabel.textColor = UIColor.greenColor()
 
-            cell.hideButton.hidden = true
+            cell.hideLabel.hidden = true
             cell.viewLogLabel.hidden = true
             cell.deleteButton.hidden = true
             cell.changeColorButton.hidden = true
