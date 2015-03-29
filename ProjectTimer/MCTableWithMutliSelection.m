@@ -87,7 +87,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
 -(void)setDefaultSettings
 {
-    if(!color_cellDefault){ color_cellDefault = [UIColor whiteColor];}
+    if(!color_cellDefault){ color_cellDefault = [UIColor clearColor];}
     if(!color_selectCellForDrag){ color_selectCellForDrag = [UIColor redColor];}
 }
 

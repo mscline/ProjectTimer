@@ -91,6 +91,8 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         PieChartThumbnailSubclass.addPieChart(title: title)  // isSelected = true by default
 
         listOfPieCharts = PieChartThumbnailSubclass.getPieCharts()
+        selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
+        
         collectionView.reloadData()
 
         // make sure the edit button is enabled

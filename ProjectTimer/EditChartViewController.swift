@@ -15,10 +15,19 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         var doNotSaveOnExit:Bool = false
         var showAlertMessageWhenReturnToThisScreen = true
 
-        @IBOutlet weak var viewToInsertChartAndLegendInto: UIView!
+        // subviews
+        @IBOutlet weak var viewToInsertChartInto: UIView!
+        @IBOutlet weak var viewToInsertLegendInto: UIView!
         @IBOutlet weak var view_noTimersToView: UIView!
 
-        @IBOutlet weak var textField_chartName: UITextField!
+        // constraints
+        @IBOutlet weak var pieView_xValue: NSLayoutConstraint!
+        @IBOutlet weak var pieView_yValue: NSLayoutConstraint!
+        @IBOutlet weak var pieView_width: NSLayoutConstraint!
+        @IBOutlet weak var pieView_height: NSLayoutConstraint!
+
+
+    @IBOutlet weak var textField_chartName: UITextField!
         @IBAction func chartTextField_textEntryCompleted(sender: AnyObject) {}
 
 
@@ -43,11 +52,44 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         
     }
 
-    override func getTheViewToInsertTheChartAndLegendInto() -> (UIView?) {
+    override func getTheViewToInsertTheChartInto() -> (UIView?) {
 
-        viewToInsertChartAndLegendInto.alpha = 0.7
-        return viewToInsertChartAndLegendInto
 
+        // the pie chart will be inserted into one of your views
+        // adjust views to put chart and legend in, based on whether in portrait or landscape
+        if self.view.frame.size.height > self.view.frame.size.width {
+
+            // we can't reset the frame size with constraints, because Apple won't update the subviews immediately
+            // and you can't use frames, which update immediately, because they will be resized
+            // so we will set both
+
+            pieView_xValue.constant = 0
+            pieView_yValue.constant = 15
+            pieView_width.constant  = 10 * self.view.frame.size.width
+            pieView_height.constant = 1.3 * self.view.frame.size.height
+
+            // set frames to same values as constraints
+            viewToInsertChartInto.frame = CGRectMake(pieView_xValue.constant, pieView_yValue.constant, pieView_width.constant, pieView_height.constant)
+
+        }else{
+
+            pieView_xValue.constant = 0
+            pieView_yValue.constant = -0.2 * self.view.frame.size.height
+            pieView_width.constant  = 10 * self.view.frame.size.width
+            pieView_height.constant = 4 * self.view.frame.size.height
+
+            // set frames to same values as constraints
+            viewToInsertChartInto.frame = CGRectMake(pieView_xValue.constant, pieView_yValue.constant, pieView_width.constant, pieView_height.constant)
+
+        }
+
+        return viewToInsertChartInto
+
+    }
+
+    override func layoutChartAndLegendInSeparateViews_viewNumberTwoForLegend() -> (UIView?) {
+
+        return viewToInsertLegendInto
     }
 
     override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
@@ -79,8 +121,11 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     override func didCreateChartAndGraph() {
 
-        // set alpha so can see background pie chart 
-        self.pieChartAndLegend?.table?.alpha = 0.7
+        // set background color to clear and alpha to soften
+        self.pieChartAndLegend?.table?.alpha = 0.8
+        self.pieChartAndLegend?.table?.separatorColor = UIColor.clearColor()
+        self.pieChartAndLegend?.table?.backgroundColor = UIColor.clearColor()
+
     }
 
     override func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
@@ -210,7 +255,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         PieChartThumbnailSubclass.deletePieChart(pieChartBeingEdited!)
         doNotSaveOnExit = true
 
-        self.navigationController?.popToRootViewControllerAnimated(true)
+       self.navigationController?.popToRootViewControllerAnimated(true)
 
     }
 
@@ -254,16 +299,19 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
     }
 
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
         window?.tintColor = UIColor.blueColor()
 
         // save edited chart
-        pieChartBeingEdited?.chartTitle = textField_chartName.text
+        if doNotSaveOnExit == true {
+
+            pieChartBeingEdited?.chartTitle = textField_chartName.text
+
+        }
 
     }
-
-
 
 }

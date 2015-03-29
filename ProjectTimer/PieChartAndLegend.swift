@@ -31,7 +31,8 @@ class PieChartAndLegend: NSObject {
 
 
     // INSTANCE VARIABLES
-    var parentView:UIView!
+    var parentViewForLegend:UIView!
+    var parentViewForPieChart:UIView!
     var suggestedPieFrame:CGRect?
 
     var arrayOfDataToDisplay:[DataItem] = Array()
@@ -44,14 +45,30 @@ class PieChartAndLegend: NSObject {
 
     // MARK: BUILD AND UPDATE CHART
 
-    init(arrayOfPieDataObjects:Array<DataItem>, forView:UIView, splitViewBetweenChartAndLegend:Bool){  // if splitViewBetweenChartAndLegend = false, the chart and legend subviews will be stacked one on top of the other and will take up the full view
+    init(arrayOfPieDataObjects:Array<DataItem>, forSplitView:UIView!){
         super.init()
 
-        parentView = forView
+        parentViewForLegend = forSplitView
+        parentViewForPieChart = forSplitView
 
-        setScreenElementPositions(forViewWithSize: parentView.frame.size, splitViewBetweenChartAndLegend:splitViewBetweenChartAndLegend)
+        setScreenElementPositions()
         updatePieChart(arrayOfPieDataObjects)
 
+    }
+
+    init(arrayOfPieDataObjects:Array<DataItem>, forLegendsParentView:UIView!, forPieChartsParentView:UIView!){
+        super.init()
+
+        // save views and set frames sizes
+        parentViewForLegend = forLegendsParentView
+        parentViewForPieChart = forPieChartsParentView
+
+        legendFrame = CGRectMake(0, 0, parentViewForLegend.frame.size.width, parentViewForLegend.frame.size.height)
+        suggestedPieFrame = CGRectMake(0, 0, parentViewForPieChart.frame.size.width, parentViewForPieChart.frame.size.height)
+
+        // update
+        updatePieChart(arrayOfPieDataObjects)
+        
     }
 
     func updatePieChart(withArrayOfPieDataObjects:Array<DataItem>){
@@ -69,31 +86,24 @@ class PieChartAndLegend: NSObject {
 
     // MARK: layout
 
-    func setScreenElementPositions(#forViewWithSize:CGSize, splitViewBetweenChartAndLegend:Bool){
+    func setScreenElementPositions(){
 
-        // set chart.frame and legend.frame values
+        // divide screen in half, one half for table, one half for pie chart
+        // if in portrait, display vertically
+        // if in landscape, display horizontally
 
-        if splitViewBetweenChartAndLegend == false {
+        // if height it taller than width (vertical layout), then divide height in half
+        // else, divide width in half
 
-            // set frames
-            legendFrame = CGRectMake(0, 0, forViewWithSize.width, forViewWithSize.height)
-            suggestedPieFrame = legendFrame
+        let forViewWithSize = parentViewForLegend.frame.size
 
-        } else {
+        if forViewWithSize.height > forViewWithSize.width {
 
-            // divide screen in half, one half for table, one half for pie chart
-            // if height it taller than width (vertical layout), then divide height in half
-            // else, divide width in half
+            setPositionsInPortraitView(forViewWithSize: forViewWithSize)
 
-            if forViewWithSize.height > forViewWithSize.width {
+        }else{
 
-                setPositionsInPortraitView(forViewWithSize: forViewWithSize)
-
-            }else{
-
-                setPositionsInLanscapeView(forViewWithSize: forViewWithSize)
-                
-            }
+            setPositionsInLanscapeView(forViewWithSize: forViewWithSize)
 
         }
 
@@ -143,7 +153,7 @@ class PieChartAndLegend: NSObject {
         if pieChart == nil{
 
             pieChart = PieChart()
-            parentView.addSubview(pieChart!)
+            parentViewForPieChart.addSubview(pieChart!)
 
         }
 
@@ -156,7 +166,7 @@ class PieChartAndLegend: NSObject {
 
         if table == nil {
 
-            table = MCTableWithMutliSelection(frame: legendFrame!, cancelDropWhenTouchOutsideTableAndWithInThisView: parentView)
+            table = MCTableWithMutliSelection(frame: legendFrame!, cancelDropWhenTouchOutsideTableAndWithInThisView: parentViewForLegend)
             table?.color_selectCellForDrag = UIColor.lightGrayColor()
 
             table?.setDataSourceSwiftHack(self)
@@ -171,7 +181,7 @@ class PieChartAndLegend: NSObject {
             // table?.dataSource = dataSource
             // table?.delegate = delegate
 
-            parentView.addSubview(table!)
+            parentViewForLegend.addSubview(table!)
 
         }
 

@@ -20,6 +20,9 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         var pieChartAndLegend:PieChartAndLegend?
         var colors:NSArray?
 
+        // other
+        var pleaseRebuildTableViewForCurrentLayout = true  // see discussion in lifecycle section
+
 
     // xxxxxxxxxxxxxxxxxxxxxxx
     // MARK: METHODS TO OVERRIDE IF SUBCLASSING
@@ -31,7 +34,16 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     }
 
-    func getTheViewToInsertTheChartAndLegendInto()->(UIView?){
+    func getTheViewToInsertTheChartInto()->(UIView?){
+
+        return nil
+    }
+
+    func layoutChartAndLegendInSeparateViews_viewNumberTwoForLegend()->(UIView?){
+
+        // you could always move the position of the pie chart or legend subviews programmatically
+        // but you cannot easily resize them
+        // use a second view to set your size (whether programmatically or using storyboard constraints)
 
         return nil
     }
@@ -44,6 +56,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     func didCreateChartAndGraph(){
 
+        pieChartAndLegend?.table?.separatorColor = UIColor.clearColor()
 
     }
 
@@ -138,10 +151,28 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     // MARK: LIFECYCLE
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewWillLayoutSubviews()
 
-        buildChartAndLegend()
+        // only want to build the table after layout configured in layoutSubviews
+        // but building the chart will cause it to be called a second time
+
+        // want to only run build chart method once, so add bool to track if build
+        // reset it on rotate or when leave view
+
+        if pleaseRebuildTableViewForCurrentLayout == true {
+
+            buildChartAndLegend()
+            pleaseRebuildTableViewForCurrentLayout = false
+
+        }
+
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        pleaseRebuildTableViewForCurrentLayout = true
 
     }
 
@@ -151,14 +182,11 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         // there is no viewDidTransition, but we can pack something in a completion block
         coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
 
-            self.buildChartAndLegend()
+            self.pleaseRebuildTableViewForCurrentLayout = true  // don't want to rebuild here, get inconsistent results
 
         })
 
     }
-
-
-
 
     // MARK: BUILD IT
     func buildChartAndLegend(){
@@ -174,13 +202,27 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
             self.willCreateChartAndGraph(arrayOfDataItemsToDisplay: arrayOfDataToDisplay)
 
             // get the view to put chart in
-            let intoView = getTheViewToInsertTheChartAndLegendInto() ?? self.view
+            let putPieIntoView = getTheViewToInsertTheChartInto() ?? self.view
 
             // remove old views if already have a chart
             removeOldViewsIfNecessary()
 
             // build it
-            pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forView: intoView!, splitViewBetweenChartAndLegend: self.splitViewBetweenChartAndLegend)
+            let viewForLegend_meansWillLayoutInDifViews = layoutChartAndLegendInSeparateViews_viewNumberTwoForLegend()
+
+            if viewForLegend_meansWillLayoutInDifViews == nil {
+
+                // layout both views in split view configuration
+                pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forSplitView: putPieIntoView)
+
+            }else{
+
+                // layout in dif views
+                pieChartAndLegend = PieChartAndLegend(arrayOfPieDataObjects: arrayOfDataToDisplay, forLegendsParentView: viewForLegend_meansWillLayoutInDifViews, forPieChartsParentView: putPieIntoView)
+
+            }
+
+
             pieChartAndLegend!.delegate = self
             pieChartAndLegend!.colors = colors!
 

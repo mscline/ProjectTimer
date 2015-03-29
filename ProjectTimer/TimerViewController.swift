@@ -43,6 +43,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // CONSTANTS
         let defaultAlpha:CGFloat = 0.58
+        let isHiddenTitle = "Unhide"
+        let isNotHiddenTitle = "Hide"
 
 
     // MARK: Lifecycle
@@ -169,7 +171,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
         let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
-        toggleCategoryIsHidden(timer: trackingC)
+        toggleCategoryIsHidden(timer: trackingC, sender:sender)
         
     }
 
@@ -431,24 +433,26 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    func toggleCategoryIsHidden(#timer:TrackingCategory){
+    func toggleCategoryIsHidden(#timer:TrackingCategory, sender:UIButton){
 
         // toggle isHidden property
+        // update screen without reloading (or get annoying error as apple changes reuse cells and initiates a button press look as the first cell changes title)
         if timer.timerIsHidden == 1 {
 
             timer.timerIsHidden = 0
-
+            sender.setTitle(isNotHiddenTitle, forState: UIControlState.Normal)
+            
         }else{
 
             timer.timerIsHidden = 1
+            sender.setTitle(isHiddenTitle, forState: UIControlState.Normal)
+
         }
+
 
         // save
         var err = NSErrorPointer()
         TrackingCategorySubclass.getMOC().save(err)
-
-        // update collection view
-        reloadData()
 
     }
 
@@ -518,15 +522,17 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
         cell.hideButton.tag = indexPath.row
         cell.changeColorButton.tag = indexPath.row
         cell.textLabel.tag = indexPath.row
+        cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
+
         cell.elapsedTime.tag = -1
 
         if dataObject.timerIsHidden == 0 {
 
-            cell.hideButton.setTitle("Hide", forState: UIControlState.Normal)
+            cell.hideButton.setTitle(isNotHiddenTitle, forState: UIControlState.Normal)
 
         }else{
 
-            cell.hideButton.setTitle("Unhide", forState: UIControlState.Normal)
+            cell.hideButton.setTitle(isHiddenTitle, forState: UIControlState.Normal)
 
         }
 
@@ -579,10 +585,6 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
             cell.viewLogLabel.hidden = false
             cell.deleteButton.hidden = false
             cell.changeColorButton.hidden = false
-
-            cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
-            cell.hideButton.tag = indexPath.row
-
 
         } else {
 
