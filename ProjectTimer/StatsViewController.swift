@@ -20,6 +20,12 @@ class StatsViewController: ChartAndLegendVC_Superclass {
         super.viewWillAppear(animated)
 
         defaultViewToShowIfNoData.hidden = true
+
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
         self.navigationItem.title = selectedPieChart?.chartTitle ?? "Statistics"
 
     }
@@ -28,6 +34,10 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
         // get the selected pie chart and grab its categories
         selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
+
+//        // the faults have not triggered, so still have old data
+//        var err = NSErrorPointer()
+//        selectedPieChart = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(selectedPieChart!.objectID, error: err) as? PieChartThumbnail
 
         // this gives us a list of the charts categories for free
         if selectedPieChart == nil || selectedPieChart!.pieChartsCategoryWrappers == nil { return NSSet()}

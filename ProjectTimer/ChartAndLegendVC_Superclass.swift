@@ -174,6 +174,10 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
         pleaseRebuildTableViewForCurrentLayout = true
 
+        // apple will store the old view in memory and skip calling viewWillLayoutSubviews when return 
+        // so need to reset
+        self.view.setNeedsLayout()
+
     }
 
     // MARK: ROTATIONS
