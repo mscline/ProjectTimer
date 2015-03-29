@@ -54,19 +54,19 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     override func getTheViewToInsertTheChartInto() -> (UIView?) {
 
+        // IF REFACTOR: prob move to layoutSubviews, it might be better there
 
         // the pie chart will be inserted into one of your views
         // adjust views to put chart and legend in, based on whether in portrait or landscape
-        if self.view.frame.size.height > self.view.frame.size.width {
 
-            // we can't reset the frame size with constraints, because Apple won't update the subviews immediately
-            // and you can't use frames, which update immediately, because they will be resized
-            // so we will set both
+        if self.view.frame.size.height > self.view.frame.size.width {
 
             pieView_xValue.constant = 0
             pieView_yValue.constant = 15
             pieView_width.constant  = 10 * self.view.frame.size.width
             pieView_height.constant = 1.3 * self.view.frame.size.height
+
+            // Apple won't resize immediately, even if call layoutSubviews, so set frame value so that the correct values are passed in when make legend and chart
 
             // set frames to same values as constraints
             viewToInsertChartInto.frame = CGRectMake(pieView_xValue.constant, pieView_yValue.constant, pieView_width.constant, pieView_height.constant)
@@ -132,7 +132,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
 
-        // !!! need to refetch object (for some reason, it is not live) !!!
+        // !!! need to refetch object (for some reason, it is not live, Apple treating it like it is concurrent?) !!!
         var err = NSErrorPointer()
         let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
 

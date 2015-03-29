@@ -165,6 +165,12 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
             buildChartAndLegend()
             pleaseRebuildTableViewForCurrentLayout = false
 
+            // note: will need to do two things in viewWillDisappear
+            // 1) change the value of pleaseRebuildTableViewForCurrentValue to true
+            // 2) Apple will store the old view in memory and skip calling viewWillLayoutSubviews when return; thus need to tell it that the layout will need to be updated using
+            //
+            //      self.view.setNeedsLayout()
+
         }
 
     }
@@ -173,9 +179,6 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         super.viewWillDisappear(animated)
 
         pleaseRebuildTableViewForCurrentLayout = true
-
-        // apple will store the old view in memory and skip calling viewWillLayoutSubviews when return 
-        // so need to reset
         self.view.setNeedsLayout()
 
     }
@@ -187,6 +190,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
 
             self.pleaseRebuildTableViewForCurrentLayout = true  // don't want to rebuild here, get inconsistent results
+            self.view.setNeedsLayout()
 
         })
 
