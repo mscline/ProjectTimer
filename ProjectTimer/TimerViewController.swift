@@ -37,6 +37,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let collectionViewLayoutDefault = CollectionViewLayout()
         var collectionViewLayoutEditing:UICollectionViewLayout?
 
+        var addBarButton:UIBarButtonItem!
+        var backBarButton:UIBarButtonItem!
+
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
         @IBOutlet weak var stopButton: UIButton!
@@ -56,6 +59,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionViewLayoutEditing = collectionV.collectionViewLayout
         collectionV.collectionViewLayout = collectionViewLayoutDefault
         reloadData()
+
+        // save bar buttons so can rearrange (don't like this implementation)
+        addBarButton = self.navigationItem.leftBarButtonItem
+        backBarButton = self.navigationItem.rightBarButtonItem
 
         // set up timer to notify you every x seconds
         // use to increment category's clock
@@ -124,12 +131,24 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     @IBAction func onNewCategoryButtonPressed(sender: AnyObject) {
 
-        addCategoryPart1_startByAskingUserForTitle()
+        // in non-editing mode, this button will add a new timer
+        // whereas if in editing mode, this button will be used to exit the editing mode
+
+        if editingModeIsOn == false {
+
+            addCategoryPart1_startByAskingUserForTitle()
+
+        } else {
+
+            toggleEditingMode()
+
+        }
 
     }
 
     @IBAction func onEditButtonPressed(sender: AnyObject) {
 
+        // this button is now only enabled in non-editing mode
         toggleEditingMode()
 
     }
@@ -320,7 +339,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func switchToEditingModeAndReload(){
 
-        self.navigationItem.rightBarButtonItem?.title = "Done"
+        self.navigationItem.rightBarButtonItem?.title = ""
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        self.navigationItem.leftBarButtonItem?.title = "Done"
+
         self.navigationItem.title = "Edit Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutEditing!
@@ -339,6 +361,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         editingModeIsOn = false // if not already done
         self.navigationItem.rightBarButtonItem?.title = "Edit"
+        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.navigationItem.leftBarButtonItem?.title = "+ Add"
         self.navigationItem.title = "Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutDefault
