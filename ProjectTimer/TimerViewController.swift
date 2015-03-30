@@ -84,15 +84,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    override func viewDidAppear(animated: Bool) {
-
-//        if editingModeIsOn == true {
-//
-//            turnEditingModeOff()
-//
-//        }
-    }
-
     func getListOfCategoriesAndCheckToSeeIfTimerRunning(){
 
         getCategoriesFromDatabase()
@@ -131,18 +122,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     @IBAction func onNewCategoryButtonPressed(sender: AnyObject) {
 
-        // in non-editing mode, this button will add a new timer
-        // whereas if in editing mode, this button will be used to exit the editing mode
-
-        if editingModeIsOn == false {
-
-            addCategoryPart1_startByAskingUserForTitle()
-
-        } else {
-
-            toggleEditingMode()
-
-        }
+        addCategoryPart1_startByAskingUserForTitle()
 
     }
 
@@ -339,14 +319,17 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func switchToEditingModeAndReload(){
 
-        self.navigationItem.rightBarButtonItem?.title = ""
+        // move right button ("Edit" or "Done") to left bar spot
+        self.navigationItem.rightBarButtonItem?.title = "Done"
+        self.navigationItem.leftBarButtonItem? = backBarButton
+
+        // get rid of right button
+        self.navigationItem.rightBarButtonItem? = UIBarButtonItem()
         self.navigationItem.rightBarButtonItem?.enabled = false
-        self.navigationItem.leftBarButtonItem?.title = "Done"
 
         self.navigationItem.title = "Edit Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutEditing!
-        // collectionV.backgroundColor = UIColor.blackColor()//(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -360,9 +343,15 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func turnEditingModeOff(){
 
         editingModeIsOn = false // if not already done
+
+
+        // move backBarButton back to right side
+        self.navigationItem.rightBarButtonItem? = backBarButton
         self.navigationItem.rightBarButtonItem?.title = "Edit"
         self.navigationItem.rightBarButtonItem?.enabled = true
-        self.navigationItem.leftBarButtonItem?.title = "+ Add"
+
+        self.navigationItem.leftBarButtonItem? = addBarButton
+
         self.navigationItem.title = "Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutDefault

@@ -1254,7 +1254,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit >" id="E8Y-Nj-KLN">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="E8Y-Nj-KLN">
                             <connections>
                                 <action selector="onEditButtonPressed:" destination="bMx-Jm-HDI" id="bgt-nR-ac4"/>
                             </connections>
