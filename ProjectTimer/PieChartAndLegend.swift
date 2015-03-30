@@ -227,7 +227,17 @@ class PieChartAndLegend: NSObject {
 
         // make string with percentage of total
         let categorysPercentageOfTotalTimePassed:Float = Float(elapsedTime) / totalTime
-        let percentageWithTwoDecimalPlaces = Int(categorysPercentageOfTotalTimePassed*100)
+        var percentageWithTwoDecimalPlaces = Int(categorysPercentageOfTotalTimePassed*100)
+
+        // ??? show one dec, this looks weird when you can see it is over 100%
+        // round
+//        let whatIsTheValueOfTheNumberAfterTheDecPlace = Int(10 * (categorysPercentageOfTotalTimePassed - Float(Int(categorysPercentageOfTotalTimePassed))))
+//        print(whatIsTheValueOfTheNumberAfterTheDecPlace)
+//        if whatIsTheValueOfTheNumberAfterTheDecPlace >= 5 {
+//
+//            percentageWithTwoDecimalPlaces = percentageWithTwoDecimalPlaces + 1
+//        }
+
         let percentageAsString = "(\(percentageWithTwoDecimalPlaces)%)"
 
         // combine strings and return

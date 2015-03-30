@@ -1254,7 +1254,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="E8Y-Nj-KLN">
+                        <barButtonItem key="rightBarButtonItem" title="Edit >" id="E8Y-Nj-KLN">
                             <connections>
                                 <action selector="onEditButtonPressed:" destination="bMx-Jm-HDI" id="bgt-nR-ac4"/>
                             </connections>
@@ -1855,9 +1855,10 @@
         <scene sceneID="Xxc-kI-mPw">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Uy-S9-HM8" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Pie Charts" id="KR0-gv-UF2"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="oBJ-dQ-rzk">
+                    <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" translucent="NO" id="oBJ-dQ-rzk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

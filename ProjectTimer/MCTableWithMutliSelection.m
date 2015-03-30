@@ -227,10 +227,10 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     // we didn't create the cell, so we are just going to do a quick insertion
 
     // set defaults
-    UIColor *textColor = color_cellDefault;                         // UPGRADE ????
+    UIColor *textColor = [UIColor whiteColor];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:10];  // UPGRADE ????
 
-    CGRect labelFrame = CGRectMake(10, cell.frame.size.height - 10, 200, 10);
+    CGRect labelFrame = CGRectMake(cell.frame.size.width - 140, 5, 200, 20);
 
 
     // check to see if cell has the drop directions
@@ -247,11 +247,13 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     // if does not have, add one
     UILabel *label = [[UILabel alloc]initWithFrame:labelFrame];
-    label.text = self.dropDirections;
+    label.text =  self.dropDirections;
     label.font = font;
     label.textColor = textColor;
     label.hidden = true;
+
     [cell addSubview:label];
+    [cell bringSubviewToFront:label];
 
 }
 
