@@ -50,11 +50,11 @@
 {
     
     // add Single Tap Gesture
-    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    singleTapRecognizer.numberOfTapsRequired = 1;
-    singleTapRecognizer.delegate = self;
-    [self addGestureRecognizer:singleTapRecognizer];
-    
+//    UITapGestureRecognizer *singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+//    singleTapRecognizer.numberOfTapsRequired = 1;
+//    singleTapRecognizer.delegate = self;
+//    [self addGestureRecognizer:singleTapRecognizer];
+
     // add Double Tap Gesture
     UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDougleTap:)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
@@ -62,7 +62,7 @@
     [self addGestureRecognizer:doubleTapRecognizer];
     
     // FAILURE REQUIREMENTS
-    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+ //   [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     
     
     // add Long Tap Gesture

@@ -42,7 +42,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         @IBOutlet weak var stopButton: UIButton!
 
         // CONSTANTS
-        let defaultAlpha:CGFloat = 0.58
+        let defaultAlpha:CGFloat = 0.65 
         let isHiddenTitle = "Unhide"
         let isNotHiddenTitle = "Hide"
 
@@ -66,7 +66,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     func reloadData(){
 
         getListOfCategoriesAndCheckToSeeIfTimerRunning()
-        collectionV.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: defaultAlpha)
+        collectionV.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: defaultAlpha)  // old UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: defaultAlpha)
         collectionV.reloadData()
     }
 
@@ -324,7 +324,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.navigationItem.title = "Edit Timers"
 
         collectionV.collectionViewLayout = collectionViewLayoutEditing!
-        collectionV.backgroundColor = UIColor(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
+        // collectionV.backgroundColor = UIColor.blackColor()//(red: 229.0/255, green: 204.0/255, blue: 255.0/255, alpha: 0.8)
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -505,12 +505,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let defaultText_elapsedTime = "0:00:00"
 
         // format text
-        let formattedTitle = TextFormatter.createAttributedString(dataObject.title.uppercaseString, withFont: "Futura", fontSize: 14.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
+        var formattedTitle = formatTextForTimers(text: dataObject.title, fontSize: 14)
 
-// not working
-cell.textLabel.adjustsFontSizeToFitWidth = true
-cell.elapsedTime.adjustsFontSizeToFitWidth = true
-
+       // formattedTitle = resizeTextIfNeeded(labelWidth: cell.textLabel.frame.size.width, fontSize: 14.0, attributedText: formattedTitle)
+        
         // set
         cell.storageView.backgroundColor = dataObject.color as? UIColor
         cell.storageView.alpha = defaultAlpha
@@ -551,6 +549,46 @@ cell.elapsedTime.adjustsFontSizeToFitWidth = true
     func formatText(text:String)->(NSAttributedString){
 
         return TextFormatter.createAttributedString(text, withFont: "Damascus", fontSize: 28.0, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
+
+    }
+
+    func formatTextForTimers(#text:String, fontSize:CGFloat)->(NSAttributedString){
+
+        let uppercaseText = text.uppercaseString
+
+        return TextFormatter.createAttributedString(uppercaseText, withFont: "Futura", fontSize: fontSize, fontColor: UIColor.greenColor(), nsTextAlignmentStyle: NSTextAlignment.Center) as NSAttributedString
+
+    }
+
+    func resizeTextIfNeeded(#labelWidth:CGFloat, fontSize:CGFloat, attributedText:NSAttributedString)->(NSAttributedString){
+
+        // would need nice to just use
+        // cell.textLabel.adjustsFontSizeToFitWidth = true
+        // but can't get it to work
+
+        // if doesn't fit, then reduce font size
+        let textWidth = attributedText.boundingRectWithSize(CGSizeMake(10000, fontSize+3), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).size.width
+
+        if textWidth > labelWidth {
+
+            let updatedFontSizeInitial = fontSize * labelWidth / textWidth
+            var updatedFontSize = Int(updatedFontSizeInitial)
+
+            if updatedFontSize < 7 {
+
+                updatedFontSize = 8
+
+            } else {
+
+            }
+
+            return formatTextForTimers(text: attributedText.string, fontSize: CGFloat(updatedFontSize))
+
+        }else{
+
+            // return original text unchanged
+            return attributedText
+        }
 
     }
 

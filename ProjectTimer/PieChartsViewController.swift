@@ -15,9 +15,9 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         var selectedPieChart = PieChartThumbnailSubclass.getTheSelectedPieChart()
 
         // colors and alpha
-        let alphaForNonSelectedItems:CGFloat = 0.58
-        let color_selected = UIColor(red: 255/255.0, green: 178/255.0, blue: 102/255.0, alpha: 1.0)
-        let color_unselected = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 1.0)
+        let alphaForNonSelectedItems:CGFloat = 0.7
+        let color_selected = UIColor(red: 255/255.0, green: 255/255.0, blue: 102/255.0, alpha: 0.65)
+        let color_unselected = UIColor.grayColor()//(red: 100/255.0, green: 100/255.0, blue: 50/255.0, alpha: 1.0)
         var colors:NSArray?  // will pass to Edit VC
 
         @IBOutlet weak var collectionView: UICollectionView!

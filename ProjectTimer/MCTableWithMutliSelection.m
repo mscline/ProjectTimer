@@ -96,6 +96,8 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     blocker =[[MCBlockTouchesView alloc]initWithDelegate:self viewToBlock:blockInFrontOfView];
     blocker.hidden = true;
+
+    blocker.backgroundColor = [UIColor blackColor];
     
 }
 
