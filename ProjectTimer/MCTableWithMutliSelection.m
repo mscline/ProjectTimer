@@ -96,8 +96,6 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     blocker =[[MCBlockTouchesView alloc]initWithDelegate:self viewToBlock:blockInFrontOfView];
     blocker.hidden = true;
-
-    blocker.backgroundColor = [UIColor blackColor];
     
 }
 
@@ -360,6 +358,10 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
 -(void)tableView:(UITableView *)table didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
+    // if in middle of moving cell, block touches
+    // touches will be handled by gesture recognizers on cell
+    if (moveCellInProgress == true) {return;}
 
     // get data object and tell it to toggle checkmark
     MCTableDataObject *item;

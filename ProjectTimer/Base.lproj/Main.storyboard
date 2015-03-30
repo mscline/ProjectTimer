@@ -362,14 +362,14 @@
                                 <exclude reference="Yk6-6L-tTg"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="7iE-VX-cKl"/>
-                                <exclude reference="Cge-sS-DCm"/>
-                                <exclude reference="RoP-BA-bq9"/>
+                                <exclude reference="Dxg-Bd-vgB"/>
+                                <exclude reference="K7i-WA-ZQr"/>
                                 <exclude reference="2u8-2g-lLz"/>
                                 <exclude reference="C7c-2c-VeO"/>
                                 <exclude reference="J7K-RP-W6N"/>
-                                <exclude reference="Dxg-Bd-vgB"/>
-                                <exclude reference="K7i-WA-ZQr"/>
+                                <exclude reference="7iE-VX-cKl"/>
+                                <exclude reference="Cge-sS-DCm"/>
+                                <exclude reference="RoP-BA-bq9"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -378,14 +378,14 @@
                                 <include reference="Yk6-6L-tTg"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="7iE-VX-cKl"/>
-                                <include reference="Cge-sS-DCm"/>
-                                <include reference="RoP-BA-bq9"/>
+                                <include reference="Dxg-Bd-vgB"/>
+                                <include reference="K7i-WA-ZQr"/>
                                 <include reference="2u8-2g-lLz"/>
                                 <include reference="C7c-2c-VeO"/>
                                 <include reference="J7K-RP-W6N"/>
-                                <include reference="Dxg-Bd-vgB"/>
-                                <include reference="K7i-WA-ZQr"/>
+                                <include reference="7iE-VX-cKl"/>
+                                <include reference="Cge-sS-DCm"/>
+                                <include reference="RoP-BA-bq9"/>
                             </mask>
                         </variation>
                     </view>

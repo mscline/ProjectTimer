@@ -21,7 +21,7 @@
 
 - (id)initWithDelegate:(id)delegate viewToBlock:(UIView *)blockView
 {
-    self = [super initWithFrame:blockView.frame];
+    self = [super initWithFrame:CGRectMake(0, 0, blockView.frame.size.width, blockView.frame.size.height)];
     
     if (self) {
         
