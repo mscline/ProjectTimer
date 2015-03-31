@@ -1856,7 +1856,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Uy-S9-HM8" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Pie Charts" id="KR0-gv-UF2"/>
+                    <tabBarItem key="tabBarItem" title="Pie Charts" image="chart" id="KR0-gv-UF2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" translucent="NO" id="oBJ-dQ-rzk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1876,7 +1876,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="agi-mN-Flq" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Statistics" id="uWs-cS-jAH"/>
+                    <tabBarItem key="tabBarItem" title="Statistics" image="dna" id="uWs-cS-jAH"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xM0-Ph-joe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1895,7 +1895,7 @@
         <scene sceneID="xyX-2F-dXZ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s6g-yc-XWO" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Timers" id="jaD-uL-Urj"/>
+                    <tabBarItem key="tabBarItem" title="Timers" image="stopwatch" id="jaD-uL-Urj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pFr-YL-e0O">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1914,6 +1914,9 @@
     <resources>
         <image name="backgroundImageSky.png" width="480" height="408"/>
         <image name="blankChart.png" width="302" height="312"/>
+        <image name="chart" width="27" height="32"/>
+        <image name="dna" width="32" height="32"/>
+        <image name="stopwatch" width="32" height="32"/>
         <image name="timersBackgroundImage.png" width="518" height="692"/>
     </resources>
 </document>
