@@ -128,7 +128,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     @IBAction func onEditButtonPressed(sender: AnyObject) {
 
-        // this button is now only enabled in non-editing mode
         toggleEditingMode()
 
     }
@@ -582,10 +581,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // return original text unchanged
         return attributedText
 
-
-        // NOT HAPPY WITH THIS, MAYBE ADD DEC PLACE
-        // (IT WORKS, BUT IT LOOKS WEIRD WHEN YOU HAVE 50% + 51% ???
-
+// NOT WORKING - MAYBE SUBVIEWS BEING REDRAWN????!!!!
+        
         // would need nice to just use
         // cell.textLabel.adjustsFontSizeToFitWidth = true
         // but can't get it to work

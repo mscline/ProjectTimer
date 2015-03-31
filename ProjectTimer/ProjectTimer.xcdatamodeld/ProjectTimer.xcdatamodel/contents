@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1066" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="BaseCategory" representedClassName="TrackingCategory" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="indexNumber" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="timerIsHidden" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalValue" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="baseCategorysWrappers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PieChartCategoryWrapper" inverseName="catWrappersBaseCategory" inverseEntity="PieChartCategoryWrapper" syncable="YES"/>
+        <relationship name="baseCategorysWrappers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PieChartCategoryWrapper" inverseName="catWrappersBaseCategory" inverseEntity="PieChartCategoryWrapper" syncable="YES"/>
         <relationship name="categorysLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LogRecord" inverseName="logRecordsCategory" inverseEntity="LogRecord" syncable="YES"/>
     </entity>
     <entity name="LogRecord" representedClassName="LogRecord" syncable="YES">

@@ -175,6 +175,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     }
 
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 

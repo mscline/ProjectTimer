@@ -218,6 +218,7 @@ class PieChartAndLegend: NSObject {
 
         // deal with optionals
         var elapsedTime = elapsedTimeForSelectedCategory ?? 0
+        if totalTime == 0 { return "";}
 
         // if the category is not selected, do not display detail info
         if category.isSelected == false {return "";}
@@ -227,18 +228,17 @@ class PieChartAndLegend: NSObject {
 
         // make string with percentage of total
         let categorysPercentageOfTotalTimePassed:Float = Float(elapsedTime) / totalTime
-        var percentageWithTwoDecimalPlaces = Int(categorysPercentageOfTotalTimePassed*100)
+        var percentageWithOneDecimalPlaces = (Float(Int(categorysPercentageOfTotalTimePassed*1000))/10)
 
-        // ??? show one dec, this looks weird when you can see it is over 100%
-        // round
-//        let whatIsTheValueOfTheNumberAfterTheDecPlace = Int(10 * (categorysPercentageOfTotalTimePassed - Float(Int(categorysPercentageOfTotalTimePassed))))
-//        print(whatIsTheValueOfTheNumberAfterTheDecPlace)
-//        if whatIsTheValueOfTheNumberAfterTheDecPlace >= 5 {
-//
-//            percentageWithTwoDecimalPlaces = percentageWithTwoDecimalPlaces + 1
-//        }
+        // round up if needed
+        let whatIsTheValueOfTheNumberInTheHundredthsDecPlace = categorysPercentageOfTotalTimePassed * 1000 - Float(Int(categorysPercentageOfTotalTimePassed * 1000))
 
-        let percentageAsString = "(\(percentageWithTwoDecimalPlaces)%)"
+        if whatIsTheValueOfTheNumberInTheHundredthsDecPlace >= 0.5 {
+
+            percentageWithOneDecimalPlaces = percentageWithOneDecimalPlaces + 0.1
+        }
+
+        let percentageAsString = "(\(percentageWithOneDecimalPlaces)%)"
 
         // combine strings and return
         let combinedString = "\(timePassed) \(percentageAsString)"
