@@ -42,7 +42,7 @@ class TabBarController: UITabBarController {
     func addSampleData(){
 
         sampleData_pieChart_timeSpentCoding()
-        sampleData2()
+        //sampleData2()
 
     }
 
