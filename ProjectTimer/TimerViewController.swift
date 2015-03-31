@@ -541,7 +541,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         cell.hideLabelButtonOverTop.tag = indexPath.row
         cell.changeColorButton.tag = indexPath.row
         cell.textLabel.tag = indexPath.row
+        cell.viewLogLabel.tag = indexPath.row
         cell.deleteButton.tag = indexPath.row  // save row so can look up cell later
+
+
 
         cell.elapsedTime.tag = -1
 
@@ -574,6 +577,14 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
 
     func resizeTextIfNeeded(#labelWidth:CGFloat, fontSize:CGFloat, attributedText:NSAttributedString)->(NSAttributedString){
+
+
+        // return original text unchanged
+        return attributedText
+
+
+        // NOT HAPPY WITH THIS, MAYBE ADD DEC PLACE
+        // (IT WORKS, BUT IT LOOKS WEIRD WHEN YOU HAVE 50% + 51% ???
 
         // would need nice to just use
         // cell.textLabel.adjustsFontSizeToFitWidth = true
