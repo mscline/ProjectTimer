@@ -266,11 +266,12 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
         if([item.isSelected boolValue]) {
 
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            cell.textLabel.textColor = [UIColor blackColor];
 
         }else{
 
             cell.accessoryType = UITableViewCellAccessoryNone;
-
+            cell.textLabel.textColor = [UIColor grayColor];
         }
 
         // make sure drop notification is off
