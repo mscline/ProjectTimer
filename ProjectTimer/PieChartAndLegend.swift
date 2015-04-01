@@ -290,26 +290,60 @@ class PieChartAndLegend: NSObject {
         
         
         // BUILD STRING
-        var buildString = "\(sec) seconds"
+        var buildString_sec = ""
+        var buildString_minutes = ""
+        var buildString_hours = ""
+        var buildString_days = ""
 
-        if min > 0 {
+        // sec
+        if sec == 1 {
 
-            buildString = "\(min) minutes \(buildString)"
+            buildString_sec = "\(sec) second "
 
-        }
+        }else{
 
-        if hours > 0 {
-
-            buildString = "\(hours) hours \(buildString)"
-
-        }
-
-        if days > 0 {
-
-            buildString = "\(days) days \(buildString)"
+            buildString_sec = "\(sec) seconds "
 
         }
 
+        // min
+        if min == 1 {
+
+            buildString_minutes = "\(min) minute "
+
+        } else if min > 1 {
+
+            buildString_minutes = "\(min) minutes "
+        }
+
+        // hours
+        if hours == 1 {
+
+            buildString_sec = ""
+            buildString_hours = "\(hours) hour "
+
+        }else if hours > 1 {
+
+            buildString_sec = ""
+            buildString_hours = "\(hours) hours "
+            
+        }
+
+        // days
+        if days == 1 {
+
+            buildString_minutes = "\(min) min. "
+            buildString_days = "\(days) day "
+
+        }else if days > 1 {
+
+            buildString_minutes = "\(min) min. "
+            buildString_days = "\(days) days "
+
+        }
+
+        // put strings together
+        let buildString = buildString_days + buildString_hours + buildString_minutes + buildString_sec
         return buildString
         
     }
