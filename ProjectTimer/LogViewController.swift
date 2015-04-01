@@ -426,6 +426,12 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         showDatePicker(sender:sender)
 
         // temporarily change the tint color
+        for view in sender.superview!.subviews {
+
+            let ourView = view as UIView
+            ourView.tintColor = UIColor.orangeColor()
+
+        }
         sender.tintColor = UIColor.greenColor()
 
     }
