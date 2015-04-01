@@ -168,6 +168,7 @@ class PieChartAndLegend: NSObject {
 
             table = MCTableWithMutliSelection(frame: legendFrame!, cancelDropWhenTouchOutsideTableAndWithInThisView: parentViewForLegend)
             table?.color_selectCellForDrag = UIColor.lightGrayColor()
+            table?.doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath = true
 
             table?.setDataSourceSwiftHack(self)
             table?.setDelegateSwiftHack(self)
@@ -402,10 +403,6 @@ class PieChartAndLegend: NSObject {
             delegate?.itemWasSelected(theObjectYouPassedIn: originalObjectPassedIn)
 
         }
-
-        // update pie chart
-       // buildArrayOfPieSlicesFromLegendData()
-       // buildPieChart()
 
         //update pie chart
         updatePieChart(arrayOfDataToDisplay)

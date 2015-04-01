@@ -77,6 +77,12 @@
 
   @property BOOL animationSequenceOnLoadActive;
 
+  // on didSelectRowAtIndexPath, it will automatically reload the cell
+  // but if reloading the table remotely, you will want to turn it off
+  // or get weird resizing effect
+  @property BOOL doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath;
+
+
   -(instancetype)initWithFrame:(CGRect)frame cancelDropWhenTouchOutsideTableAndWithInThisView:(UIView *)blockInFrontOfThisView;
 
 

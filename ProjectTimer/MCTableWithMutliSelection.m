@@ -27,7 +27,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
 
 @implementation MCTableWithMutliSelection
-  @synthesize arrayOfDataForDisplay, moveCellInProgress, blocker, animationSequenceOnLoadActive, fontTitle, fontSubTitle, color_cellDefault, color_selectCellForDrag;
+  @synthesize arrayOfDataForDisplay, moveCellInProgress, blocker, animationSequenceOnLoadActive, fontTitle, fontSubTitle, color_cellDefault, color_selectCellForDrag, doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath;
 
 
 #pragma mark INIT AND BASIC SETUP
@@ -390,7 +390,11 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     
     // reload table rows
-    [self reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+    if (doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath == false){
+
+        [self reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+
+    }
 
 }
 
