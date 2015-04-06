@@ -32,10 +32,13 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
         // if in landscape view, move legend down a bit
         // will do in viewWillLayoutSubviews, because we want to make sure it is in the correct place anytime our view is laid out
+        // we do not have to worry about moving it back if we rotate to portrait, because it will be redrawn from scratch
 
         if self.view.frame.size.height < self.view.frame.size.width{
 
-            self.pieChartAndLegend?.table?.frame.origin = CGPointMake(self.pieChartAndLegend!.table!.frame.origin.x, 0.1 * self.view.frame.size.height)
+            let yOffset:CGFloat = (0.1 * self.view.frame.size.height)  // move down this far
+            var frame = self.pieChartAndLegend?.table?.frame
+            self.pieChartAndLegend?.table?.frame = CGRectMake(frame!.origin.x, yOffset, frame!.size.width, frame!.size.height - yOffset)
             
         }
     }

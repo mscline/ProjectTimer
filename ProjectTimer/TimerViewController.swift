@@ -44,7 +44,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         @IBOutlet weak var collectionV: UICollectionView!
         @IBOutlet weak var stopButton: UIButton!
         @IBOutlet weak var constraints_CVLeft: NSLayoutConstraint!
-    
+        @IBOutlet weak var constraint_CVRight: NSLayoutConstraint!
 
         // CONSTANTS
         let defaultAlpha:CGFloat = 0.65 
@@ -363,9 +363,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
             self.animateToCircle()
 
-            // if in portrait
-            //collectionV.collectionViewLayout = collectionViewLayoutDefault
-            //collectionV.backgroundColor = UIColor.grayColor()
 
         // if not, use standard layout
         }else{
@@ -601,7 +598,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 // UPGRADE FOR IPAD (OR TEXT RESIZE OPTION)
 // NOT WORKING - MAYBE SUBVIEWS BEING REDRAWN????!!!!
-
+/*
         // try maybe???
         self.collectionV.invalidateIntrinsicContentSize()
 
@@ -632,7 +629,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             // return original text unchanged
             return attributedText
         }
-
+*/
     }
 
     func ifSelectedCategoryFormatAndSetupClockCounter(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
@@ -733,10 +730,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // there is no viewDidTransition, but we can pack something in a completion block
         coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
 
-            // only rotate if in editing mode
+            // only change layout if in editing mode
             if self.editingModeIsOn == true { return;}
 
-            // if in portrait, use circle collection view layout
+            // if moved to portrait, use circle collection view layout
             if self.view.frame.size.height > self.view.frame.size.width {
 
                 self.animateToCircle()
@@ -744,53 +741,46 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             // if not, use standard layout
             }else{
 
+                // UPGRADE:
+                //self.slideIntoStandardLayout_forNonEditingMode() // would be cool, but need to use absolute width and height, I presume (Apple will not allow you to change leading and trailing space on consecutive lines, without screwing it up... something that would take 60 seconds in absolute coordinates take 2 hours using constraints, go apple)
                 self.animateToStandardLayout()
             }
 
-            self.collectionV.collectionViewLayout.invalidateLayout()
-            self.collectionV.reloadData()
+          //  self.collectionV.collectionViewLayout.invalidateLayout()
+          //  self.collectionV.reloadData()
 
         })
         
     }
 
 
-    // MARK: Animations on rotation or going into / out of editing mode
-    func animateNoChangeInLayout(){
+    // MARK: Animations
 
-        //collectionV.layout.flow = flow horizontal
+    func slideIntoStandardLayout_forNonEditingMode(){
+
+
+        // NOT USED, THE CONSTRAINTS ARE PROBLEMATIC
+        // TRY SWITCHING INTO ABSOLUTE COORD (APPLE IS SCREWING IT UP, SAYING THAT THERE IS A CONFLICT AND DOING WHATEVER IT FEELS LIKE INSTEAD)
+        self.constraint_CVRight.constant = self.view.frame.width //* 2
+        self.constraints_CVLeft.constant = 0.5 * self.view.frame.width
+
         UIView.animateWithDuration(1, animations: { () -> Void in
 
-            // wait
+            self.collectionV.collectionViewLayout = self.collectionViewLayoutEditing!
+            self.collectionV.reloadData()
 
             }, completion: { (Bool completed) -> Void in
 
                 UIView.animateWithDuration(1, animations: { () -> Void in
 
-                    //self.collectionV.collectionViewLayout = self.collectionViewLayoutDefault
+                        self.constraints_CVLeft.constant = 0
+                        self.constraint_CVRight.constant = self.view.frame.width
 
                     }, completion: { (Bool completed) -> Void in })
                 
         })
-
     }
 
-    // MARK: Animations on rotation or going into / out of editing mode
-    func animateWhenRotateToLandscape(){
-
-        self.constraints_CVLeft.constant = -200
-
-        UIView.animateWithDuration(1, animations: { () -> Void in
-
-            self.constraints_CVLeft.constant = 16
-
-            }, completion: { (Bool completed) -> Void in
-
-                //UIView.animateWithDuration(1, animations: { () -> Void in }, completion: { (Bool completed) -> Void in })
-                
-        })
-        
-    }
 
     func animateToCircle(){
 
@@ -814,8 +804,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func animateToStandardLayout(){
 
-                   self.constraints_CVLeft.constant = self.view.frame.width - 1
-
         UIView.animateWithDuration(1, animations: { () -> Void in
 
             // wait
@@ -826,7 +814,6 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
                 UIView.animateWithDuration(1, animations: { () -> Void in
 
                     self.collectionV.collectionViewLayout = self.collectionViewLayoutEditing!  // just a standard layout
-                    self.constraints_CVLeft.constant = 0
 
                     if(self.editingModeIsOn == false){
 

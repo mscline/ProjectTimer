@@ -1262,6 +1262,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionV" destination="yja-Eo-V7J" id="u5g-qC-Xih"/>
+                        <outlet property="constraint_CVRight" destination="0xX-Qd-k97" id="eyE-Oe-h02"/>
                         <outlet property="constraints_CVLeft" destination="cST-0d-pcd" id="V76-jO-VUG"/>
                         <outlet property="stopButton" destination="aB5-zX-LPN" id="eXe-89-ibG"/>
                         <segue destination="csg-Ku-Uui" kind="show" identifier="toDetail" id="EXm-G5-6zS"/>
