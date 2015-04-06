@@ -15,15 +15,14 @@
 		AE396C491AB0A28500016D80 /* blackAndWhitePie.png in Resources */ = {isa = PBXBuildFile; fileRef = AE396C481AB0A28500016D80 /* blackAndWhitePie.png */; };
 		AE44B8C81AA6A44500A749D2 /* MCAlertWithTextEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */; };
 		AE5AFD071AAA3C2F008B132D /* LogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */; };
+		AE5F99E11ACF08A600673108 /* board.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5F99E01ACF08A600673108 /* board.png */; };
+		AE5F99E31ACF08AB00673108 /* beach.png in Resources */ = {isa = PBXBuildFile; fileRef = AE5F99E21ACF08AB00673108 /* beach.png */; };
 		AE76C5D01AA7EB8C0089BE50 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */; };
 		AE76C5D71AA7F6510089BE50 /* PieChartThumbnailSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */; };
 		AE76C5E21AA923930089BE50 /* EditChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE76C5E11AA923930089BE50 /* EditChartViewController.swift */; };
 		AE7EEF1B1AC8CCCC0070E844 /* backgroundImageSky.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7EEF1A1AC8CCCC0070E844 /* backgroundImageSky.png */; };
 		AE7EEF251AC8CE070070E844 /* timersBackgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7EEF241AC8CE070070E844 /* timersBackgroundImage.png */; };
 		AE88E5C21AAB775600C0502E /* blankChart.png in Resources */ = {isa = PBXBuildFile; fileRef = AE88E5C11AAB775600C0502E /* blankChart.png */; };
-		AE91415B1AC9107900BC90DC /* jerusalem.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9141591AC9107900BC90DC /* jerusalem.png */; };
-		AE91415D1AC9906C00BC90DC /* scrum.png in Resources */ = {isa = PBXBuildFile; fileRef = AE91415C1AC9906C00BC90DC /* scrum.png */; };
-		AE91415F1AC99B3900BC90DC /* couldntbeworse.png in Resources */ = {isa = PBXBuildFile; fileRef = AE91415E1AC99B3900BC90DC /* couldntbeworse.png */; };
 		AE9DC2741AB9E4300058F6D2 /* PieChartCategoryWrapperSubclass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9DC2731AB9E4300058F6D2 /* PieChartCategoryWrapperSubclass.swift */; };
 		AEA8AA551AA76FAD004CD4BE /* PieChartsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */; };
 		AEB3D6A91AC3243700384D21 /* PieChartThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB3D6A81AC3243700384D21 /* PieChartThumbnail.m */; };
@@ -77,15 +76,14 @@
 		AE44B8C61AA6A44500A749D2 /* MCAlertWithTextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAlertWithTextEntry.h; sourceTree = "<group>"; };
 		AE44B8C71AA6A44500A749D2 /* MCAlertWithTextEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAlertWithTextEntry.m; sourceTree = "<group>"; };
 		AE5AFD061AAA3C2F008B132D /* LogTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewCell.swift; sourceTree = "<group>"; };
+		AE5F99E01ACF08A600673108 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
+		AE5F99E21ACF08AB00673108 /* beach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach.png; sourceTree = "<group>"; };
 		AE76C5CF1AA7EB8C0089BE50 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE76C5D61AA7F6510089BE50 /* PieChartThumbnailSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartThumbnailSubclass.swift; sourceTree = "<group>"; };
 		AE76C5E11AA923930089BE50 /* EditChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditChartViewController.swift; sourceTree = "<group>"; };
 		AE7EEF1A1AC8CCCC0070E844 /* backgroundImageSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundImageSky.png; sourceTree = "<group>"; };
 		AE7EEF241AC8CE070070E844 /* timersBackgroundImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timersBackgroundImage.png; sourceTree = "<group>"; };
 		AE88E5C11AAB775600C0502E /* blankChart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankChart.png; sourceTree = "<group>"; };
-		AE9141591AC9107900BC90DC /* jerusalem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jerusalem.png; sourceTree = "<group>"; };
-		AE91415C1AC9906C00BC90DC /* scrum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scrum.png; sourceTree = "<group>"; };
-		AE91415E1AC99B3900BC90DC /* couldntbeworse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = couldntbeworse.png; sourceTree = "<group>"; };
 		AE9DC2731AB9E4300058F6D2 /* PieChartCategoryWrapperSubclass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartCategoryWrapperSubclass.swift; sourceTree = "<group>"; };
 		AEA8AA541AA76FAD004CD4BE /* PieChartsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartsViewController.swift; sourceTree = "<group>"; };
 		AEB3D6A71AC3243700384D21 /* PieChartThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartThumbnail.h; sourceTree = "<group>"; };
@@ -226,12 +224,11 @@
 			isa = PBXGroup;
 			children = (
 				AE7EEF1A1AC8CCCC0070E844 /* backgroundImageSky.png */,
-				AE91415E1AC99B3900BC90DC /* couldntbeworse.png */,
 				AE7EEF241AC8CE070070E844 /* timersBackgroundImage.png */,
-				AE9141591AC9107900BC90DC /* jerusalem.png */,
-				AE91415C1AC9906C00BC90DC /* scrum.png */,
 				AECF7E821A93DD800064A7F4 /* clearImage.png */,
 				AE396C481AB0A28500016D80 /* blackAndWhitePie.png */,
+				AE5F99E21ACF08AB00673108 /* beach.png */,
+				AE5F99E01ACF08A600673108 /* board.png */,
 				AE88E5C11AAB775600C0502E /* blankChart.png */,
 				AE396C461AAFAF0400016D80 /* defaultPie.png */,
 				AECF7E481A93DC3D0064A7F4 /* Images.xcassets */,
@@ -458,12 +455,11 @@
 				AE7EEF251AC8CE070070E844 /* timersBackgroundImage.png in Resources */,
 				AE7EEF1B1AC8CCCC0070E844 /* backgroundImageSky.png in Resources */,
 				AE396C491AB0A28500016D80 /* blackAndWhitePie.png in Resources */,
-				AE91415F1AC99B3900BC90DC /* couldntbeworse.png in Resources */,
-				AE91415B1AC9107900BC90DC /* jerusalem.png in Resources */,
-				AE91415D1AC9906C00BC90DC /* scrum.png in Resources */,
 				AECF7E491A93DC3D0064A7F4 /* Images.xcassets in Resources */,
+				AE5F99E31ACF08AB00673108 /* beach.png in Resources */,
 				AECF7E831A93DD800064A7F4 /* clearImage.png in Resources */,
 				AE396C471AAFAF0400016D80 /* defaultPie.png in Resources */,
+				AE5F99E11ACF08A600673108 /* board.png in Resources */,
 				AE88E5C21AAB775600C0502E /* blankChart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

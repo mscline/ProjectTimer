@@ -11,13 +11,25 @@ import UIKit
 class TabBarController: UITabBarController {
 
 
+        let green = UIColor(red: 0/255.0, green: 128/255.0, blue: 0/255.0, alpha: 1)
+        let gold = UIColor(red: 255/255.0, green: 215/255.0, blue: 0/255.0, alpha: 1)
+
+        let maroon = UIColor(red: 128/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
+        let cornFlower = UIColor(red: 100/255.0, green: 149/255.0, blue: 180/255.0, alpha: 1)
+        let olive = UIColor(red: 128/255.0, green: 128/255.0, blue: 0/255.0, alpha: 1)
+        let coral = UIColor(red: 255/255.0, green: 130/255.0, blue: 80/255.0, alpha: 1)
+
+
         // constants
-        let colors:NSArray = [UIColor.blueColor(), UIColor.redColor(), UIColor.purpleColor(), UIColor.orangeColor(), UIColor.brownColor(), UIColor.cyanColor(), UIColor.magentaColor()]
-        let colorNames:NSArray = ["Blue", "Red", "Purple", "Orange", "BrownColor", "CyanColor","MagentaColor"]  // I don't know of a method to get it and rather than creating a lookup dict, lets go with quick and dirty
+        var colors:NSArray?
+        var colorNames:NSArray?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        colors = [UIColor.blueColor(), UIColor.redColor(), green, gold, UIColor.purpleColor(), UIColor.orangeColor(), UIColor.brownColor(), maroon, cornFlower, olive, coral]
+        colorNames = ["Blue", "Red","Green","Yellow", "Purple", "Orange", "Brown", "Maroon", "Corn Flower Blue", "Olive", "Coral"]
 
         passColorsToChildViewControllers()
 
@@ -58,7 +70,7 @@ class TabBarController: UITabBarController {
         let catB = TrackingCategorySubclass.addNewTrackingCategory(title: "Coding", totalValue: 100, color: UIColor.blueColor())
         let catC = TrackingCategorySubclass.addNewTrackingCategory(title: "Refactoring", totalValue: 100, color: UIColor.orangeColor())
         let catD = TrackingCategorySubclass.addNewTrackingCategory(title: "Debug", totalValue: 100, color: UIColor.redColor())
-        let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "Other", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
+        let catE = TrackingCategorySubclass.addNewTrackingCategory(title: "UI", totalValue: 100, color: UIColor.brownColor())  // should remove total value from method???
         catE.timerIsHidden = true  // moc will be updated by future method calls
 
         // create category wrappers (containing the categories), to attach to pie chart

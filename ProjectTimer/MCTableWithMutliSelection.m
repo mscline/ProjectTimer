@@ -11,9 +11,6 @@
 #import "MCTableDataObject.h"
 
 
-typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
-
-
 @interface MCTableWithMutliSelection () <UITableViewDataSource, UITableViewDelegate, MCTableCellTouched, MCBlockerView>
 
 
@@ -260,7 +257,8 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 - (UITableViewCell *)addCheckmarkAndHighlights:(UITableViewCell *)cell dataObject:(MCTableDataObject *)item
 {
 
-    if(!moveCellInProgress){  // a view controller property
+    // if not in the middle of a drag and drop (with selected items)
+    if(!moveCellInProgress){
 
         // add checkmark
         if([item.isSelected boolValue]) {
@@ -277,6 +275,8 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
         // make sure drop notification is off
         [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
 
+
+    // if in the middle of a drag and drop
     }else{
 
         // if highlighted change background color
@@ -285,25 +285,32 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
             cell.backgroundColor = color_selectCellForDrag;
             [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:true];
 
-        } else if (item.isHighlightForDrag == slowlyFade){
-
-            // something is wrong with the reload
-            // and not hitting here
-            [UIView animateWithDuration:1.0 animations:^{
-
-                cell.backgroundColor = color_cellDefault;
-                [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
-
-            }];
-
-            item.isHighlightForDrag = none;
-
         } else {  // it is not a not highlighted cell
 
-            cell.accessoryType = UITableViewCellAccessoryNone;
             [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
 
         }
+
+    }
+
+    // at the end of a drag and drop, an item will be highlighted and then slowly fade
+    // (in the drop routine, the isHighlightedForDrag is changed from highlighted to slowlyFade)
+    // so if an item needs to fade, lets do it
+    if (item.isHighlightForDrag == slowlyFade){
+
+        // want the item to still be highlighted
+        cell.backgroundColor = color_selectCellForDrag;
+
+        // clear isHighlightedForDrag flag
+        item.isHighlightForDrag = none;
+
+        // fade
+        [UIView animateWithDuration:1.0 animations:^{
+
+            cell.backgroundColor = color_cellDefault;
+            [self helper_turnDropNotificationOnOrOffForCell:cell shouldDisplay:false];
+
+        }];
 
     }
 
@@ -427,7 +434,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     moveCellInProgress = TRUE;
     blocker.hidden = FALSE;
 
-    // get data object for selected cell and update it
+    // get data object for selected cell
     MCTableDataObject *item;
 
     if(arrayOfDataForDisplay != nil){
@@ -436,11 +443,13 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
 
     }else{
 
+        // if getting data from your data source
         NSIndexPath *path = [NSIndexPath indexPathForRow:rowNumber inSection:0];
         item = [self getDataObjectFromTVDelegate_indexPath:path];
 
     }
 
+    // mark it as highlighted
     item.isHighlightForDrag = isHighlighted;
 
     // need to update full table because check marks will be hidden
@@ -529,7 +538,7 @@ typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
     // 7) notify parent vc
     if([self.tvDataSource respondsToSelector:@selector(tableView_dataObjects_orderDidChange)]){
 
-            [self.tvDataSource tableView_dataObjects_orderDidChange];
+          [self.tvDataSource tableView_dataObjects_orderDidChange];
 
     }
 

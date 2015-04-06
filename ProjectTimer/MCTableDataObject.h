@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef enum {none, isHighlighted, slowlyFade} HighlightingForDrag;
+
+
 @interface MCTableDataObject : NSObject
 
 @property NSString *title;

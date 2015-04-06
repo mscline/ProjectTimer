@@ -60,7 +60,7 @@
 
   @optional
   -(MCTableDataObject *)tableView_dataObjectForIndexPath:(NSIndexPath *)indexPath;
-  -(void)tableView_dataObjects_orderDidChange;
+  -(void)tableView_dataObjects_orderDidChange;  // if reload data externally, the will lose fading after drop
 
 @end
 

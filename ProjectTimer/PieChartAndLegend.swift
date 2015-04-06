@@ -533,18 +533,49 @@ class PieChartAndLegend: NSObject {
     // MARK: UPDATE POSITIONS
 
     func updatePositionsAfterDrop(){
-        
+
+        // save a copy of our data
+        var arrayOfLegendItemsCurrentlyDisplayedInTable = table!.arrayOfDataForDisplay.copy() as NSArray
+
         // the tableView will move objects into the correct position
         // thus the legend will have the correct order
         // grab these objects
 
         // then use these data objects to rebuild the ChartAndLegend
-        // and finally, notify the dataSource
+        // this will put the pie chart and legend colors in order
+        // and don't forget to, notify the dataSource
 
         rebuildChartAndTableDataAfterDrop()
         notifyDataSourceOfChangeInPositionsAfterDrop()
-        
-        updatePieChart(arrayOfDataToDisplay)
+
+        buildArrayOfObjectsToDisplayInTable()
+        buildArrayOfPieSlicesFromLegendData()
+
+        editTableDataToIncludeWasHighlightedInfoForFadeEffect(arrayOfLegendItemsCurrentlyDisplayedInTable)
+
+        buildPieChart()
+        buildLegend()
+
+    }
+
+    func editTableDataToIncludeWasHighlightedInfoForFadeEffect(originalArray:NSArray!){
+
+        // when we rebuilt the pie chart, lost some of our data
+        // our new data and our old data will be in the same order
+        // so we can iterate thru both lists and update
+
+        for var x = 0; x < originalArray.count; x++ {
+
+            let oldDataObject = originalArray[x] as MCTableDataObject
+            var futureDataObject = arrayOfLegendItems[x] as MCTableDataObject
+
+            if oldDataObject.isHighlightForDrag == 1 {  // 2 = slowlyFade (swift doesn't like my objC enums)
+
+                futureDataObject.isHighlightForDrag = 1
+
+            }
+
+        }
 
     }
 
