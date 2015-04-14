@@ -28,8 +28,8 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        colors = [UIColor.blueColor(), UIColor.redColor(), green, gold, UIColor.purpleColor(), UIColor.orangeColor(), UIColor.brownColor(), maroon, cornFlower, olive, coral, UIColor.lightGrayColor(), UIColor.darkGrayColor(), UIColor.blackColor()]
-        colorNames = ["Blue", "Red","Green","Yellow", "Purple", "Orange", "Brown", "Maroon", "Corn Flower Blue", "Olive", "Coral", "Light Gray", "Gray", "Black"]
+        colors = [UIColor.blueColor(), UIColor.redColor(), gold,  UIColor.purpleColor(), UIColor.orangeColor(), green, UIColor.brownColor(), UIColor.lightGrayColor(), UIColor.darkGrayColor(), UIColor.blackColor(), maroon, cornFlower, olive, coral]
+        colorNames = ["Blue", "Red", "Yellow", "Purple", "Orange","Green", "Brown", "Light Gray", "Gray", "Black", "Maroon", "Light Blue", "Olive", "Coral"]
 
         passColorsToChildViewControllers()
 
