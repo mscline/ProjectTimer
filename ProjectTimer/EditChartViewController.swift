@@ -12,7 +12,6 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
 
         var pieChartBeingEdited:PieChartThumbnail?
-        var doNotSaveOnExit:Bool = false
         var showAlertMessageWhenReturnToThisScreen = true
 
         // subviews
@@ -43,6 +42,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         getThePieChartCategoriesYouWantToDisplay_OverrideHereIfSubclassing() -> (NSSet) {
 
         importNewTimerCategoriesIntoChart()
+        if pieChartBeingEdited == nil {return NSSet();}
         let itemsForDisplay = pieChartBeingEdited!.pieChartsCategoryWrappers
 
         return itemsForDisplay
@@ -156,6 +156,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         let arrayOfNewCategories = createListOfNewTimerCategoriesCanAddToPieChart()
 
         // put each in a wrapper and add to your chart
+        if pieChartBeingEdited == nil { return; }
         var indexOfNewCat = Double(pieChartBeingEdited!.pieChartsCategoryWrappers.count)
 
         for cat in arrayOfNewCategories {
@@ -253,9 +254,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
     func deleteChart(){
 
         PieChartThumbnailSubclass.deletePieChart(pieChartBeingEdited!)
-        doNotSaveOnExit = true
-
-       self.navigationController?.popToRootViewControllerAnimated(true)
+        pieChartBeingEdited = nil
+        
+        self.navigationController?.popToRootViewControllerAnimated(true)
 
     }
 
@@ -273,7 +274,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         if pieChartBeingEdited?.chartTitle != nil {
 
             let theTitle = pieChartBeingEdited!.chartTitle as String
-            textField_chartName.attributedText = TextFormatter.createAttributedString(theTitle, withFont: "Papyrus", fontSize: 28, fontColor: UIColor.blackColor(), nsTextAlignmentStyle: NSTextAlignment.Center)
+            textField_chartName.attributedText = TextFormatter.createAttributedString(theTitle, withFont: "Papyrus", fontSize: 24, fontColor: UIColor.blackColor(), nsTextAlignmentStyle: NSTextAlignment.Left)
 
 
         }
@@ -305,12 +306,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         let window = UIApplication.sharedApplication().delegate?.window!
         window?.tintColor = UIColor.blueColor()
 
-        // save edited chart
-        if doNotSaveOnExit == true {
-
-            pieChartBeingEdited?.chartTitle = textField_chartName.text
-
-        }
+        pieChartBeingEdited?.chartTitle = textField_chartName.text
 
     }
 

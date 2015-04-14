@@ -36,6 +36,8 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
         if self.view.frame.size.height < self.view.frame.size.width{
 
+            if self.pieChartAndLegend == nil || self.pieChartAndLegend?.table == nil {return;}
+
             let yOffset:CGFloat = (0.1 * self.view.frame.size.height)  // move down this far
             var frame = self.pieChartAndLegend?.table?.frame
             self.pieChartAndLegend?.table?.frame = CGRectMake(frame!.origin.x, yOffset, frame!.size.width, frame!.size.height - yOffset)
