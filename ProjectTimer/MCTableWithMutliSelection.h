@@ -60,7 +60,7 @@
 
   @optional
   -(MCTableDataObject *)tableView_dataObjectForIndexPath:(NSIndexPath *)indexPath;
-  -(void)tableView_dataObjects_orderDidChange;
+  -(void)tableView_dataObjects_orderDidChange;  // if reload data externally, the will lose fading after drop
 
 @end
 
@@ -76,6 +76,12 @@
   @property UIColor *color_cellDefault;
 
   @property BOOL animationSequenceOnLoadActive;
+
+  // on didSelectRowAtIndexPath, it will automatically reload the cell
+  // but if reloading the table remotely, you will want to turn it off
+  // or get weird resizing effect
+  @property BOOL doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath;
+
 
   -(instancetype)initWithFrame:(CGRect)frame cancelDropWhenTouchOutsideTableAndWithInThisView:(UIView *)blockInFrontOfThisView;
 

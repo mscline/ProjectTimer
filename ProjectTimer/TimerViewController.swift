@@ -43,6 +43,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // OUTLETS
         @IBOutlet weak var collectionV: UICollectionView!
         @IBOutlet weak var stopButton: UIButton!
+        @IBOutlet weak var constraints_CVLeft: NSLayoutConstraint!
+        @IBOutlet weak var constraint_CVRight: NSLayoutConstraint!
 
         // CONSTANTS
         let defaultAlpha:CGFloat = 0.65 
@@ -99,6 +101,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
             logRecord = lastRecord.objectAtIndex(0) as? LogRecord
             selectedCategory = logRecord!.logRecordsCategory as TrackingCategory
+
+            elapsedTimeForSelectedCategory = NSDate().timeIntervalSinceDate(logRecord!.checkinTime)
             self.navigationItem.rightBarButtonItem?.enabled = true
             stopButton.alpha = 1.0
 
@@ -271,28 +275,28 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         let sec = Int(elapsedTimeForSelectedCategory % 60)
 
         // hundreths - get two dec places, I just multiplied by 100 and used Int to get rid of dec
-        let hundreths = Int(elapsedTimeForSelectedCategory*100)-Int(elapsedTimeForSelectedCategory)*100
+        // let hundreths = Int(elapsedTimeForSelectedCategory*100)-Int(elapsedTimeForSelectedCategory)*100
 
 
         // PUT IN LEADING ZEROES
-        var hundrethsAsString = ""
+        var seconds = ""
 
-        if hundreths == 0 {
+        if sec == 0 {
 
-            hundrethsAsString = String(stringLiteral: "00")
+            seconds = String(stringLiteral: "00")
 
-        }else if hundreths < 10 {
+        }else if sec < 10 {
 
-            hundrethsAsString = String(stringLiteral: "0\(hundreths)")
+            seconds = String(stringLiteral: "0\(sec)")
 
         }else{
 
-            hundrethsAsString = String(stringLiteral: "\(hundreths)")
+            seconds = String(stringLiteral: "\(sec)")
         }
 
 
         // BUILD STRING
-        return String(stringLiteral: "\(hours):\(min):\(sec):\(hundrethsAsString)")
+        return String(stringLiteral: "\(hours):\(min):\(seconds)")
 
     }
 
@@ -328,7 +332,8 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         self.navigationItem.title = "Edit Timers"
 
-        collectionV.collectionViewLayout = collectionViewLayoutEditing!
+        animateToStandardLayout()
+      //  collectionV.collectionViewLayout = collectionViewLayoutEditing!
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -353,8 +358,17 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         self.navigationItem.title = "Timers"
 
-        collectionV.collectionViewLayout = collectionViewLayoutDefault
-        collectionV.backgroundColor = UIColor.grayColor()
+        // if in portrait, use circle collection view layout
+        if self.view.frame.size.height > self.view.frame.size.width {
+
+            self.animateToCircle()
+
+
+        // if not, use standard layout
+        }else{
+
+            self.animateToStandardLayout()
+        }
 
         // set tint color
         let window = UIApplication.sharedApplication().delegate?.window!
@@ -514,7 +528,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // get corresponding data object
         let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
 
-        let defaultText_elapsedTime = "0:00:00"
+        let defaultText_elapsedTime = "0:0:00"
 
         // format text
         var formattedTitle = formatTextForTimers(text: dataObject.title, fontSize: 14)
@@ -545,7 +559,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 
 
-        cell.elapsedTime.tag = -1
+        cell.elapsedTime.tag = -1  // ie, invalidate the tag, so if reused won't be associated with any objects
 
         if dataObject.timerIsHidden == 0 {
 
@@ -581,8 +595,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // return original text unchanged
         return attributedText
 
+
+// UPGRADE FOR IPAD (OR TEXT RESIZE OPTION)
 // NOT WORKING - MAYBE SUBVIEWS BEING REDRAWN????!!!!
-        
+/*
+        // try maybe???
+        self.collectionV.invalidateIntrinsicContentSize()
+
         // would need nice to just use
         // cell.textLabel.adjustsFontSizeToFitWidth = true
         // but can't get it to work
@@ -610,7 +629,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             // return original text unchanged
             return attributedText
         }
-
+*/
     }
 
     func ifSelectedCategoryFormatAndSetupClockCounter(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
@@ -711,11 +730,99 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // there is no viewDidTransition, but we can pack something in a completion block
         coordinator.animateAlongsideTransition(nil, completion: { (coordinator) -> Void in
 
-            self.collectionV.collectionViewLayout.invalidateLayout()
-            self.collectionV.reloadData()
+            // only change layout if in editing mode
+            if self.editingModeIsOn == true { return;}
+
+            // if moved to portrait, use circle collection view layout
+            if self.view.frame.size.height > self.view.frame.size.width {
+
+                self.animateToCircle()
+
+            // if not, use standard layout
+            }else{
+
+                // UPGRADE:
+                //self.slideIntoStandardLayout_forNonEditingMode() // would be cool, but need to use absolute width and height, I presume (Apple will not allow you to change leading and trailing space on consecutive lines, without screwing it up... something that would take 60 seconds in absolute coordinates take 2 hours using constraints, go apple)
+                self.animateToStandardLayout()
+            }
+
+          //  self.collectionV.collectionViewLayout.invalidateLayout()
+          //  self.collectionV.reloadData()
 
         })
         
     }
 
+
+    // MARK: Animations
+
+    func slideIntoStandardLayout_forNonEditingMode(){
+
+
+        // NOT USED, THE CONSTRAINTS ARE PROBLEMATIC
+        // TRY SWITCHING INTO ABSOLUTE COORD (APPLE IS SCREWING IT UP, SAYING THAT THERE IS A CONFLICT AND DOING WHATEVER IT FEELS LIKE INSTEAD)
+        self.constraint_CVRight.constant = self.view.frame.width //* 2
+        self.constraints_CVLeft.constant = 0.5 * self.view.frame.width
+
+        UIView.animateWithDuration(1, animations: { () -> Void in
+
+            self.collectionV.collectionViewLayout = self.collectionViewLayoutEditing!
+            self.collectionV.reloadData()
+
+            }, completion: { (Bool completed) -> Void in
+
+                UIView.animateWithDuration(1, animations: { () -> Void in
+
+                        self.constraints_CVLeft.constant = 0
+                        self.constraint_CVRight.constant = self.view.frame.width
+
+                    }, completion: { (Bool completed) -> Void in })
+                
+        })
+    }
+
+
+    func animateToCircle(){
+
+        UIView.animateWithDuration(1, animations: { () -> Void in
+
+            // wait
+
+            }, completion: { (Bool completed) -> Void in
+
+                UIView.animateWithDuration(1, animations: { () -> Void in
+
+                    self.collectionV.collectionViewLayout = self.collectionViewLayoutDefault
+
+                    }, completion: { (Bool completed) -> Void in
+
+                        self.reloadData()
+                })
+                
+        })
+    }
+
+    func animateToStandardLayout(){
+
+        UIView.animateWithDuration(1, animations: { () -> Void in
+
+            // wait
+
+
+            }, completion: { (Bool completed) -> Void in
+
+                UIView.animateWithDuration(1, animations: { () -> Void in
+
+                    self.collectionV.collectionViewLayout = self.collectionViewLayoutEditing!  // just a standard layout
+
+                    if(self.editingModeIsOn == false){
+
+                        self.collectionV.reloadData()
+
+                    }
+
+                }, completion: { (Bool completed) -> Void in })
+
+        })
+    }
 }

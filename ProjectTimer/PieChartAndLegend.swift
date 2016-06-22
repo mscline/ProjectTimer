@@ -168,6 +168,7 @@ class PieChartAndLegend: NSObject {
 
             table = MCTableWithMutliSelection(frame: legendFrame!, cancelDropWhenTouchOutsideTableAndWithInThisView: parentViewForLegend)
             table?.color_selectCellForDrag = UIColor.lightGrayColor()
+            table?.doNotAutomaticallyReloadCellOn_didSelectRowAtIndexPath = true
 
             table?.setDataSourceSwiftHack(self)
             table?.setDelegateSwiftHack(self)
@@ -289,26 +290,60 @@ class PieChartAndLegend: NSObject {
         
         
         // BUILD STRING
-        var buildString = "\(sec) seconds"
+        var buildString_sec = ""
+        var buildString_minutes = ""
+        var buildString_hours = ""
+        var buildString_days = ""
 
-        if min > 0 {
+        // sec
+        if sec == 1 {
 
-            buildString = "\(min) minutes \(buildString)"
+            buildString_sec = "\(sec) second "
 
-        }
+        }else{
 
-        if hours > 0 {
-
-            buildString = "\(hours) hours \(buildString)"
-
-        }
-
-        if days > 0 {
-
-            buildString = "\(days) days \(buildString)"
+            buildString_sec = "\(sec) seconds "
 
         }
 
+        // min
+        if min == 1 {
+
+            buildString_minutes = "\(min) minute "
+
+        } else if min > 1 {
+
+            buildString_minutes = "\(min) minutes "
+        }
+
+        // hours
+        if hours == 1 {
+
+            buildString_sec = ""
+            buildString_hours = "\(hours) hour "
+
+        }else if hours > 1 {
+
+            buildString_sec = ""
+            buildString_hours = "\(hours) hours "
+            
+        }
+
+        // days
+        if days == 1 {
+
+            buildString_minutes = "\(min) min. "
+            buildString_days = "\(days) day "
+
+        }else if days > 1 {
+
+            buildString_minutes = "\(min) min. "
+            buildString_days = "\(days) days "
+
+        }
+
+        // put strings together
+        let buildString = buildString_days + buildString_hours + buildString_minutes + buildString_sec
         return buildString
         
     }
@@ -402,10 +437,6 @@ class PieChartAndLegend: NSObject {
             delegate?.itemWasSelected(theObjectYouPassedIn: originalObjectPassedIn)
 
         }
-
-        // update pie chart
-       // buildArrayOfPieSlicesFromLegendData()
-       // buildPieChart()
 
         //update pie chart
         updatePieChart(arrayOfDataToDisplay)
@@ -502,18 +533,49 @@ class PieChartAndLegend: NSObject {
     // MARK: UPDATE POSITIONS
 
     func updatePositionsAfterDrop(){
-        
+
+        // save a copy of our data
+        var arrayOfLegendItemsCurrentlyDisplayedInTable = table!.arrayOfDataForDisplay.copy() as NSArray
+
         // the tableView will move objects into the correct position
         // thus the legend will have the correct order
         // grab these objects
 
         // then use these data objects to rebuild the ChartAndLegend
-        // and finally, notify the dataSource
+        // this will put the pie chart and legend colors in order
+        // and don't forget to, notify the dataSource
 
         rebuildChartAndTableDataAfterDrop()
         notifyDataSourceOfChangeInPositionsAfterDrop()
-        
-        updatePieChart(arrayOfDataToDisplay)
+
+        buildArrayOfObjectsToDisplayInTable()
+        buildArrayOfPieSlicesFromLegendData()
+
+        editTableDataToIncludeWasHighlightedInfoForFadeEffect(arrayOfLegendItemsCurrentlyDisplayedInTable)
+
+        buildPieChart()
+        buildLegend()
+
+    }
+
+    func editTableDataToIncludeWasHighlightedInfoForFadeEffect(originalArray:NSArray!){
+
+        // when we rebuilt the pie chart, lost some of our data
+        // our new data and our old data will be in the same order
+        // so we can iterate thru both lists and update
+
+        for var x = 0; x < originalArray.count; x++ {
+
+            let oldDataObject = originalArray[x] as MCTableDataObject
+            var futureDataObject = arrayOfLegendItems[x] as MCTableDataObject
+
+            if oldDataObject.isHighlightForDrag == 1 {  // 2 = slowlyFade (swift doesn't like my objC enums)
+
+                futureDataObject.isHighlightForDrag = 1
+
+            }
+
+        }
 
     }
 
