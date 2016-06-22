@@ -17,40 +17,48 @@ class LogRecordSubclass: LogRecord {
     //    @property (nonatomic, retain) NSString * notes;
     //    @property (nonatomic, retain) TrackingCategory *logRecordsCategory;
 
-    class func addNewLogRecord(#checkinTime:NSDate, parentCategory:TrackingCategory) -> LogRecord {
+    class func addNewLogRecord(checkinTime checkinTime:NSDate, parentCategory:TrackingCategory) -> LogRecord {
 
-        let log = NSEntityDescription.insertNewObjectForEntityForName("LogRecord", inManagedObjectContext: getMOC()) as LogRecord
+        let log = NSEntityDescription.insertNewObjectForEntityForName("LogRecord", inManagedObjectContext: getMOC()) as! LogRecord
 
         log.checkinTime = checkinTime
         log.logRecordsCategory = parentCategory
 
         // save
-        var err = NSErrorPointer()
-        getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         return log
 
     }
 
-    class func updateLastLogUponCheckout(#record:LogRecord){
+    class func updateLastLogUponCheckout(record record:LogRecord){
 
         record.checkoutTime = NSDate()
-        var err = NSErrorPointer()
-        LogRecordSubclass.getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try LogRecordSubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
         
     }
 
     class func returnLastLog() -> NSArray {
 
-        let err = NSErrorPointer()
+        _ = NSErrorPointer()
 
         let fetchRequest = NSFetchRequest(entityName: "LogRecord")
         fetchRequest.predicate = NSPredicate(format: "%K == NULL", "checkoutTime")
-        return getMOC().executeFetchRequest(fetchRequest, error: err)! as NSArray
+        return (try! getMOC().executeFetchRequest(fetchRequest)) as NSArray
 
     }
 
-    class func findElaspedTime(#logRecord:LogRecord)->(Double){
+    class func findElaspedTime(logRecord logRecord:LogRecord)->(Double){
 
         let checkoutT = logRecord.checkoutTime ?? NSDate()  // if haven't checked out use current date
         let elapsedTime = checkoutT.timeIntervalSinceReferenceDate - logRecord.checkinTime.timeIntervalSinceReferenceDate
@@ -59,20 +67,24 @@ class LogRecordSubclass: LogRecord {
 
     }
 
-    class func delLogRecord(#obj:NSManagedObject){
+    class func delLogRecord(obj obj:NSManagedObject){
 
         let err = NSErrorPointer()
 
         getMOC().deleteObject(obj)
-        getMOC().save(err)
+        do {
+            try getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
         
     }
 
     class func getMOC() -> NSManagedObjectContext{
 
-        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let AppDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         return AppDel.managedObjectContext!
 
     }

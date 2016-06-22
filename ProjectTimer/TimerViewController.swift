@@ -68,7 +68,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         // set up timer to notify you every x seconds
         // use to increment category's clock
-        NSTimer.scheduledTimerWithTimeInterval(clockTickEveryXSeconds, target: self, selector: "clockTick", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(clockTickEveryXSeconds, target: self, selector: #selector(TimerViewController.clockTick), userInfo: nil, repeats: true)
 
     }
 
@@ -142,7 +142,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBAction func onDeleteButtonPressed(sender: UIButton) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
-        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        let trackingC = categories?.objectAtIndex(sender.tag) as! TrackingCategory
         deleteCategory(trackingC)
 
         // reload any active cells
@@ -153,7 +153,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBAction func onLogButtonPressed(sender: TimerCollectionViewCell) {
 
 
-        let dataObject = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        let dataObject = categories?.objectAtIndex(sender.tag) as! TrackingCategory
 
         performSegueWithIdentifier("toDetail", sender: dataObject)
 
@@ -162,7 +162,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBAction func onDidEndOnExit(sender: UITextField) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
-        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        let trackingC = categories?.objectAtIndex(sender.tag) as! TrackingCategory
 
         sender.resignFirstResponder()
         saveTitleIfEdited(trackingCat: trackingC, textField: sender)
@@ -172,12 +172,12 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBAction func onHideButtonTapped(sender: AnyObject) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
-        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        let trackingC = categories?.objectAtIndex(sender.tag) as! TrackingCategory
 
         // the buttons would flash upon reuse, so put a label under the button to display text (grr)
         // so need to get the label so can change
         let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
-        let cell = collectionV.cellForItemAtIndexPath(indexPath) as TimerCollectionViewCell
+        let cell = collectionV.cellForItemAtIndexPath(indexPath) as! TimerCollectionViewCell
 
         // get the cell from the collection view and then use it
         toggleCategoryIsHidden(timer: trackingC, labelToUpdate: cell.hideLabel)
@@ -187,7 +187,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBAction func onChangeColorButtonPressed(sender: AnyObject) {
 
         // when created cell, set the button's tag to the row number so we can know the row number we are working with
-        let trackingC = categories?.objectAtIndex(sender.tag) as TrackingCategory
+        let trackingC = categories?.objectAtIndex(sender.tag) as! TrackingCategory
 
         // reuse old code - get color using alert view
         addCategoryPart2_thenAskForColor { (color) -> () in
@@ -195,8 +195,14 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             // save color
             trackingC.color = color
 
-            var err = NSErrorPointer()
-            TrackingCategorySubclass.getMOC().save(err)
+            let err = NSErrorPointer()
+            do {
+                try TrackingCategorySubclass.getMOC().save()
+            } catch let error as NSError {
+                err.memory = error
+            } catch {
+                fatalError()
+            }
 
             // reload cell
             self.reloadData()
@@ -417,7 +423,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
 
-    func addCategoryPart2_thenAskForColor(#completionBlock:(UIColor)->()){
+    func addCategoryPart2_thenAskForColor(completionBlock completionBlock:(UIColor)->()){
 
         let alert = UIAlertController(title: "Select Color", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
 
@@ -426,22 +432,22 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         // add a line in action sheet for each color
         for color in colors! {
 
-            let colorToAdd = color as UIColor
-            let action = UIAlertAction(title: colorNames?.objectAtIndex(counter) as NSString, style: UIAlertActionStyle.Default, handler: { (uiAlertAction) -> Void in
+            let colorToAdd = color as! UIColor
+            let action = UIAlertAction(title: colorNames?.objectAtIndex(counter) as! NSString as String, style: UIAlertActionStyle.Default, handler: { (uiAlertAction) -> Void in
 
                 completionBlock(colorToAdd)  // this color is preloaded when create action
 
             })
 
             alert.addAction(action)
-            counter++
+            counter += 1
         }
 
         presentViewController(alert, animated: true) { () -> Void in }
 
     }
 
-    func addCategoryPart3_createNewCategory(#title:NSString, color:UIColor){
+    func addCategoryPart3_createNewCategory(title title:NSString, color:UIColor){
 
         let ourTitle = title ?? ""
         TrackingCategorySubclass.addNewTrackingCategory(title:ourTitle, totalValue: 0, color: color)
@@ -450,23 +456,30 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         
     }
 
-    func saveTitleIfEdited(#trackingCat:TrackingCategory, textField:UITextField){
+    func saveTitleIfEdited(trackingCat trackingCat:TrackingCategory, textField:UITextField){
 
 
         // save title
-        var err = NSErrorPointer()
+        let err = NSErrorPointer()
         trackingCat.title = textField.text
 
-        let didSave = TrackingCategorySubclass.getMOC().save(err)
+        let didSave: Bool
+        do {
+            try TrackingCategorySubclass.getMOC().save()
+            didSave = true
+        } catch let error as NSError {
+            err.memory = error
+            didSave = false
+        }
         if didSave == false || err != nil {
 
-            println("error: \(err)")
+            print("error: \(err)")
 
         }
 
     }
 
-    func toggleCategoryIsHidden(#timer:TrackingCategory, labelToUpdate:UILabel){
+    func toggleCategoryIsHidden(timer timer:TrackingCategory, labelToUpdate:UILabel){
 
         // toggle isHidden property
         // update screen without reloading (or get annoying error as apple changes reuse cells and initiates a button press look as the first cell changes title)
@@ -484,8 +497,12 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 
         // save
-        var err = NSErrorPointer()
-        TrackingCategorySubclass.getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try TrackingCategorySubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
     }
 
@@ -510,7 +527,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
 
         // get cell
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as TimerCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("aaa", forIndexPath: indexPath) as! TimerCollectionViewCell
         cell.layer.masksToBounds = true;
 
         // update content
@@ -523,15 +540,15 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
         
     }
 
-    func updateCell(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+    func updateCell(cell cell:TimerCollectionViewCell, indexPath:NSIndexPath){
 
         // get corresponding data object
-        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
+        let dataObject = categories?.objectAtIndex(indexPath.row) as! TrackingCategory
 
         let defaultText_elapsedTime = "0:0:00"
 
         // format text
-        var formattedTitle = formatTextForTimers(text: dataObject.title, fontSize: 14)
+        let formattedTitle = formatTextForTimers(text: dataObject.title, fontSize: 14)
 
        // formattedTitle = resizeTextIfNeeded(labelWidth: cell.textLabel.frame.size.width, fontSize: 14.0, attributedText: formattedTitle)
         
@@ -581,7 +598,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    func formatTextForTimers(#text:String, fontSize:CGFloat)->(NSAttributedString){
+    func formatTextForTimers(text text:String, fontSize:CGFloat)->(NSAttributedString){
 
         let uppercaseText = text.uppercaseString
 
@@ -589,7 +606,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    func resizeTextIfNeeded(#labelWidth:CGFloat, fontSize:CGFloat, attributedText:NSAttributedString)->(NSAttributedString){
+    func resizeTextIfNeeded(labelWidth labelWidth:CGFloat, fontSize:CGFloat, attributedText:NSAttributedString)->(NSAttributedString){
 
 
         // return original text unchanged
@@ -632,10 +649,10 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 */
     }
 
-    func ifSelectedCategoryFormatAndSetupClockCounter(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+    func ifSelectedCategoryFormatAndSetupClockCounter(cell cell:TimerCollectionViewCell, indexPath:NSIndexPath){
 
         // get corresponding data object
-        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
+        let dataObject = categories?.objectAtIndex(indexPath.row) as! TrackingCategory
 
         // if not select, exit
         if dataObject != selectedCategory {
@@ -659,7 +676,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     }
 
-    func turnFeaturesOnOrOffIfInEditingModeOrNot(#cell:TimerCollectionViewCell, indexPath:NSIndexPath){
+    func turnFeaturesOnOrOffIfInEditingModeOrNot(cell cell:TimerCollectionViewCell, indexPath:NSIndexPath){
 
         if editingModeIsOn == true {
             
@@ -692,7 +709,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        let dataObject = categories?.objectAtIndex(indexPath.row) as TrackingCategory
+        let dataObject = categories?.objectAtIndex(indexPath.row) as! TrackingCategory
 
         if editingModeIsOn == true {
 
@@ -717,9 +734,9 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
     // MARK: PREPARE SEGUE
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        let timerBeingEdited = sender as TrackingCategory
+        let timerBeingEdited = sender as! TrackingCategory
 
-        var vc = segue.destinationViewController as LogViewController
+        let vc = segue.destinationViewController as! LogViewController
         vc.selectedTimer = timerBeingEdited
 
     }
@@ -769,14 +786,14 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             self.collectionV.collectionViewLayout = self.collectionViewLayoutEditing!
             self.collectionV.reloadData()
 
-            }, completion: { (Bool completed) -> Void in
+            }, completion: { (completed) -> Void in
 
                 UIView.animateWithDuration(1, animations: { () -> Void in
 
                         self.constraints_CVLeft.constant = 0
                         self.constraint_CVRight.constant = self.view.frame.width
 
-                    }, completion: { (Bool completed) -> Void in })
+                    }, completion: { (completed) -> Void in })
                 
         })
     }
@@ -788,13 +805,13 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
             // wait
 
-            }, completion: { (Bool completed) -> Void in
+            }, completion: { (completed) -> Void in
 
                 UIView.animateWithDuration(1, animations: { () -> Void in
 
                     self.collectionV.collectionViewLayout = self.collectionViewLayoutDefault
 
-                    }, completion: { (Bool completed) -> Void in
+                    }, completion: { (completed) -> Void in
 
                         self.reloadData()
                 })
@@ -809,7 +826,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
             // wait
 
 
-            }, completion: { (Bool completed) -> Void in
+            }, completion: { (completed) -> Void in
 
                 UIView.animateWithDuration(1, animations: { () -> Void in
 
@@ -821,7 +838,7 @@ class TimerViewController: UIViewController, UICollectionViewDataSource, UIColle
 
                     }
 
-                }, completion: { (Bool completed) -> Void in })
+                }, completion: { (completed) -> Void in })
 
         })
     }

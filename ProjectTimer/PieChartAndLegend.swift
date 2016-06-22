@@ -11,9 +11,9 @@ import UIKit
 protocol PieChartAndLegendWasSelected {
 
     // you may want to update your datasource
-    func itemWasSelected(#theObjectYouPassedIn:AnyObject?)->()
-    func colorWasChangedForItem(#theObjectYouPassedIn:AnyObject?, color:UIColor)->()
-    func objectMovedToNewPosition(#theObjectYouPassedIn:AnyObject?, position:Int)->()
+    func itemWasSelected(theObjectYouPassedIn theObjectYouPassedIn:AnyObject?)->()
+    func colorWasChangedForItem(theObjectYouPassedIn theObjectYouPassedIn:AnyObject?, color:UIColor)->()
+    func objectMovedToNewPosition(theObjectYouPassedIn theObjectYouPassedIn:AnyObject?, position:Int)->()
 
 }
 
@@ -110,7 +110,7 @@ class PieChartAndLegend: NSObject {
     }
 
 
-    func setPositionsInPortraitView(#forViewWithSize:CGSize){
+    func setPositionsInPortraitView(forViewWithSize forViewWithSize:CGSize){
 
 
         // set legend
@@ -128,7 +128,7 @@ class PieChartAndLegend: NSObject {
 
     }
 
-    func setPositionsInLanscapeView(#forViewWithSize:CGSize){
+    func setPositionsInLanscapeView(forViewWithSize forViewWithSize:CGSize){
 
 
         // set legends
@@ -197,15 +197,14 @@ class PieChartAndLegend: NSObject {
     private func buildArrayOfObjectsToDisplayInTable(){
 
         arrayOfLegendItems.removeAllObjects()
-        var counter = 0
 
         let sumOfAllCategories = helper_getSumOfAllItemsValue()
 
         // create a legend item for each data item
         for item in arrayOfDataToDisplay {
 
-            var legend = MCTableDataObject()
-            legend.title = item.title
+            let legend = MCTableDataObject()
+            legend.title = item.title as! String
             legend.subtitle = buildSubtitle(category: item, elapsedTimeForSelectedCategory:item.amount, totalTime: sumOfAllCategories)
             legend.isSelected = item.isSelected
             legend.wrappedObject = item
@@ -215,10 +214,10 @@ class PieChartAndLegend: NSObject {
         }
     }
 
-    private func buildSubtitle(#category:DataItem, elapsedTimeForSelectedCategory:Int?, totalTime:Float)->(String){
+    private func buildSubtitle(category category:DataItem, elapsedTimeForSelectedCategory:Int?, totalTime:Float)->(String){
 
         // deal with optionals
-        var elapsedTime = elapsedTimeForSelectedCategory ?? 0
+        let elapsedTime = elapsedTimeForSelectedCategory ?? 0
         if totalTime == 0 { return "";}
 
         // if the category is not selected, do not display detail info
@@ -353,23 +352,25 @@ class PieChartAndLegend: NSObject {
         // for each selected legend item, create a piece of pie
 
         arrayOfPieSlices.removeAll(keepCapacity: true)
-        var counter = 0  // is this really being used?
+        var counter = 0
 
         // create a pie slice data object for each item
         for item in arrayOfLegendItems{
 
-            let legendItem = item as MCTableDataObject
+            let legendItem = item as! MCTableDataObject
 
             // if isSelect / has checkmark
             if legendItem.isSelected == true {
 
-                let embeddedDataObject = legendItem.wrappedObject as DataItem
-                var sliceOfPie = PieSlice(titleForLegend: embeddedDataObject.title!, colorOfPieSlice: embeddedDataObject.color!, positionOfPieSlice_indexNumber: Int(counter), theTotal: embeddedDataObject.amount!)
+                let embeddedDataObject = legendItem.wrappedObject as! DataItem
+                let sliceOfPie = PieSlice(titleForLegend: embeddedDataObject.title!, colorOfPieSlice: embeddedDataObject.color!, positionOfPieSlice_indexNumber: Int(counter), theTotal: embeddedDataObject.amount!)
                 sliceOfPie.pointerToDataObjectIfDesired = embeddedDataObject  // here, we are creating a filtered parallel array, so it may be handy to keep a pointer back
 
                 arrayOfPieSlices.append(sliceOfPie)
 
             }
+
+            counter += 1
         }
     }
 
@@ -379,9 +380,9 @@ class PieChartAndLegend: NSObject {
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
         // going to make a couple little edits in willDisplayCell, since cellForRowAtIndexPath is already being used by the table (thus giving us all that free functionality)
-        let tableViewItem = arrayOfLegendItems.objectAtIndex(indexPath.row) as MCTableDataObject
+        let tableViewItem = arrayOfLegendItems.objectAtIndex(indexPath.row) as! MCTableDataObject
 
-        let dataObject = tableViewItem.wrappedObject as DataItem
+        let dataObject = tableViewItem.wrappedObject as! DataItem
         let legendColor = dataObject.color
 
         // rather than customizing our table view cells and having to do extra work, we are just going to use the existing imageView on our cell
@@ -396,11 +397,11 @@ class PieChartAndLegend: NSObject {
         // and add swipe gesture recognizer if required
         if cell.gestureRecognizers?.count == nil {
 
-            var leftSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeReceived:"))
+            let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(PieChartAndLegend.swipeReceived(_:)))
             leftSwipe.direction = .Left
             cell.addGestureRecognizer(leftSwipe)
 
-            var rightSwipe = UISwipeGestureRecognizer(target: self, action: Selector("swipeReceived:"))
+            let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(PieChartAndLegend.swipeReceived(_:)))
             rightSwipe.direction = .Right
             cell.addGestureRecognizer(rightSwipe)
 
@@ -411,8 +412,8 @@ class PieChartAndLegend: NSObject {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         // get corresponding data object
-        let selectedObject = arrayOfLegendItems[indexPath.row] as MCTableDataObject
-        let wrappedDataObject = selectedObject.wrappedObject as DataItem
+        let selectedObject = arrayOfLegendItems[indexPath.row] as! MCTableDataObject
+        let wrappedDataObject = selectedObject.wrappedObject as! DataItem
 
         // toggle data objects is selected property
         // (the table would take care of this itself, but we want to recalc our percentage of total value, so we will need to rebuild the chart and legend; this means that we need to update the data items used by the chart and legend)
@@ -457,13 +458,13 @@ class PieChartAndLegend: NSObject {
         if delegate == nil { return; }
 
         // get index path for cell
-        let selectedCell = sender.view as UITableViewCell
+        let selectedCell = sender.view as! UITableViewCell
         let indexPath = table?.indexPathForCell(selectedCell)
         if indexPath == nil { return;}
 
         // get data object
-        let correspondingLegendItem = arrayOfLegendItems.objectAtIndex(indexPath!.row) as MCTableDataObject
-        let dataObject = correspondingLegendItem.wrappedObject as DataItem
+        let correspondingLegendItem = arrayOfLegendItems.objectAtIndex(indexPath!.row) as! MCTableDataObject
+        let dataObject = correspondingLegendItem.wrappedObject as! DataItem
         let originalObjectPassedIn: AnyObject? = dataObject.pointerToParentObject
 
         // get next color
@@ -480,7 +481,7 @@ class PieChartAndLegend: NSObject {
 
     }
 
-    func getNextColor(#sender:AnyObject, cell:UITableViewCell)->(UIColor){
+    func getNextColor(sender sender:AnyObject, cell:UITableViewCell)->(UIColor){
 
 
         let currentColor = cell.imageView?.backgroundColor
@@ -501,12 +502,12 @@ class PieChartAndLegend: NSObject {
         if colorIndex < 0 { colorIndex = colors.count - 1; }
         if colorIndex >= colors.count { colorIndex = 0; }
 
-        let nextColor = colors.objectAtIndex(colorIndex) as UIColor
+        let nextColor = colors.objectAtIndex(colorIndex) as! UIColor
         return nextColor
 
     }
 
-    func helper_getIndexForCurrentColorOrReturn0(#color:UIColor?)->(Int){
+    func helper_getIndexForCurrentColorOrReturn0(color color:UIColor?)->(Int){
 
         if color == nil { return 0; }
 
@@ -514,7 +515,7 @@ class PieChartAndLegend: NSObject {
 
         for colorInList in colors {
 
-            let theColorInList = colorInList as UIColor
+            let theColorInList = colorInList as! UIColor
 
             if theColorInList == color {
 
@@ -522,7 +523,7 @@ class PieChartAndLegend: NSObject {
 
             }
 
-            index++
+            index += 1
 
         }
 
@@ -535,7 +536,7 @@ class PieChartAndLegend: NSObject {
     func updatePositionsAfterDrop(){
 
         // save a copy of our data
-        var arrayOfLegendItemsCurrentlyDisplayedInTable = table!.arrayOfDataForDisplay.copy() as NSArray
+        let arrayOfLegendItemsCurrentlyDisplayedInTable = table!.arrayOfDataForDisplay.copy() as! NSArray
 
         // the tableView will move objects into the correct position
         // thus the legend will have the correct order
@@ -564,10 +565,10 @@ class PieChartAndLegend: NSObject {
         // our new data and our old data will be in the same order
         // so we can iterate thru both lists and update
 
-        for var x = 0; x < originalArray.count; x++ {
+        for x in 0..<originalArray.count {
 
-            let oldDataObject = originalArray[x] as MCTableDataObject
-            var futureDataObject = arrayOfLegendItems[x] as MCTableDataObject
+            let oldDataObject = originalArray[x] as! MCTableDataObject
+            let futureDataObject = arrayOfLegendItems[x] as! MCTableDataObject
 
             if oldDataObject.isHighlightForDrag == 1 {  // 2 = slowlyFade (swift doesn't like my objC enums)
 
@@ -587,9 +588,9 @@ class PieChartAndLegend: NSObject {
 
         for tableDataObject in table!.arrayOfDataForDisplay {
 
-            let wrappedLegendAndChartDataObject = tableDataObject.wrappedObject as DataItem
+            let wrappedLegendAndChartDataObject = tableDataObject.wrappedObject as! DataItem
             wrappedLegendAndChartDataObject.indexOfPosition = position
-            position++
+            position += 1
 
             arrayOfDataToDisplay.append(wrappedLegendAndChartDataObject)
             
@@ -610,7 +611,7 @@ class PieChartAndLegend: NSObject {
             // update chart and legend
             delegate?.objectMovedToNewPosition(theObjectYouPassedIn: originalObjectYouPassedIn, position: index)
             
-            index++
+            index += 1
             
         }
     }

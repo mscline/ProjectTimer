@@ -92,7 +92,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         return viewToInsertLegendInto
     }
 
-    override func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!) {
+    override func willCreateChartAndGraph(arrayOfDataItemsToDisplay arrayOfDataItemsToDisplay:[DataItem]!) {
 
         // do not display both legend and chart vertically
         splitViewBetweenChartAndLegend = false
@@ -109,7 +109,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         for item in arrayOfDataItemsToDisplay {
 
-            let parentObject:PieChartCategoryWrapper = item.pointerToParentObject as PieChartCategoryWrapper
+            let parentObject:PieChartCategoryWrapper = item.pointerToParentObject as! PieChartCategoryWrapper
 
             let shouldNotCheckMark = parentObject.notUsedInChart as Bool
             let shouldCheckMark = !shouldNotCheckMark
@@ -128,22 +128,35 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
     }
 
-    override func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
+    override func itemWasSelected(theObjectYouPassedIn theObjectYouPassedIn: AnyObject?) {
 
-        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+        let categoryWrapperObj = theObjectYouPassedIn as! PieChartCategoryWrapper
 
         // !!! need to refetch object (for some reason, it is not live, Apple treating it like it is concurrent?) !!!
-        var err = NSErrorPointer()
-        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+        let err = NSErrorPointer()
 
-        // toggle notUsedInChart value
-        // (this will just change our check mark here, but in the stats controller it means it will not be included)
-        let usedInChart = catWrapper.notUsedInChart as Bool
-        catWrapper.notUsedInChart = !usedInChart
+        do {
+            let catWrapper = try PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID) as! PieChartCategoryWrapper
+
+            // toggle notUsedInChart value
+            // (this will just change our check mark here, but in the stats controller it means it will not be included)
+            let usedInChart = catWrapper.notUsedInChart as Bool
+            catWrapper.notUsedInChart = !usedInChart
+
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         // save updates
-        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
-        if err != nil || didSave == false { println("error: \(err)")}
+        let didSave: Bool
+        do {
+            try PieChartCategoryWrapperSubclass.getMOC().save()
+            didSave = true
+        } catch let error as NSError {
+            err.memory = error
+            didSave = false
+        }
+        if err != nil || didSave == false { print("error: \(err)")}
 
     }
 
@@ -161,9 +174,9 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
 
         for cat in arrayOfNewCategories {
 
-            let wrapper = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChartBeingEdited!, baseCategory: cat as TrackingCategory, positionIndexNumber: indexOfNewCat)
+            PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChartBeingEdited!, baseCategory: cat as! TrackingCategory, positionIndexNumber: indexOfNewCat)
 
-            indexOfNewCat++
+            indexOfNewCat += 1
 
         }
 
@@ -182,7 +195,7 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         }
 
 
-        var arrayOfCategories = NSMutableArray()
+        let arrayOfCategories = NSMutableArray()
 
         for wrapper in oldCategories {
 
@@ -193,11 +206,11 @@ class EditChartViewController: ChartAndLegendVC_Superclass {  // nearly identica
         let allTrackingCategories = TrackingCategorySubclass.returnListOfCategories()
 
         // create list of category that the pie chart doesn't have yet
-        var arrayOfNewCategories = NSMutableArray()
+        let arrayOfNewCategories = NSMutableArray()
 
         for trackingCategory in allTrackingCategories {
 
-            let ourTrackingCategory = trackingCategory as TrackingCategory
+            let ourTrackingCategory = trackingCategory as! TrackingCategory
             var isNewCat = true
 
             for categoriesAlreadyHave in arrayOfCategories {

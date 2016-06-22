@@ -70,7 +70,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if selectedTimer != nil || selectedTimer!.categorysLogs != nil {
 
             let setLogsToDisplay = selectedTimer!.categorysLogs!
-            logsToDisplay = setLogsToDisplay.allObjects
+            logsToDisplay = Array(setLogsToDisplay)
 
         }
     }
@@ -81,10 +81,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         logsToDisplay = logsToDisplay!.sortedArrayUsingComparator({ (objA, objB) -> NSComparisonResult in
 
-            let recordA = objA as LogRecord
+            let recordA = objA as! LogRecord
             let timeA = recordA.checkinTime.timeIntervalSince1970
 
-            let recordB = objB as LogRecord
+            let recordB = objB as! LogRecord
             let timeB = recordB.checkinTime.timeIntervalSince1970
 
             if timeA >= timeB {
@@ -145,10 +145,10 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if indexPath.section == 0 {
 
             // get cell to work with
-            var cell = tableView.dequeueReusableCellWithIdentifier("logA", forIndexPath: indexPath) as LogTableViewCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("logA", forIndexPath: indexPath) as! LogTableViewCell
 
             // get data object
-            let log = logsToDisplay?.objectAtIndex(indexPath.row) as LogRecord
+            let log = logsToDisplay?.objectAtIndex(indexPath.row) as! LogRecord
 
             // format cell
             formatLogCell(cell, logRecord: log)
@@ -161,7 +161,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         }else if indexPath.section == 1 {
 
-            var cell2 = tableView.dequeueReusableCellWithIdentifier("addButton", forIndexPath: indexPath) as AddButtonTableViewCell
+            let cell2 = tableView.dequeueReusableCellWithIdentifier("addButton", forIndexPath: indexPath) as! AddButtonTableViewCell
             cell2.button.setTitleColor(UIColor.greenColor(), forState: UIControlState.Normal)
             return cell2
 
@@ -202,7 +202,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
 
-    func addTagsSoCanLookupCorrespondingDataObject(#cell:LogTableViewCell, indexPath:NSIndexPath){
+    func addTagsSoCanLookupCorrespondingDataObject(cell cell:LogTableViewCell, indexPath:NSIndexPath){
 
         cell.button_deleteLog.tag = indexPath.row
         cell.button_startTime.tag = indexPath.row
@@ -210,7 +210,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
 
-    func ifEditingAllowUserInteractionAndChangeTextColor(#cell:LogTableViewCell, indexPath:NSIndexPath){
+    func ifEditingAllowUserInteractionAndChangeTextColor(cell cell:LogTableViewCell, indexPath:NSIndexPath){
 
         if isInEditingMode == editingMode.editing {
 
@@ -327,7 +327,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func fixerMethod_changeButtonColorsForRow(row:Int, color:UIColor){
 
         let indexPath = NSIndexPath(forRow:row, inSection:0)
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as LogTableViewCell
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! LogTableViewCell
 
         cell.button_startTime.tintColor = color;
         cell.button_endTime.tintColor = color;
@@ -379,7 +379,11 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         // save
         var err = NSErrorPointer()
-        LogRecordSubclass.getMOC().save(err)
+        do {
+            try LogRecordSubclass.getMOC().save()
+        } catch var error as NSError {
+            err.memory = error
+        }
 
     }
 
@@ -394,7 +398,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     @IBAction func onDeleteButtonPressed(sender: UIButton) {
 
-        let logForDeletion = logsToDisplay?.objectAtIndex(sender.tag) as LogRecord
+        let logForDeletion = logsToDisplay?.objectAtIndex(sender.tag) as! LogRecord
         LogRecordSubclass.delLogRecord(obj: logForDeletion)
         reloadTableWithUpdatedData()
 
@@ -453,7 +457,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         sender.tintColor = UIColor.greenColor()
     }
 
-    func showDatePicker(#sender:UIButton){
+    func showDatePicker(sender sender:UIButton){
 
         // setup
         isInEditingMode = editingMode.picker
@@ -477,7 +481,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
 
-    func setPickerPosition(#sender:UIButton){
+    func setPickerPosition(sender sender:UIButton){
 
 
         // move picker to correct position above tableV row
@@ -506,7 +510,7 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         }else{
 
-            var alert = UIAlertController(title: "Error", message: "Your checkout date must be after your check-in date.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Error", message: "Your checkout date must be after your check-in date.", preferredStyle: UIAlertControllerStyle.Alert)
             let action = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler:nil)
             alert.addAction(action)
             self.presentViewController(alert, animated: true, completion: { () -> Void in  })
@@ -558,7 +562,11 @@ class LogViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         // save
         let err = NSErrorPointer()
-        LogRecordSubclass.getMOC().save(err)
+        do {
+            try LogRecordSubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
         
     }
     

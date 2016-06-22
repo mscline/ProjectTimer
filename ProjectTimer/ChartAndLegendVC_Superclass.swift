@@ -48,7 +48,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         return nil
     }
 
-    func willCreateChartAndGraph(#arrayOfDataItemsToDisplay:[DataItem]!){
+    func willCreateChartAndGraph(arrayOfDataItemsToDisplay arrayOfDataItemsToDisplay:[DataItem]!){
 
         // last chance to make any changes (eg, change dataItem.isSelected = true)
 
@@ -70,62 +70,102 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
     // MARK: PIE CHART DELEGATE METHODS (YOU CAN OVERRIDE IN SUBCLASS)
     //       WE ARE JUST GOING TO SAVE UPDATED DATA
     
-    func itemWasSelected(#theObjectYouPassedIn: AnyObject?) {
+    func itemWasSelected(theObjectYouPassedIn theObjectYouPassedIn: AnyObject?) {
 
         // override if desired
 
-        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+        let categoryWrapperObj = theObjectYouPassedIn as! PieChartCategoryWrapper
+        let err = NSErrorPointer()
 
         // !!! need to refetch object (for some reason, it is not live) !!!
-        var err = NSErrorPointer()
-        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+        do {
+            let catWrapper = try PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID) as! PieChartCategoryWrapper
 
-        // toggle isSelected value
-        // (this will just change our check mark here, but in the stats controller it means it will not be included)
-        let shouldBeSelected = catWrapper.isSelected as Bool
-        catWrapper.isSelected = !shouldBeSelected
+
+            // toggle isSelected value
+            // (this will just change our check mark here, but in the stats controller it means it will not be included)
+            let shouldBeSelected = catWrapper.isSelected as Bool
+            catWrapper.isSelected = !shouldBeSelected
+
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         // save updates
-        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
-        if err != nil || didSave == false { println("error: \(err)")}
-        
+        let didSave: Bool
+        do {
+            try PieChartCategoryWrapperSubclass.getMOC().save()
+            didSave = true
+        } catch let error as NSError {
+            err.memory = error
+            didSave = false
+        }
+
+        if err != nil || didSave == false { print("error: \(err)")}
+
     }
 
-    func colorWasChangedForItem(#theObjectYouPassedIn: AnyObject?, color: UIColor) {
+    func colorWasChangedForItem(theObjectYouPassedIn theObjectYouPassedIn: AnyObject?, color: UIColor) {
 
         // SAVE COLOR FOR ITEM (you do not need to update the view)
 
-        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+        let categoryWrapperObj = theObjectYouPassedIn as! PieChartCategoryWrapper
 
         // !!! need to refetch object (for some reason, it is not live) !!!
-        var err = NSErrorPointer()
-        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+        let err = NSErrorPointer()
 
-        // update color
-        catWrapper.color = color
+        do {
+
+            let catWrapper = try PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID) as! PieChartCategoryWrapper
+
+            // update color
+            catWrapper.color = color
+
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         // save updates
-        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
-        if err != nil || didSave == false { println("error: \(err)")}
+        let didSave: Bool
+        do {
+            try PieChartCategoryWrapperSubclass.getMOC().save()
+            didSave = true
+        } catch let error as NSError {
+            err.memory = error
+            didSave = false
+        }
+        if err != nil || didSave == false { print("error: \(err)")}
         
     }
     
-    func objectMovedToNewPosition(#theObjectYouPassedIn: AnyObject?, position: Int) {
+    func objectMovedToNewPosition(theObjectYouPassedIn theObjectYouPassedIn: AnyObject?, position: Int) {
 
         // save position (you do not need to update the view)
 
-        let categoryWrapperObj = theObjectYouPassedIn as PieChartCategoryWrapper
+        let categoryWrapperObj = theObjectYouPassedIn as! PieChartCategoryWrapper
 
         // !!! need to refetch object (for some reason, it is not live) !!!
-        var err = NSErrorPointer()
-        let catWrapper = PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID, error: err) as PieChartCategoryWrapper
+        let err = NSErrorPointer()
+        do {
+            let catWrapper = try PieChartCategoryWrapperSubclass.getMOC().existingObjectWithID(categoryWrapperObj.objectID) as! PieChartCategoryWrapper
 
-        // update position
-        catWrapper.position = position
+            // update position
+            catWrapper.position = position
+
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         // save updates
-        let didSave = PieChartCategoryWrapperSubclass.getMOC().save(err)
-        if err != nil || didSave == false { println("error: \(err)")}
+        let didSave: Bool
+        do {
+            try PieChartCategoryWrapperSubclass.getMOC().save()
+            didSave = true
+        } catch let error as NSError {
+            err.memory = error
+            didSave = false
+        }
+        if err != nil || didSave == false { print("error: \(err)")}
 
     }
     
@@ -137,7 +177,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
         let viewWorkingWith = self.pieChartAndLegend!.pieChart!
         UIGraphicsBeginImageContext(viewWorkingWith.frame.size)
-        viewWorkingWith.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewWorkingWith.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
@@ -262,15 +302,19 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
         for category in setOfCategoriesToDisplay_yourRawData! {
 
             // find elapsedTime
-            let cat = category as PieChartCategoryWrapper
+            let cat = category as! PieChartCategoryWrapper
             let sum = TrackingCategorySubclass.sumTotalOfLogRecords(parentCategory: cat.catWrappersBaseCategory)
             let elapsedT = sum ?? 0
 
             cat.catWrappersBaseCategory.totalValue = NSInteger(elapsedT)
 
             // update db
-            var err = NSErrorPointer()
-            TrackingCategorySubclass.getMOC().save(err)
+            let err = NSErrorPointer()
+            do {
+                try TrackingCategorySubclass.getMOC().save()
+            } catch let error as NSError {
+                err.memory = error
+            }
 
             // create data item to pass to pie chart and label class
             let item = DataItem(title:      cat.catWrappersBaseCategory.title,
@@ -311,10 +355,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     func makeSureDataIsSorted(){
 
-        arrayOfDataToDisplay.sort { (a, b) -> Bool in
-
-            let alpha = a as DataItem
-            let beta = b as DataItem
+        arrayOfDataToDisplay.sortInPlace { (a, b) -> Bool in
 
             if a.indexOfPosition < b.indexOfPosition {
 
@@ -331,7 +372,7 @@ class ChartAndLegendVC_Superclass: UIViewController, MCTable_DataItemProtocol, P
 
     // MARK: CODING
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

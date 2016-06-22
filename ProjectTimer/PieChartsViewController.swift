@@ -77,12 +77,12 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     }
 
-    func addNewChartPart2_createNewChartAndReload(#title:NSString){
+    func addNewChartPart2_createNewChartAndReload(title title:NSString){
 
         // deselect the old charts
         for chart in listOfPieCharts! {
 
-            let nextChart = chart as PieChartThumbnail
+            let nextChart = chart as! PieChartThumbnail
             nextChart.isSelected = false
 
         }
@@ -119,7 +119,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pieCharts", forIndexPath: indexPath) as ChartCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pieCharts", forIndexPath: indexPath) as! ChartCollectionViewCell
         cell.layer.cornerRadius = 10;
         cell.layer.masksToBounds = true;
 
@@ -128,10 +128,10 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     }
 
-    func updateCell(#cell:ChartCollectionViewCell, indexPath:NSIndexPath){
+    func updateCell(cell cell:ChartCollectionViewCell, indexPath:NSIndexPath){
 
         // get data object
-        let dataObj = listOfPieCharts!.objectAtIndex(indexPath.row) as PieChartThumbnail
+        let dataObj = listOfPieCharts!.objectAtIndex(indexPath.row) as! PieChartThumbnail
 
         // get image
         var imageToDisplay:UIImage =  dataObj.snapshot as? UIImage ?? UIImage(named: "defaultPie.png")! as UIImage
@@ -174,19 +174,23 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
         // (hmm... is this faster than using a conditional? would the compiler reinterpret it?)
         for chart in listOfPieCharts! {
 
-            let theChart = chart as PieChartThumbnail
+            let theChart = chart as! PieChartThumbnail
             theChart.isSelected = false
 
         }
 
         // select selected item
-        let selectedItem = listOfPieCharts?.objectAtIndex(indexPath.row) as PieChartThumbnail
+        let selectedItem = listOfPieCharts?.objectAtIndex(indexPath.row) as! PieChartThumbnail
         selectedItem.isSelected = true
         selectedPieChart = selectedItem
 
         // save to db
-        var err = NSErrorPointer()
-        PieChartThumbnailSubclass.getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try PieChartThumbnailSubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
         // make sure the edit button is enabled
         self.navigationItem.rightBarButtonItem?.enabled = true
@@ -198,7 +202,7 @@ class PieChartsViewController: UIViewController, UICollectionViewDataSource, UIC
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        let vc = segue.destinationViewController as EditChartViewController
+        let vc = segue.destinationViewController as! EditChartViewController
         vc.pieChartBeingEdited = selectedPieChart
         vc.colors = colors
         vc.showAlertMessageWhenReturnToThisScreen = true

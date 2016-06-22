@@ -74,10 +74,10 @@ class TabBarController: UITabBarController {
         catE.timerIsHidden = true  // moc will be updated by future method calls
 
         // create category wrappers (containing the categories), to attach to pie chart
-        var catW1 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catA, positionIndexNumber: 0)
-        var catW2 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catB, positionIndexNumber: 1)
-        var catW3 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catC, positionIndexNumber: 2)
-        var catW4 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catD, positionIndexNumber: 3)
+        let catW1 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catA, positionIndexNumber: 0)
+        let catW2 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catB, positionIndexNumber: 1)
+        let catW3 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catC, positionIndexNumber: 2)
+        let catW4 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catD, positionIndexNumber: 3)
 
         // by default, category wrappers are hidden, change it
         catW1.notUsedInChart = false
@@ -105,7 +105,7 @@ class TabBarController: UITabBarController {
     func sampleData2(){
 
         // build chart
-        var pieChart = PieChartThumbnailSubclass.addPieChart(title: "Time Spent")
+        let pieChart = PieChartThumbnailSubclass.addPieChart(title: "Time Spent")
         pieChart.isSelected = false
 
         // create categories
@@ -122,11 +122,11 @@ class TabBarController: UITabBarController {
         catE.timerIsHidden = true
 
         // create category wrappers (containing the categories), to attach to pie chart
-        var catW1 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catA, positionIndexNumber: 0)
-        var catW2 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catB, positionIndexNumber: 1)
-        var catW3 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catC, positionIndexNumber: 2)
-        var catW4 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catD, positionIndexNumber: 3)
-        var catW5 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catE, positionIndexNumber: 3)
+        let catW1 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catA, positionIndexNumber: 0)
+        let catW2 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catB, positionIndexNumber: 1)
+        let catW3 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catC, positionIndexNumber: 2)
+        let catW4 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catD, positionIndexNumber: 3)
+        let catW5 = PieChartCategoryWrapperSubclass.createCategoryWrapperForPieChart(pieChart: pieChart, baseCategory: catE, positionIndexNumber: 3)
 
         // by default, category wrappers are hidden, change it
         catW1.notUsedInChart = false
@@ -152,11 +152,15 @@ class TabBarController: UITabBarController {
     }
 
     // helper method for creating sample data
-    func updateLastLogUponCheckout(#record:LogRecord, timeInterval:Double){
+    func updateLastLogUponCheckout(record record:LogRecord, timeInterval:Double){
 
         record.checkoutTime = NSDate().dateByAddingTimeInterval(timeInterval)
-        var err = NSErrorPointer()
-        LogRecordSubclass.getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try LogRecordSubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
     }
 
@@ -164,19 +168,19 @@ class TabBarController: UITabBarController {
 
         for nav in self.childViewControllers {
 
-            let navC = nav as UINavigationController
+            let navC = nav as! UINavigationController
             let vc = navC.viewControllers[0] as UIViewController
 
             if vc.isKindOfClass(ChartAndLegendVC_Superclass){
 
-                let ourVC = vc as ChartAndLegendVC_Superclass
+                let ourVC = vc as! ChartAndLegendVC_Superclass
                 ourVC.colors = colors
 
             }
 
             if vc.isKindOfClass(TimerViewController){
 
-                let ourVC = vc as TimerViewController
+                let ourVC = vc as! TimerViewController
                 ourVC.colors = colors
                 ourVC.colorNames = colorNames
                 
@@ -184,7 +188,7 @@ class TabBarController: UITabBarController {
 
             if vc.isKindOfClass(PieChartsViewController){
 
-                let ourVC = vc as PieChartsViewController
+                let ourVC = vc as! PieChartsViewController
                 ourVC.colors = colors
 
             }

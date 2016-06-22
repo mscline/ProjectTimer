@@ -15,7 +15,7 @@ class TextFormatter: NSObject {
     {
 
         // create attributed string to work with
-        let artString = NSMutableAttributedString(string: text)
+        let artString = NSMutableAttributedString(string: text as String)
 
         // check to make sure have all our values
         if (text == ""){ return artString;}
@@ -60,7 +60,7 @@ class TextFormatter: NSObject {
 
         let maxWidth = maxWidth
         let maxHeight = maxHeight
-        var desiredFrameHeight = attrString.boundingRectWithSize(CGSizeMake(maxWidth, maxHeight), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).size.height
+        let desiredFrameHeight = attrString.boundingRectWithSize(CGSizeMake(maxWidth, maxHeight), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).size.height
 
         // ??? NSStringDrawingOptions.UsesLineFragmentOrigin | NSStringDrawingOptions.UsesFontLeading
 
@@ -69,7 +69,7 @@ class TextFormatter: NSObject {
 
     class func printListOfFontFamilyNames(){
 
-        println(UIFont.familyNames())
+        print(UIFont.familyNames())
 
     }
 

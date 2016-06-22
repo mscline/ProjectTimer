@@ -26,14 +26,14 @@ class PieChart: UIView {
 
     // MARK: CREATE PIE CHART
 
-    func updateUIViewWithEmbeddedPieChart(#arrayOfPieSlices:Array<PieSlice>!, desiredHeightAndWidthOfView:CGFloat)->(){
+    func updateUIViewWithEmbeddedPieChart(arrayOfPieSlices arrayOfPieSlices:Array<PieSlice>!, desiredHeightAndWidthOfView:CGFloat)->(){
 
         self.frame = CGRectMake(0, 0, desiredHeightAndWidthOfView, desiredHeightAndWidthOfView)
 
         // remove all old layers
-        for layer in self.subviews{
+        for view in self.subviews{
 
-            layer.removeFromSuperlayer()
+            view.layer.removeFromSuperlayer()  
 
         }
 
@@ -65,7 +65,7 @@ class PieChart: UIView {
 
     }
 
-    private func addupTotalValueOfAllPieSlices(#arrayOfPiceSlices:Array<PieSlice>)->(Float){
+    private func addupTotalValueOfAllPieSlices(arrayOfPiceSlices arrayOfPiceSlices:Array<PieSlice>)->(Float){
 
         var total:Float = 0.0
 
@@ -77,11 +77,11 @@ class PieChart: UIView {
         return total
     }
 
-    func createSliceOfPie(#heightAndWidthOfView:Float, startAngleInRadians:Float, angleInRadians:Float, color:UIColor)->(CAShapeLayer){
+    func createSliceOfPie(heightAndWidthOfView heightAndWidthOfView:Float, startAngleInRadians:Float, angleInRadians:Float, color:UIColor)->(CAShapeLayer){
 
 
         // APPLE DRAWS THE UNIT CIRCLE BACKWARDS, SO FLIP SIGNS
-        var startAngle_inRadians = -startAngleInRadians
+        let startAngle_inRadians = -startAngleInRadians
 
         // MAKE BASIC CALCULATIONS FOR OUR CIRCLE
         let radius = (heightAndWidthOfView - lineWidth)/2
@@ -95,7 +95,6 @@ class PieChart: UIView {
         let yCoordPointOnArc_cgfloat = CGFloat(yCoordPointOnArc)
         let startAngle_cgfloat = CGFloat(startAngle_inRadians)
         let finalAngle_cgfloat = CGFloat(finalAngle)
-        let angle_cgfloat = CGFloat(angleInRadians)
 
         // create additional variables to work with
         let radius_cgfloat = CGFloat(radius)

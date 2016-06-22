@@ -30,33 +30,41 @@ class TrackingCategorySubclass: TrackingCategory {
     //    - (void)removeCategorysLogs:(NSSet *)values;
 
 
-    class func addNewTrackingCategory(#title:NSString, totalValue:NSNumber, color:UIColor)->(TrackingCategory){
+    class func addNewTrackingCategory(title title:NSString, totalValue:NSNumber, color:UIColor)->(TrackingCategory){
 
-        let cat = NSEntityDescription.insertNewObjectForEntityForName("BaseCategory", inManagedObjectContext: getMOC()) as TrackingCategory
+        let cat = NSEntityDescription.insertNewObjectForEntityForName("BaseCategory", inManagedObjectContext: getMOC()) as! TrackingCategory
 
-        cat.title = title
+        cat.title = title as String
         cat.totalValue = totalValue
         cat.color = color
         cat.indexNumber = returnListOfCategories().count
         cat.timerIsHidden = 0
 
-        var err = NSErrorPointer()
-        getMOC().save(err)
+        let err = NSErrorPointer()
+        do {
+            try getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
 
         return cat
 
     }
 
-    class func delTrackingCategory(#obj:NSManagedObject){
+    class func delTrackingCategory(obj obj:NSManagedObject){
 
         let err = NSErrorPointer()
 
         getMOC().deleteObject(obj)
-        getMOC().save(err)
+        do {
+            try getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
 
     }
 
@@ -65,8 +73,7 @@ class TrackingCategorySubclass: TrackingCategory {
         let fetchRequest = NSFetchRequest(entityName: "BaseCategory")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
-        var err = NSErrorPointer()
-        return getMOC().executeFetchRequest(fetchRequest, error: err)! as NSArray
+        return (try! getMOC().executeFetchRequest(fetchRequest)) as NSArray
 
     }
 
@@ -76,19 +83,18 @@ class TrackingCategorySubclass: TrackingCategory {
         fetchRequest.predicate = NSPredicate(format: "%K == 0", "timerIsHidden")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
-        var err = NSErrorPointer()
-        return getMOC().executeFetchRequest(fetchRequest, error: err)! as NSArray
+        return (try! getMOC().executeFetchRequest(fetchRequest)) as NSArray
         
     }
 
     class func getMOC() -> NSManagedObjectContext{
 
-        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let AppDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         return AppDel.managedObjectContext!
 
     }
 
-    class func sumTotalOfLogRecords(#parentCategory:TrackingCategory) -> (Double) {
+    class func sumTotalOfLogRecords(parentCategory parentCategory:TrackingCategory) -> (Double) {
 
         // for each log record, find out how much time elapsed between checkin and checkout
         // add together
@@ -97,7 +103,7 @@ class TrackingCategorySubclass: TrackingCategory {
 
         for log in parentCategory.categorysLogs{
 
-            let logRecord = log as LogRecord
+            let logRecord = log as! LogRecord
             let elapsedT = LogRecordSubclass.findElaspedTime(logRecord: logRecord)
 
             totalTime = totalTime + elapsedT

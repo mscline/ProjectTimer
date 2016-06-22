@@ -16,13 +16,19 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     class func getPieCharts() -> (NSArray){
 
-        var fetchRequest = NSFetchRequest(entityName: "PieChartThumbnail")
+        let fetchRequest = NSFetchRequest(entityName: "PieChartThumbnail")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "indexNumber", ascending: true)]
 
-        var err = NSErrorPointer()
-        let pieCharts = getMOC().executeFetchRequest(fetchRequest, error: err)
+        let err = NSErrorPointer()
+        let pieCharts: [AnyObject]?
+        do {
+            pieCharts = try getMOC().executeFetchRequest(fetchRequest)
+        } catch let error as NSError {
+            err.memory = error
+            pieCharts = nil
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
 
         return pieCharts! as NSArray
 
@@ -30,12 +36,18 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     class func getTheSelectedPieChart() -> (PieChartThumbnail?){
 
-        var err = NSErrorPointer()
+        let err = NSErrorPointer()
 
         let fetchRequest = NSFetchRequest(entityName: "PieChartThumbnail")
         fetchRequest.predicate = NSPredicate(format: "%K == true", "isSelected")
 
-        let resultsArry = getMOC().executeFetchRequest(fetchRequest, error: err)
+        let resultsArry: [AnyObject]?
+        do {
+            resultsArry = try getMOC().executeFetchRequest(fetchRequest)
+        } catch let error as NSError {
+            err.memory = error
+            resultsArry = nil
+        }
         let results = resultsArry! as NSArray
 
         if results.count > 0 {
@@ -50,17 +62,21 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     }
 
-    class func addPieChart(#title:NSString)->(PieChartThumbnail){
+    class func addPieChart(title title:NSString)->(PieChartThumbnail){
 
-        var pieC = NSEntityDescription.insertNewObjectForEntityForName("PieChartThumbnail", inManagedObjectContext: getMOC()) as PieChartThumbnail
-        pieC.chartTitle = title
+        var pieC = NSEntityDescription.insertNewObjectForEntityForName("PieChartThumbnail", inManagedObjectContext: getMOC()) as! PieChartThumbnail
+        pieC.chartTitle = title as String
         pieC.isSelected = true
         pieC.indexNumber = getPieCharts().count
 
         var err = NSErrorPointer()
-        getMOC().save(err)
+        do {
+            try getMOC().save()
+        } catch var error as NSError {
+            err.memory = error
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
 
         return pieC
 
@@ -68,10 +84,14 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     class func deletePieChart(chart:PieChartThumbnail){
 
-        var err = NSErrorPointer()
+        let err = NSErrorPointer()
 
         PieChartThumbnailSubclass.getMOC().deleteObject(chart)
-        PieChartThumbnailSubclass.getMOC().save(err)
+        do {
+            try PieChartThumbnailSubclass.getMOC().save()
+        } catch let error as NSError {
+            err.memory = error
+        }
 
     }
 
@@ -80,7 +100,7 @@ class PieChartThumbnailSubclass: PieChartThumbnail {
 
     class func getMOC() -> NSManagedObjectContext{
 
-        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let AppDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         return AppDel.managedObjectContext!
         
     }

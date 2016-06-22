@@ -14,9 +14,9 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
     // but each pie chart may customize color, appearance, and select which categories are shown in the chart
     // thus, a pie chart will make a category wrapper for each category
 
-    class func createCategoryWrapperForPieChart(#pieChart:PieChartThumbnail, baseCategory:TrackingCategory, positionIndexNumber:Double)->(PieChartCategoryWrapper){
+    class func createCategoryWrapperForPieChart(pieChart pieChart:PieChartThumbnail, baseCategory:TrackingCategory, positionIndexNumber:Double)->(PieChartCategoryWrapper){
 
-        var wrapper = NSEntityDescription.insertNewObjectForEntityForName("PieChartCategoryWrapper", inManagedObjectContext: getMOC()) as PieChartCategoryWrapper
+        var wrapper = NSEntityDescription.insertNewObjectForEntityForName("PieChartCategoryWrapper", inManagedObjectContext: getMOC()) as! PieChartCategoryWrapper
 
         wrapper.catWrappersBaseCategory = baseCategory;
         wrapper.position = positionIndexNumber
@@ -28,9 +28,13 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
         pieChart.addPieChartsCategoryWrappersObject(wrapper)
 
         var err = NSErrorPointer()
-        getMOC().save(err)
+        do {
+            try getMOC().save()
+        } catch var error as NSError {
+            err.memory = error
+        }
 
-        if err != nil {println("Error \(err)");}
+        if err != nil {print("Error \(err)");}
 
         return wrapper
         
@@ -39,7 +43,7 @@ class PieChartCategoryWrapperSubclass: PieChartCategoryWrapper {
 
     class func getMOC() -> NSManagedObjectContext{
 
-        let AppDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let AppDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         return AppDel.managedObjectContext!
 
     }

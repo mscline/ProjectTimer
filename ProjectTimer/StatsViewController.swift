@@ -39,7 +39,7 @@ class StatsViewController: ChartAndLegendVC_Superclass {
             if self.pieChartAndLegend == nil || self.pieChartAndLegend?.table == nil {return;}
 
             let yOffset:CGFloat = (0.1 * self.view.frame.size.height)  // move down this far
-            var frame = self.pieChartAndLegend?.table?.frame
+            let frame = self.pieChartAndLegend?.table?.frame
             self.pieChartAndLegend?.table?.frame = CGRectMake(frame!.origin.x, yOffset, frame!.size.width, frame!.size.height - yOffset)
             
         }
@@ -52,17 +52,17 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
         // this gives us a list of the charts categories for free
         if selectedPieChart == nil || selectedPieChart!.pieChartsCategoryWrappers == nil { return NSSet()}
-        var listOfAllCatWrappers = selectedPieChart!.pieChartsCategoryWrappers as NSSet
+        let listOfAllCatWrappers = selectedPieChart!.pieChartsCategoryWrappers as NSSet
 
         // unfortunately, we do not have a filtered list - we do not want to display the hidden cats
         // we have two options: a) requery the db  b) just filter it with a nested loop => we will do that
 
         // make list of items that are not hidden
-        var itemsForDisplay = NSMutableSet()
+        let itemsForDisplay = NSMutableSet()
 
         for item in listOfAllCatWrappers {
 
-            let ourItem = item as PieChartCategoryWrapper
+            let ourItem = item as! PieChartCategoryWrapper
             if ourItem.notUsedInChart == false {
 
                 itemsForDisplay.addObject(ourItem)
@@ -99,8 +99,12 @@ class StatsViewController: ChartAndLegendVC_Superclass {
 
             addSnapShotOfChartToPieChartThumbObject(selectedPieChart!)
 
-            var err = NSErrorPointer()
-            PieChartThumbnailSubclass.getMOC().save(err)
+            let err = NSErrorPointer()
+            do {
+                try PieChartThumbnailSubclass.getMOC().save()
+            } catch let error as NSError {
+                err.memory = error
+            }
 
         }
 
